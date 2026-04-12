@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Darnus Zeitung - Berita Terpercaya</title>
+    <title>DarnusNews - Berita Terpercaya</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +48,7 @@
                 <!-- Center: Newspaper Logo -->
                 <div class="text-center w-1/3 flex justify-center">
                     <a href="{{ route('home') }}" class="font-sz text-3xl md:text-5xl font-bold tracking-tight hover:opacity-80 transition-opacity whitespace-nowrap">
-                        Darnus Zeitung
+                        DarnusNews
                     </a>
                 </div>
 
@@ -234,7 +234,7 @@
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center">
                 <div class="mb-10 lg:mb-0">
-                    <h2 class="font-sz text-4xl w-full font-bold mb-4 text-white hover:text-gray-300 transition-colors">Darnus Zeitung</h2>
+                    <h2 class="font-sz text-4xl w-full font-bold mb-4 text-white hover:text-gray-300 transition-colors">DarnusNews</h2>
                     <p class="text-editorial-muted font-ui text-sm max-w-md">Jurnalistik mendalam, analitis, dan berwibawa internasional. Menyajikan laporan tangan pertama yang kredibel.</p>
                 </div>
                 <div class="flex flex-wrap gap-x-12 gap-y-6 text-xs font-bold tracking-widest uppercase">

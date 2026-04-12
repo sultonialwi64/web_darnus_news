@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Darnus Zeitung')
+            ->brandName('DarnusNews')
             ->brandLogo(null)
             ->colors([
                 'primary' => Color::Amber,
