@@ -28,9 +28,13 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Darnus Zeitung')
+            ->brandLogo(null)
             ->colors([
                 'primary' => Color::Amber,
+                'gray' => Color::Slate,
             ])
+            ->darkMode(true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
