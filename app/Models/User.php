@@ -12,8 +12,12 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements \Filament\Models\Contracts\FilamentUser
 {
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return true; // Allow all users (since we only have the seeded admin) to access the panel
+    }
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
