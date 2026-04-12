@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Post;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        $categories = \App\Models\Category::all();
+        
+        $allPosts = Post::with(['category', 'region'])
+            ->where('is_published', true)
+            ->latest()
+            ->get();
+            
+        $featuredPost = $allPosts->first();
+        $latestPosts = $allPosts->slice(1, 4); // Next 4 posts
+        
+        $popularPosts = clone $allPosts;
+        $popularPosts = $popularPosts->sortByDesc('views')->take(5);
+
+        // Use pagination for the rest
+        $otherPosts = Post::with(['category', 'region'])
+            ->where('is_published', true)
+            ->when($featuredPost, function($q) use ($featuredPost) {
+                return $q->where('id', '!=', $featuredPost->id);
+            })
+            ->when($latestPosts->count() > 0, function($q) use ($latestPosts) {
+                return $q->whereNotIn('id', $latestPosts->pluck('id'));
+            })
+            ->latest()
+            ->paginate(12);
+
+        return view('welcome', compact('categories', 'featuredPost', 'latestPosts', 'popularPosts', 'otherPosts'));
+    }
+
+    public function show($slug)
+    {
+        $categories = \App\Models\Category::all();
+        $post = Post::with(['category', 'region'])
+            ->where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
+
+        $post->increment('views');
+
+        return view('news.show', compact('post', 'categories'));
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $categories = \App\Models\Category::all();
+        $query = $request->input('q');
+
+        $posts = collect();
+        if ($query) {
+            $posts = Post::with(['category', 'region'])
+                ->where('is_published', true)
+                ->where(function($q) use ($query) {
+                    $q->where('title', 'like', "%{$query}%")
+                      ->orWhere('content', 'like', "%{$query}%");
+                })
+                ->latest()
+                ->paginate(12);
+        }
+
+        return view('news.search', compact('posts', 'categories', 'query'));
+    }
+}
