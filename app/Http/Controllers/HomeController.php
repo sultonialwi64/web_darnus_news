@@ -16,8 +16,10 @@ class HomeController extends Controller
             ->latest()
             ->get();
             
-        $featuredPost = $allPosts->first();
-        $latestPosts = $allPosts->slice(1, 4); // Next 4 posts
+        $featuredPost = $allPosts->where('is_featured', true)->first() ?? $allPosts->first();
+        $latestPosts = $allPosts->reject(function ($post) use ($featuredPost) {
+            return $featuredPost && $post->id === $featuredPost->id;
+        })->take(4);
         
         $popularPosts = clone $allPosts;
         $popularPosts = $popularPosts->sortByDesc('views')->take(5);

@@ -14,6 +14,7 @@ class PostForm
                 \Filament\Forms\Components\TextInput::make('slug')->required(),
                 \Filament\Forms\Components\FileUpload::make('image')->image()->directory('posts'),
                 \Filament\Forms\Components\Toggle::make('is_published')->default(true),
+                \Filament\Forms\Components\Toggle::make('is_featured')->label('Pin to Headline')->default(false),
                 \Filament\Forms\Components\RichEditor::make('content')->columnSpanFull(),
             ]);
     }

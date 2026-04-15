@@ -12,6 +12,7 @@ class PostsTable
                 \Filament\Tables\Columns\TextColumn::make('title')->searchable(),
                 \Filament\Tables\Columns\TextColumn::make('category.name')->label('Kategori'),
                 \Filament\Tables\Columns\TextColumn::make('region.name')->label('Daerah'),
+                \Filament\Tables\Columns\ToggleColumn::make('is_featured')->label('Headline'),
                 \Filament\Tables\Columns\ToggleColumn::make('is_published')->label('Published'),
             ])
             ->recordActions([
