@@ -113,12 +113,14 @@
             </div>
 
             <!-- Featured Image -->
+            @if($post->image)
             <figure class="mb-12 border border-editorial">
-                <img src="{{ $post->image ? Storage::url($post->image) : 'https://images.unsplash.com/featured/?' . urlencode($post->title) }}" alt="{{ $post->title }}" class="w-full object-cover aspect-[21/9]">
+                <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" class="w-full object-cover aspect-[21/9]">
                 <figcaption class="mt-0 text-xs text-editorial-muted font-bold uppercase tracking-wider text-right px-4 py-2 border-t border-editorial">
-                    Foto: {{ $post->image ? 'DarnusNews / ' . $post->region->name : 'Unsplash / Photography' }}
+                    Foto: DarnusNews / {{ $post->region->name }}
                 </figcaption>
             </figure>
+            @endif
 
             <!-- Article Body -->
             <div class="article-body">

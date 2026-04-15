@@ -83,9 +83,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             @foreach($posts as $post)
             <a href="{{ route('news.show', $post->slug) }}" class="group block flex flex-col bg-editorial-card border border-editorial p-5 hover:border-gray-500 transition-colors">
-                <div class="w-full aspect-[4/3] mb-5 overflow-hidden bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
-                    <img src="{{ $post->image ? Storage::url($post->image) : 'https://images.unsplash.com/featured/?' . urlencode($post->title) }}" class="w-full h-full object-cover">
-                </div>
+                @if($post->image)
+                    <div class="w-full aspect-[4/3] mb-5 overflow-hidden bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
+                    </div>
+                @endif
                 <div class="flex flex-col flex-grow">
                     <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3">
                         {{ $post->category->name }} · {{ $post->region->name }}
