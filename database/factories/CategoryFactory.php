@@ -14,7 +14,7 @@ class CategoryFactory extends Factory
             'Pendidikan', 'Kesehatan', 'Teknologi', 'Hiburan',
         ];
 
-        $name = fake()->unique()->randomElement($categories);
+        $name = \fake()->unique()->randomElement($categories);
 
         return [
             'name' => $name,

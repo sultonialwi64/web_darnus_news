@@ -72,12 +72,12 @@ class PostFactory extends Factory
             'region_id'   => Region::inRandomOrder()->first()->id ?? Region::factory(),
             'category_id' => Category::inRandomOrder()->first()->id ?? Category::factory(),
             'title'       => $title,
-            'slug'        => Str::slug($title) . '-' . fake()->unique()->numerify('###'),
+            'slug'        => Str::slug($title) . '-' . \fake()->unique()->numerify('###'),
             'content'     => $content,
             'image'       => null,
             'is_published' => true,
-            'views'       => fake()->numberBetween(50, 10000),
-            'created_at'  => fake()->dateTimeBetween('-30 days', 'now'),
+            'views'       => \fake()->numberBetween(50, 10000),
+            'created_at'  => \fake()->dateTimeBetween('-30 days', 'now'),
         ];
     }
 }

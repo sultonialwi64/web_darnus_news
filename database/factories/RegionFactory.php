@@ -15,7 +15,7 @@ class RegionFactory extends Factory
             'Semarang', 'Denpasar', 'Palembang',
         ];
 
-        $name = fake()->unique()->randomElement($regions);
+        $name = \fake()->unique()->randomElement($regions);
 
         return [
             'name' => $name,
