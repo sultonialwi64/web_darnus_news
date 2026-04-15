@@ -82,9 +82,9 @@
         <!-- Results Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             @foreach($posts as $post)
-            <a href="{{ route('news.show', $post->slug) }}" class="group block flex flex-col bg-editorial-card border border-editorial p-5 hover:border-gray-500 transition-colors">
+            <a href="{{ route('news.show', $post->slug) }}" class="group block flex flex-col bg-editorial-card rounded-2xl border border-editorial p-5 hover:border-gray-500 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
                 @if($post->image)
-                    <div class="w-full aspect-[4/3] mb-5 overflow-hidden bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="w-full aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
                         <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
                     </div>
                 @endif

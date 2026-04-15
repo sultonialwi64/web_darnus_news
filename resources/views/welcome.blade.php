@@ -28,7 +28,7 @@
 </head>
 <body class="bg-editorial-dark text-gray-100 antialiased min-h-screen flex flex-col selection:bg-gray-600 selection:text-white">
 
-    <!-- Editorial Header (Süddeutsche Style) -->
+    <!-- Modern Editorial Header -->
     <header class="bg-editorial-header border-b border-editorial">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Top Utility Bar -->
@@ -74,45 +74,43 @@
 
     <main class="flex-grow max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
-        <!-- Hero Section: Single Massive Feature (Like SZ) -->
+        <!-- Hero Section: Featured Headline -->
         <div class="mb-16 border-b border-editorial pb-12">
             @if($featuredPost)
-            <div class="group relative block w-full max-w-5xl mx-auto cursor-pointer">
-                <a href="{{ route('news.show', $featuredPost->slug) }}" class="block">
+            <div class="group block w-full max-w-6xl mx-auto cursor-pointer">
+                <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col lg:flex-row bg-editorial-card rounded-2xl overflow-hidden shadow-lg border border-editorial hover:border-gray-500 transition-colors duration-500 hover:shadow-2xl hover:-translate-y-1">
                     <!-- Image Area -->
                     @if($featuredPost->image)
-                        <div class="w-full relative bg-editorial-header border border-editorial">
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-[50vh] md:h-[60vh] object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700">
+                        <div class="w-full lg:w-3/5 relative bg-editorial-header">
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover min-h-[400px] lg:min-h-[500px] mix-blend-luminosity opacity-90 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700">
                         </div>
                     @endif
                     
-                    <!-- Overlapping Dark Title Card -->
-                    <div class="bg-editorial-card p-6 md:p-10 mx-auto {{ $featuredPost->image ? '-mt-16 sm:-mt-24' : 'mt-8' }} relative z-10 w-11/12 max-w-4xl border border-editorial shadow-2xl">
+                    <!-- Content Area -->
+                    <div class="w-full {{ $featuredPost->image ? 'lg:w-2/5' : '' }} p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-editorial-card to-editorial-dark">
                         <!-- Badges -->
-                        <div class="flex items-center space-x-3 mb-4 text-[11px] font-bold tracking-widest uppercase">
-                            <span class="text-editorial-accent bg-emerald-900/30 px-2 py-1">{{ $featuredPost->category->name }}</span>
+                        <div class="flex items-center space-x-3 mb-6 text-[11px] font-bold tracking-widest uppercase">
+                            <span class="text-editorial-dark bg-editorial-accent px-3 py-1.5 rounded-full">{{ $featuredPost->category->name }}</span>
                             <span class="text-gray-500">·</span>
                             <span class="text-gray-400">{{ $featuredPost->region->name }}</span>
                         </div>
 
                         <!-- Title -->
-                        <h1 class="font-sz text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white mb-6 group-hover:text-editorial-accent transition-colors">
+                        <h1 class="font-sz text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6 group-hover:text-editorial-accent transition-colors">
                             {{ $featuredPost->title }}
                         </h1>
                         
                         <!-- Excerpt & Meta -->
-                        <div class="w-full h-px bg-editorial mb-6 border-b border-editorial block"></div>
-                        <div class="flex flex-col md:flex-row md:items-end justify-between">
-                            <p class="text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl font-sz mb-4 md:mb-0 line-clamp-3">
-                                {!! strip_tags($featuredPost->content) !!}
-                            </p>
-                            <div class="text-xs text-editorial-muted font-bold uppercase tracking-wider whitespace-nowrap md:ml-6 flex items-center justify-between md:flex-col md:items-end">
-                                <span>{{ $featuredPost->created_at->format('d.m.Y') }}</span>
-                                <span class="flex items-center mt-1">
-                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    {{ number_format($featuredPost->views) }}
-                                </span>
-                            </div>
+                        <p class="text-gray-400 text-base leading-relaxed font-sz mb-8 line-clamp-4">
+                            {!! strip_tags($featuredPost->content) !!}
+                        </p>
+                        
+                        <div class="mt-auto text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-between border-t border-editorial pt-6">
+                            <span>{{ $featuredPost->created_at->format('d.m.Y') }}</span>
+                            <span class="flex items-center text-editorial-accent opacity-80">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                {{ number_format($featuredPost->views) }} Views
+                            </span>
                         </div>
                     </div>
                 </a>
@@ -120,26 +118,26 @@
             @endif
         </div>
 
-        <!-- 4 Column Sub-Heroes (Just In) -->
+        <!-- 4 Column Breakout News -->
         @if($latestPosts && count($latestPosts) > 0)
         <div class="mb-16 border-b border-editorial pb-16">
-            <h2 class="text-center font-sz text-3xl font-bold text-gray-200 mb-10 pb-4 border-b border-editorial mx-auto w-max px-12">Berita Terkini</h2>
+            <h2 class="text-center font-sz text-3xl font-bold text-gray-200 mb-10 pb-4 border-b border-gray-700 mx-auto w-max px-12 tracking-wide">Berita Terkini</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($latestPosts->take(4) as $post)
-                <a href="{{ route('news.show', $post->slug) }}" class="group block h-full flex flex-col bg-editorial-card border border-editorial p-5 hover:border-gray-500 transition-colors">
+                <a href="{{ route('news.show', $post->slug) }}" class="group block h-full flex flex-col bg-editorial-card rounded-2xl border border-editorial p-5 hover:border-gray-500 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
                     @if($post->image)
-                        <div class="w-full aspect-[4/3] mb-5 overflow-hidden bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <div class="w-full aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
                             <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
                         </div>
                     @endif
                     <div class="flex flex-col flex-grow">
-                        <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3">
-                            {{ $post->region->name }} <!-- SZ style uses location as pre-title -->
+                        <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3 flex items-center">
+                            <span class="w-1.5 h-1.5 rounded-full bg-editorial-accent mr-2"></span> {{ $post->region->name }}
                         </div>
-                        <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-4 pb-4 border-b border-editorial">
+                        <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-4 pb-4 border-b border-editorial opacity-90">
                             {{ $post->title }}
                         </h3>
-                        <time class="mt-auto text-[10px] text-editorial-muted font-bold uppercase tracking-wider">
+                        <time class="mt-auto text-[10px] text-gray-500 font-bold uppercase tracking-wider">
                             {{ $post->created_at->diffForHumans() }}
                         </time>
                     </div>
@@ -159,9 +157,9 @@
                 
                 <div class="flex flex-col">
                     @foreach($otherPosts as $post)
-                    <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col sm:flex-row items-center py-8 border-b border-editorial last:border-0 hover:bg-editorial-card transition-colors p-4 -mx-4 rounded">
+                    <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col sm:flex-row items-center py-6 mb-4 bg-editorial-card rounded-2xl border border-editorial hover:border-gray-500 hover:shadow-lg transition-all p-5">
                         @if($post->image)
-                            <div class="w-full sm:w-1/3 aspect-[3/2] border border-editorial flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                            <div class="w-full sm:w-1/3 aspect-[4/3] rounded-xl overflow-hidden border border-editorial flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-300">
                                 <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
                             </div>
                         @endif
@@ -218,7 +216,7 @@
                 
                 <!-- Ad Placeholder simulating real news site -->
                 <div class="mt-12 bg-editorial-header border border-editorial p-8 text-center flex flex-col items-center justify-center h-64 opacity-50">
-                    <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-700 pb-1">ANZEIGE / Iklan</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 border-b border-gray-700 pb-1">ADVERTISEMENT / Iklan</span>
                     <span class="text-gray-600 font-bold tracking-widest">Ruang Iklan Tersedia</span>
                 </div>
             </div>
