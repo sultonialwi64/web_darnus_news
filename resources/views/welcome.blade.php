@@ -119,7 +119,7 @@
                             </div>
 
                             <!-- Tituler Masterpiece -->
-                            <h1 class="w-full max-w-4xl mx-auto font-sz text-3xl sm:text-4xl xl:text-5xl font-bold leading-snug sm:leading-tight text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                            <h1 class="w-full max-w-4xl mx-auto font-sz font-bold text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]" style="font-size: clamp(2rem, 4vw + 1rem, 4.5rem); line-height: 1.1;">
                                 {{ $featuredPost->title }}
                             </h1>
                         </div>
