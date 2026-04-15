@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 <head>
     <meta charset="utf-8">
@@ -81,11 +81,7 @@
                 <a href="{{ route('news.show', $featuredPost->slug) }}" class="block">
                     <!-- Image Area -->
                     <div class="w-full relative bg-editorial-header border border-editorial">
-                        @if($featuredPost->image)
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-[50vh] md:h-[60vh] object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700">
-                        @else
-                            <div class="w-full h-[50vh] flex items-center justify-center text-gray-600 font-sz text-2xl">No Image Available</div>
-                        @endif
+                        <img src="{{ $featuredPost->image ? Storage::url($featuredPost->image) : 'https://images.unsplash.com/featured/?' . urlencode($featuredPost->title) }}" alt="{{ $featuredPost->title }}" class="w-full h-[50vh] md:h-[60vh] object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700">
                     </div>
                     
                     <!-- Overlapping Dark Title Card -->
@@ -129,11 +125,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($latestPosts->take(4) as $post)
                 <a href="{{ route('news.show', $post->slug) }}" class="group block h-full flex flex-col bg-editorial-card border border-editorial p-5 hover:border-gray-500 transition-colors">
-                    @if($post->image)
                         <div class="w-full aspect-[4/3] mb-5 overflow-hidden bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
-                            <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
+                            <img src="{{ $post->image ? Storage::url($post->image) : 'https://images.unsplash.com/featured/?' . urlencode($post->title) }}" class="w-full h-full object-cover">
                         </div>
-                    @endif
                     <div class="flex flex-col flex-grow">
                         <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3">
                             {{ $post->region->name }} <!-- SZ style uses location as pre-title -->
@@ -162,11 +156,9 @@
                 <div class="flex flex-col">
                     @foreach($otherPosts as $post)
                     <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col sm:flex-row items-center py-8 border-b border-editorial last:border-0 hover:bg-editorial-card transition-colors p-4 -mx-4 rounded">
-                        @if($post->image)
                             <div class="w-full sm:w-1/3 aspect-[3/2] border border-editorial flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-300">
-                                <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
+                                <img src="{{ $post->image ? Storage::url($post->image) : 'https://images.unsplash.com/featured/?' . urlencode($post->title) }}" class="w-full h-full object-cover">
                             </div>
-                        @endif
                         <div class="flex-grow flex flex-col justify-center">
                             <div class="flex items-center text-[10px] font-bold tracking-widest uppercase mb-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-600 mr-2 opacity-80"></span>
