@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Admin User
+        // 1. Admin & Editor Users
         User::create([
             'name' => 'Admin Darnus',
             'email' => 'admin@darnusnews.com',
@@ -30,8 +30,24 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        $editors = ['Aris', 'Asri Bening', 'Wawan'];
+        foreach ($editors as $editor) {
+            $emailPref = strtolower(str_replace(' ', '', $editor));
+            User::create([
+                'name' => $editor,
+                'email' => "{$emailPref}@darnusnews.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('editor123'),
+                'remember_token' => Str::random(10),
+            ]);
+        }
+
         // 2. Categories
-        $categories = ['Politik', 'Ekonomi', 'Olahraga', 'Kesehatan', 'Teknologi'];
+        $categories = [
+            'Nasional', 'Daerah', 'Ekonomi', 'Opini', 'Humaniora', 
+            'Sastra Budaya', 'Politik', 'Olahraga', 'Lifestyle', 
+            'Pariwisata dan Kuliner', 'Hukum dan Kriminal'
+        ];
         foreach ($categories as $cat) {
             Category::create([
                 'name' => $cat,
