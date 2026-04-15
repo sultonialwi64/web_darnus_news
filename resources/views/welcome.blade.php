@@ -51,14 +51,10 @@
 
                 <!-- Right: Nav, Search, Login -->
                 <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
-                    <!-- Search Form (Collapsible) -->
-                    <form action="{{ route('search') }}" method="GET" class="flex items-center group">
-                        <input type="text" id="searchInput" name="q" placeholder="Cari..." class="w-0 opacity-0 px-0 py-1.5 border-transparent bg-editorial-card group-hover:w-32 sm:group-hover:w-40 group-hover:px-4 group-hover:opacity-100 group-hover:border-editorial focus:w-32 sm:focus:w-48 focus:px-4 focus:opacity-100 focus:border-gray-500 border rounded-full text-sm outline-none transition-all duration-300 text-white placeholder-gray-500">
-                        <label for="searchInput" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer ml-1" aria-label="Buka Pencarian">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </label>
-                        <button type="submit" class="hidden"></button>
-                    </form>
+                    <!-- Desktop/Mobile Search Toggle -->
+                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer ml-1" aria-label="Buka Pencarian">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
 
                     <!-- Login Pill for Desktop, Icon for Mobile -->
                     <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-4 py-2 rounded-full transition-colors">
@@ -80,6 +76,18 @@
                     @endforeach
                 </ul>
             </nav>
+        </div>
+
+        <!-- Full-Width Search Overlay -->
+        <div id="mobileSearchOverlay" class="hidden absolute inset-0 bg-editorial-header z-[60] flex items-center px-4 sm:px-6 lg:px-8 border-b border-editorial shadow-2xl">
+            <form action="{{ route('search') }}" method="GET" class="flex-1 flex items-center max-w-[1280px] mx-auto h-full w-full">
+                <svg class="w-6 h-6 text-gray-400 mr-3 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="mobileSearchInput" name="q" placeholder="Cari berita terkini..." class="w-full h-full bg-transparent text-white sm:text-auto focus:outline-none placeholder-gray-500 border-none outline-none ring-0">
+                <button type="submit" class="text-white hover:text-editorial-accent font-bold tracking-widest uppercase text-sm ml-2 px-2 transition-colors">Cari</button>
+                <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.add('hidden');" class="ml-2 sm:ml-4 text-gray-400 hover:text-white p-2 transition-colors" aria-label="Tutup">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </form>
         </div>
     </header>
 
