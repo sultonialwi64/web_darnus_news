@@ -51,12 +51,13 @@
 
                 <!-- Right: Nav, Search, Login -->
                 <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
-                    <!-- Search Form (Visible on all breakpoints, expads on md) -->
-                    <form action="{{ route('search') }}" method="GET" class="flex items-center relative group">
-                        <input type="text" name="q" placeholder="Cari..." class="w-20 md:w-32 lg:w-40 focus:w-32 sm:focus:w-48 bg-editorial-card border border-editorial rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-gray-500 transition-all text-white mr-1 md:mr-2 placeholder-gray-500">
-                        <button type="submit" class="text-gray-300 hover:text-editorial-accent transition-colors p-2" aria-label="Search">
+                    <!-- Search Form (Collapsible) -->
+                    <form action="{{ route('search') }}" method="GET" class="flex items-center group">
+                        <input type="text" id="searchInput" name="q" placeholder="Cari..." class="w-0 opacity-0 px-0 py-1.5 border-transparent bg-editorial-card group-hover:w-32 sm:group-hover:w-40 group-hover:px-4 group-hover:opacity-100 group-hover:border-editorial focus:w-32 sm:focus:w-48 focus:px-4 focus:opacity-100 focus:border-gray-500 border rounded-full text-sm outline-none transition-all duration-300 text-white placeholder-gray-500">
+                        <label for="searchInput" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer ml-1" aria-label="Buka Pencarian">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </button>
+                        </label>
+                        <button type="submit" class="hidden"></button>
                     </form>
 
                     <!-- Login Pill for Desktop, Icon for Mobile -->

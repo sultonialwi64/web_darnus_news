@@ -49,9 +49,9 @@
 
                 <!-- Right: Nav, Search, Login -->
                 <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
-                    <!-- Search Form -->
-                    <form action="{{ route('search') }}" method="GET" class="flex items-center relative group">
-                        <input type="text" name="q" placeholder="Cari..." value="{{ request('q') }}" class="w-20 md:w-32 lg:w-40 focus:w-32 sm:focus:w-48 bg-editorial-card border border-editorial rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-gray-500 transition-all text-white mr-1 md:mr-2 placeholder-gray-500">
+                    <!-- Search Form (Visible) -->
+                    <form action="{{ route('search') }}" method="GET" class="flex items-center">
+                        <input type="text" name="q" placeholder="Cari..." value="{{ request('q') }}" class="w-32 sm:w-48 bg-editorial-card border border-gray-500 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-white transition-all text-white mr-1 placeholder-gray-500">
                         <button type="submit" class="text-gray-300 hover:text-editorial-accent transition-colors p-2" aria-label="Search">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
