@@ -97,7 +97,7 @@
         <div class="mb-16 border-b border-editorial pb-12">
             @if($featuredPost)
             <div class="group w-full max-w-6xl mx-auto cursor-pointer block hover:-translate-y-1 transition-transform duration-500 hover:shadow-2xl rounded-2xl overflow-hidden border border-editorial shadow-lg">
-                <a href="{{ route('news.show', $featuredPost->slug) }}" class="relative block w-full bg-editorial-header aspect-[4/5] sm:aspect-[4/3] md:aspect-[16/9] lg:aspect-[2/1] overflow-hidden">
+                <a href="{{ route('news.show', $featuredPost->slug) }}" class="relative block w-full bg-editorial-header overflow-hidden" style="min-height: 65vh; max-height: 700px;">
                     
                     <!-- Background Image Matrix -->
                     @if($featuredPost->image)
