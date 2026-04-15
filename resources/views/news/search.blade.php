@@ -26,39 +26,54 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Editorial Header -->
-    <header class="bg-editorial-header border-b border-editorial">
+    <!-- Modern Digital-Native Header -->
+    <header class="bg-editorial-header sticky top-0 z-50 border-b border-editorial shadow-sm">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Left: Search -->
-                <div class="flex items-center space-x-6 w-1/3">
-                    <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center relative">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        <input type="text" name="q" value="{{ $query }}" placeholder="Cari berita..." class="bg-transparent border-b border-gray-600 pl-8 pb-1 text-sm focus:outline-none focus:border-white transition-colors w-40 focus:w-56 text-white">
-                    </form>
-                </div>
-
-                <!-- Center: Logo -->
-                <div class="text-center w-1/3 flex justify-center">
-                    <a href="{{ route('home') }}" class="font-sz text-3xl md:text-5xl font-bold tracking-tight hover:opacity-80 transition-opacity whitespace-nowrap">
+                <!-- Left: Logo -->
+                <div class="flex items-center flex-shrink-0">
+                    <a href="{{ route('home') }}" class="font-sz text-3xl md:text-4xl font-bold tracking-tight text-white hover:text-editorial-accent transition-colors whitespace-nowrap">
                         DarnusNews
                     </a>
                 </div>
+                
+                <!-- Center: Desktop Category Nav -->
+                <nav class="hidden lg:flex flex-1 justify-center px-8 overflow-hidden">
+                    <ul class="flex space-x-6 xl:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400">
+                        <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white">Beranda</a></li>
+                        @foreach($categories ?? [] as $cat)
+                        <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </nav>
 
-                <!-- Right: Login -->
-                <div class="flex items-center justify-end w-1/3">
-                    <a href="{{ url('/admin') }}" class="text-xs font-semibold tracking-widest uppercase text-gray-300 hover:text-white transition-colors">
+                <!-- Right: Nav, Search, Login -->
+                <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
+                    <!-- Search Form -->
+                    <form action="{{ route('search') }}" method="GET" class="flex items-center relative group">
+                        <input type="text" name="q" placeholder="Cari..." value="{{ request('q') }}" class="hidden sm:block w-24 md:w-32 lg:w-40 focus:w-48 bg-editorial-card border border-editorial rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-gray-500 transition-all text-white mr-1 md:mr-2 placeholder-gray-500">
+                        <button type="submit" class="text-gray-300 hover:text-editorial-accent transition-colors p-2" aria-label="Search">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </button>
+                    </form>
+
+                    <!-- Login Pill & Mobile Login Icon -->
+                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-4 py-2 rounded-full transition-colors">
                         Login
+                    </a>
+                    
+                    <a href="{{ url('/admin') }}" class="sm:hidden text-gray-300 hover:text-editorial-accent transition-colors p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </a>
                 </div>
             </div>
-
-            <!-- Category Nav -->
-            <nav class="h-12 flex items-center justify-center border-t border-editorial mt-2">
-                <ul class="flex overflow-x-auto hide-scroll-bar space-x-6 md:space-x-10 text-[11px] font-semibold tracking-widest uppercase text-gray-400 pb-1">
-                    <li><a href="{{ route('home') }}" class="hover:text-white transition-colors">Beranda</a></li>
+            
+            <!-- Mobile/Tablet Category Nav (Scrollable) -->
+            <nav class="lg:hidden h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial">
+                <ul class="flex space-x-6 text-[10px] font-bold tracking-widest uppercase text-gray-400 px-2 min-w-max pb-1">
+                    <li><a href="{{ route('home') }}" class="hover:text-white transition-colors text-white">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="#" class="hover:text-white transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-white transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>
