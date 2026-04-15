@@ -87,7 +87,7 @@
                     @endif
                     
                     <!-- Overlapping Dark Title Card -->
-                    <div class="bg-editorial-card p-6 md:p-10 mx-auto -mt-16 sm:-mt-24 relative z-10 w-11/12 max-w-4xl border border-editorial shadow-2xl">
+                    <div class="bg-editorial-card p-6 md:p-10 mx-auto {{ $featuredPost->image ? '-mt-16 sm:-mt-24' : 'mt-8' }} relative z-10 w-11/12 max-w-4xl border border-editorial shadow-2xl">
                         <!-- Badges -->
                         <div class="flex items-center space-x-3 mb-4 text-[11px] font-bold tracking-widest uppercase">
                             <span class="text-editorial-accent bg-emerald-900/30 px-2 py-1">{{ $featuredPost->category->name }}</span>
