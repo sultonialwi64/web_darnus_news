@@ -53,7 +53,7 @@
                 <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
                     <!-- Search Form (Visible on all breakpoints, expads on md) -->
                     <form action="{{ route('search') }}" method="GET" class="flex items-center relative group">
-                        <input type="text" name="q" placeholder="Cari..." class="hidden sm:block w-24 md:w-32 lg:w-40 focus:w-48 bg-editorial-card border border-editorial rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-gray-500 transition-all text-white mr-1 md:mr-2 placeholder-gray-500">
+                        <input type="text" name="q" placeholder="Cari..." class="w-20 md:w-32 lg:w-40 focus:w-32 sm:focus:w-48 bg-editorial-card border border-editorial rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-gray-500 transition-all text-white mr-1 md:mr-2 placeholder-gray-500">
                         <button type="submit" class="text-gray-300 hover:text-editorial-accent transition-colors p-2" aria-label="Search">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
@@ -235,30 +235,47 @@
         </div>
     </main>
 
-    <!-- Deep Dark Footer -->
-    <footer class="bg-editorial-header border-t-2 border-editorial mt-20 py-16">
+    <!-- Modern Digital Media Footer -->
+    <footer class="bg-editorial-header border-t border-editorial mt-20 py-16">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center">
-                <div class="mb-10 lg:mb-0">
-                    <h2 class="font-sz text-4xl w-full font-bold mb-4 text-white hover:text-gray-300 transition-colors">DarnusNews</h2>
-                    <p class="text-editorial-muted font-ui text-sm max-w-md">Jurnalistik mendalam, analitis, dan berwibawa internasional. Menyajikan laporan tangan pertama yang kredibel.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
+                <!-- Brand & About -->
+                <div class="md:col-span-2">
+                    <h2 class="font-sz text-3xl font-bold mb-4 text-white hover:text-editorial-accent transition-colors">DarnusNews</h2>
+                    <p class="text-gray-400 text-sm max-w-sm mb-6 leading-relaxed">Portal berita terpercaya untuk liputan tajam, akurat, dan independen di seluruh nusantara. Kami menjunjung tinggi integritas jurnalistik.</p>
+                    <div class="flex space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-editorial-card border border-editorial flex items-center justify-center hover:bg-editorial-accent hover:text-editorial-dark transition-colors cursor-pointer text-xs font-bold text-gray-300">X</div>
+                        <div class="w-8 h-8 rounded-full bg-editorial-card border border-editorial flex items-center justify-center hover:bg-editorial-accent hover:text-editorial-dark transition-colors cursor-pointer text-xs font-bold text-gray-300">fb</div>
+                        <div class="w-8 h-8 rounded-full bg-editorial-card border border-editorial flex items-center justify-center hover:bg-editorial-accent hover:text-editorial-dark transition-colors cursor-pointer text-xs font-bold text-gray-300">ig</div>
+                    </div>
                 </div>
-                <div class="flex flex-wrap gap-x-12 gap-y-6 text-xs font-bold tracking-widest uppercase">
-                    <div class="flex flex-col space-y-4">
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors">Tentang Kami</a>
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors">Redaksi</a>
-                    </div>
-                    <div class="flex flex-col space-y-4">
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors">Pedoman Jurnalistik</a>
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors">Kontak</a>
-                    </div>
+                
+                <!-- Links 1 -->
+                <div>
+                    <h3 class="text-white font-bold text-xs tracking-widest uppercase mb-5">Perusahaan</h3>
+                    <ul class="space-y-3 text-sm text-gray-400 font-medium">
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Susunan Redaksi</a></li>
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Info Karir</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Links 2 -->
+                <div>
+                    <h3 class="text-white font-bold text-xs tracking-widest uppercase mb-5">Informasi</h3>
+                    <ul class="space-y-3 text-sm text-gray-400 font-medium">
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Pedoman Siber</a></li>
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:text-editorial-accent transition-colors">Hubungi Kami</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="mt-16 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center text-[10px] text-gray-600 uppercase tracking-widest font-bold">
-                <p>&copy; {{ date('Y') }} Darnus Media Publishing.</p>
-                <div class="mt-4 sm:mt-0 flex space-x-4 items-center">
-                    <span>Edisi Digital</span>
-                    <span class="hidden sm:inline">Hak Cipta Dilindungi Undang-Undang</span>
+            
+            <div class="mt-16 pt-8 border-t border-editorial flex flex-col md:flex-row justify-between items-center text-[11px] font-bold tracking-widest uppercase text-gray-500">
+                <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} Darnus Media. All rights reserved.</p>
+                <div class="flex flex-wrap space-x-6 justify-center">
+                    <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+                    <a href="#" class="hover:text-white transition-colors">Kode Etik</a>
                 </div>
             </div>
         </div>
