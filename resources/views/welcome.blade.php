@@ -97,42 +97,50 @@
         <div class="mb-16 border-b border-editorial pb-12">
             @if($featuredPost)
             <div class="group w-full max-w-6xl mx-auto cursor-pointer block hover:-translate-y-1 transition-transform duration-500 hover:shadow-2xl rounded-2xl overflow-hidden border border-editorial shadow-lg">
-                <a href="{{ route('news.show', $featuredPost->slug) }}" class="relative block w-full bg-editorial-header overflow-hidden" style="min-height: 65vh; max-height: 700px;">
+                <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col w-full bg-editorial-card overflow-hidden">
                     
-                    <!-- Background Image Matrix -->
-                    @if($featuredPost->image)
-                        <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 z-0">
-                    @else
-                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-editorial-card to-editorial-dark z-0"></div>
-                    @endif
-                    
-                    <!-- Majestic Deep Shadow Gradient -->
-                    <div class="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-black via-black/80 to-transparent z-10 transition-opacity duration-500"></div>
-
-                    <!-- Immersive Content Area -->
-                    <div class="absolute inset-0 z-20 w-full p-6 sm:p-8 lg:p-12 flex flex-col justify-end items-center text-center">
+                    <!-- Cinematic Title & Image Block -->
+                    <div class="relative w-full overflow-hidden" style="min-height: 45vh; max-height: 500px;">
+                        @if($featuredPost->image)
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 z-0">
+                        @else
+                            <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-editorial-card to-editorial-dark z-0"></div>
+                        @endif
                         
-                        <!-- Badges -->
-                        <div class="flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-6 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase">
-                            <span class="text-editorial-dark bg-editorial-accent px-3 py-1.5 rounded-full shadow-md">{{ $featuredPost->category->name }}</span>
-                            <span class="text-gray-400 drop-shadow-md">·</span>
-                            <span class="text-gray-300 drop-shadow-md">{{ $featuredPost->region->name }}</span>
-                            <span class="text-gray-400 drop-shadow-md hidden sm:inline">·</span>
-                            <span class="text-gray-300 drop-shadow-md hidden sm:inline">{{ $featuredPost->created_at->format('d M Y') }}</span>
+                        <!-- Majestic Deep Shadow Gradient -->
+                        <div class="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-[#1b2533] via-[#1b2533]/80 to-transparent z-10 transition-opacity duration-500"></div>
+
+                        <!-- Title Overhead Content -->
+                        <div class="absolute inset-x-0 bottom-0 z-20 p-6 sm:p-8 lg:px-12 lg:pb-8 flex flex-col justify-end items-center text-center">
+                            <!-- Badges -->
+                            <div class="flex flex-wrap items-center justify-center gap-2 mb-3 sm:mb-4 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase">
+                                <span class="text-editorial-dark bg-editorial-accent px-3 py-1.5 rounded-full shadow-md">{{ $featuredPost->category->name }}</span>
+                            </div>
+
+                            <!-- Tituler Masterpiece -->
+                            <h1 class="max-w-4xl font-sz text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug sm:leading-tight text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                                {{ $featuredPost->title }}
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- Solid Background Deskripsi Block -->
+                    <div class="w-full flex-grow flex flex-col p-6 sm:p-8 lg:p-12 items-center text-center pb-8 z-30 relative bg-[#1b2533]">
+                        <!-- Meta Date & Region -->
+                        <div class="flex items-center justify-center gap-2 mb-5 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-gray-400">
+                            <span>{{ $featuredPost->region->name }}</span>
+                            <span>·</span>
+                            <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
                         </div>
 
-                        <!-- Tituler Masterpiece -->
-                        <h1 class="max-w-4xl font-sz text-2xl sm:text-4xl lg:text-5xl font-bold leading-snug sm:leading-tight text-white mb-4 sm:mb-6 group-hover:text-editorial-accent transition-colors drop-shadow-lg">
-                            {{ $featuredPost->title }}
-                        </h1>
-                        
-                        <!-- Excerpt & Meta -->
-                        <p class="max-w-3xl text-gray-300 text-sm sm:text-lg leading-relaxed font-sz mb-6 sm:mb-8 line-clamp-2 md:line-clamp-3 drop-shadow-md">
+                        <!-- Excerpt -->
+                        <p class="max-w-3xl text-gray-300 text-base sm:text-lg leading-relaxed font-sz mb-8 line-clamp-3 md:line-clamp-4">
                             {!! strip_tags($featuredPost->content) !!}
                         </p>
                         
-                        <!-- Bottom Edge Info -->
-                        <div class="w-full max-w-3xl mt-auto sm:mt-2 text-[10px] sm:text-xs text-gray-400 font-bold uppercase tracking-widest flex items-center justify-center pt-4 sm:pt-6 border-t border-gray-600/50">
+                        <!-- Footer Edge Info -->
+                        <div class="w-full max-w-3xl mt-auto text-[10px] sm:text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-between pt-6 border-t border-gray-600/50">
+                            <span class="group-hover:text-editorial-accent transition-colors">Baca Selengkapnya &rarr;</span>
                             <span class="flex items-center group-hover:text-white transition-colors">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 {{ number_format($featuredPost->views) }} Views
