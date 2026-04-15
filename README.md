@@ -1,228 +1,499 @@
-# 🗞️ DarnusNews — Portal Berita Modern
+# 🗞️ DarnusNews — Portal Berita Indonesia
 
-DarnusNews adalah aplikasi portal berita yang dibangun dengan:
-- **Laravel 13** sebagai backend framework
-- **Filament v3** sebagai Admin Dashboard
-- **Tailwind CSS v4** untuk tampilan publik yang modern dan responsif
-- **MySQL** sebagai database
+> **Dokumentasi ini dibuat sebagai panduan lengkap untuk developer/AI agent berikutnya yang melanjutkan proyek ini.**
 
 ---
 
-## ✨ Fitur
-
-- Portal berita publik bergaya jurnalistik (seperti qz.com)
-- Artikel Featured (besar), Latest News, dan Trending Now di halaman depan
-- Pencarian berita dinamis
-- Tracking jumlah pembaca (views) otomatis
-- Manajemen Berita, Kategori, dan Wilayah via Admin Panel Filament
-- Seed data berita Indonesia siap pakai
+## 📋 Daftar Isi
+1. [Ringkasan Proyek](#-ringkasan-proyek)
+2. [Tech Stack](#-tech-stack)
+3. [Arsitektur & Struktur Folder](#-arsitektur--struktur-folder)
+4. [Database Schema](#-database-schema)
+5. [Fitur yang Sudah Ada](#-fitur-yang-sudah-ada)
+6. [Kredensial Penting](#-kredensial-penting)
+7. [Setup Development Lokal](#-setup-development-lokal)
+8. [Panduan Deployment ke Shared Hosting](#-panduan-deployment-ke-shared-hosting)
+9. [Cara Update Server (Workflow Harian)](#-cara-update-server-workflow-harian)
+10. [Deployment Bridge (setup-server)](#-deployment-bridge-setup-server)
+11. [Catatan Teknis Penting](#-catatan-teknis-penting)
+12. [Roadmap & Yang Belum Selesai](#-roadmap--yang-belum-selesai)
 
 ---
 
-## 🖥️ Instalasi Lokal (Development)
+## 🎯 Ringkasan Proyek
+
+DarnusNews adalah portal berita Indonesia berbasis web dengan desain editorial gelap bergaya jurnalistik internasional (terinspirasi dari Süddeutsche Zeitung). Dibangun untuk deployment di shared hosting tanpa akses SSH.
+
+- **Repository GitHub:** `https://github.com/sultonialwi64/web_darnus_news`
+- **Domain:** `https://darnusnews.com`
+- **Hosting:** Rumahweb (Shared Hosting, tanpa SSH)
+- **cPanel Username:** `dary8498`
+- **Lokasi file di server:** `/home/dary8498/public_html/` (semua file Laravel ada di sini)
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer | Teknologi | Versi |
+|---|---|---|
+| Backend Framework | Laravel | ^13.0 |
+| Admin Panel | Filament | ^5.5 |
+| Frontend CSS | Tailwind CSS | ^4.0 |
+| Build Tool | Vite | ^8.0 |
+| Database | MySQL | - |
+| PHP | PHP | ^8.3 |
+| Package Manager (PHP) | Composer | - |
+| Package Manager (JS) | NPM | - |
+| Lokal Dev Server | Laravel Herd (Windows) | - |
+
+### Package Frontend (devDependencies)
+```json
+{
+    "@tailwindcss/vite": "^4.0.0",
+    "axios": ">=1.11.0 <=1.14.0",
+    "concurrently": "^9.0.1",
+    "laravel-vite-plugin": "^3.0.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^8.0.0"
+}
+```
+
+### Package Backend (require)
+```json
+{
+    "php": "^8.3",
+    "filament/filament": "^5.5",
+    "laravel/framework": "^13.0",
+    "laravel/tinker": "^3.0"
+}
+```
+
+---
+
+## 🗂️ Arsitektur & Struktur Folder
+
+```
+web-berita-darnus-news/
+│
+├── app/
+│   ├── Http/Controllers/
+│   │   └── HomeController.php        ← Controller untuk semua halaman publik
+│   │                                   (index, show, search)
+│   │
+│   ├── Models/
+│   │   ├── Post.php                  ← Model berita (belongsTo Region, Category)
+│   │   ├── Category.php              ← Model kategori
+│   │   ├── Region.php                ← Model wilayah (kota/daerah)
+│   │   └── User.php                  ← Model user (implements FilamentUser)
+│   │
+│   ├── Filament/Resources/
+│   │   ├── Posts/
+│   │   │   ├── PostResource.php
+│   │   │   ├── Schemas/PostForm.php  ← Form untuk tambah/edit berita
+│   │   │   └── Tables/PostsTable.php ← Tampilan tabel daftar berita
+│   │   ├── Categories/
+│   │   │   └── CategoryResource.php (+ Schemas, Tables)
+│   │   └── Regions/
+│   │       └── RegionResource.php (+ Schemas, Tables)
+│   │
+│   └── Providers/Filament/
+│       └── AdminPanelProvider.php    ← Konfigurasi panel admin Filament
+│                                       (warna Amber/Gold, dark mode, brand name)
+│
+├── database/
+│   ├── migrations/
+│   │   ├── ...create_users_table.php
+│   │   ├── 2026_04_12_060005_create_regions_table.php
+│   │   ├── 2026_04_12_060006_create_categories_table.php
+│   │   └── 2026_04_12_060014_create_posts_table.php
+│   │
+│   ├── factories/
+│   │   ├── PostFactory.php           ← Data dummy berita Indonesia realistis (30 judul)
+│   │   ├── CategoryFactory.php       ← kategori: Ekonomi, Olahraga, Kesehatan, dll
+│   │   └── RegionFactory.php         ← kota-kota Indonesia
+│   │
+│   └── seeders/
+│       └── DatabaseSeeder.php        ← Seed: 1 admin + 5 kategori + 5 region + 30 posts
+│
+├── resources/
+│   ├── css/app.css                   ← Entry point Tailwind CSS
+│   └── views/
+│       ├── welcome.blade.php         ← Halaman beranda (Featured + 4 Latest + Trending)
+│       └── news/
+│           ├── show.blade.php        ← Halaman baca artikel
+│           └── search.blade.php      ← Halaman hasil pencarian
+│
+├── routes/
+│   └── web.php                       ← Route publik + Deployment Bridge
+│
+├── public/
+│   ├── build/                        ← Hasil build Vite (CSS + JS di-compile)
+│   │   ├── manifest.json
+│   │   └── assets/
+│   │       ├── app-[hash].css
+│   │       └── app-[hash].js
+│   └── .htaccess                     ← Konfigurasi Apache untuk Laravel
+│
+├── storage/
+│   └── app/
+│       └── public/
+│           └── posts/                ← Foto-foto yang diupload admin
+│               └── dummy_news.jpg    ← Foto placeholder untuk berita dummy
+│
+├── .htaccess                         ← Root .htaccess (redirect ke /public)
+├── .env                              ← Konfigurasi environment (JANGAN di-commit!)
+└── .gitignore                        ← Termasuk: *.zip, /vendor, /node_modules
+```
+
+---
+
+## 🗄️ Database Schema
+
+### Tabel `users`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | Primary Key |
+| name | varchar | Nama admin |
+| email | varchar | Email (unique) |
+| password | varchar | Bcrypt hashed |
+| timestamps | - | created_at, updated_at |
+
+### Tabel `regions`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | Primary Key |
+| name | varchar | Nama kota/wilayah |
+| slug | varchar | URL-friendly name |
+| timestamps | - | - |
+
+### Tabel `categories`
+| Kolom | Tipe | Keterangan |
+|---|---|---|
+| id | bigint | Primary Key |
+| name | varchar | Nama kategori |
+| slug | varchar | URL-friendly name |
+| timestamps | - | - |
+
+### Tabel `posts`
+| Kolom | Tipe | Default | Keterangan |
+|---|---|---|---|
+| id | bigint | - | Primary Key |
+| region_id | bigint (FK) | - | Relasi ke `regions` (cascadeOnDelete) |
+| category_id | bigint (FK) | - | Relasi ke `categories` (cascadeOnDelete) |
+| title | varchar | - | Judul berita |
+| slug | varchar (unique) | - | URL berita |
+| content | text | - | Isi berita (HTML dari RichEditor) |
+| image | varchar | null | Path foto relatif ke storage/public |
+| is_published | boolean | false | Toggle publish/draft |
+| views | unsigned int | 0 | Counter pembaca (auto-increment saat dibuka) |
+| timestamps | - | - | created_at, updated_at |
+
+---
+
+## ✨ Fitur yang Sudah Ada
+
+### Halaman Publik
+- **Beranda (`/`)**: Featured article besar (berita terbaru), 4 "Berita Terkini", daftar artikel + pagination, sidebar "Paling Banyak Dibaca"
+- **Detail Berita (`/news/{slug}`)**: Halaman baca artikel penuh, foto featured, info kategori & wilayah, view counter
+- **Pencarian (`/search?q=...`)**: Grid hasil pencarian dengan pagination
+
+### Admin Panel (`/admin`)
+- **CRUD Berita**: Tambah, edit, hapus berita; rich text editor; upload foto; toggle publish
+- **CRUD Kategori**: Kelola kategori berita
+- **CRUD Wilayah**: Kelola wilayah/kota
+- **Dark Mode**: Panel admin dark mode dengan warna Gold/Amber
+- **Brand**: Panel berlabel "DarnusNews"
+
+### Teknis
+- **Auto View Count**: Setiap artikel dibuka, kolom `views` otomatis +1
+- **Storage Public**: `FILESYSTEM_DISK=public` → foto tersimpan di `storage/app/public/posts/`
+- **Deployment Bridge**: Route `/setup-server` untuk setup server tanpa SSH
+- **Dummy Data**: Seeder siap pakai dengan berita Indonesia realistis
+
+---
+
+## 🔑 Kredensial Penting
+
+### Admin Dashboard
+- **URL**: `https://darnusnews.com/admin` (atau `http://localhost:8000/admin` lokal)
+- **Email**: `admin@darnusnews.com`
+- **Password**: `admin123`
+
+> ⚠️ **Segera ganti password ini setelah login pertama di server baru!**
+
+### Deployment Bridge
+- **URL**: `https://darnusnews.com/setup-server?token=DarnusSetup2025`
+- **Token**: `DarnusSetup2025` (diset via `DEPLOY_TOKEN` di `.env`)
+
+### Database Aktif di Hosting (Rumahweb)
+- **Host**: `localhost`
+- **Database**: `dary8498_darnus_db`
+- **Username**: `dary8498_darnus`
+- **Password**: `wonosobo77`
+
+> ⚠️ Untuk hosting baru, buat database baru dan update nilai-nilai ini di `.env` server.
+
+---
+
+## 💻 Setup Development Lokal
 
 ### Persyaratan
-- PHP 8.2+
+- PHP ^8.3 (direkomendasikan via Laravel Herd untuk Windows)
 - Composer
 - Node.js & NPM
 - MySQL
 
-### Langkah-langkah
+### Langkah Setup
 
 ```bash
-# 1. Clone atau ekstrak project
-cd web-berita-darnus-news
+# 1. Clone repository
+git clone https://github.com/sultonialwi64/web_darnus_news.git
+cd web_darnus_news
 
-# 2. Install dependency PHP
+# 2. Install PHP dependencies
 composer install
 
-# 3. Salin file environment
+# 3. Install JS dependencies
+npm install
+
+# 4. Salin file environment
 cp .env.example .env
 
-# 4. Generate app key
+# 5. Generate app key
 php artisan key:generate
 
-# 5. Sesuaikan koneksi database di file .env
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=darnus_db
-# DB_USERNAME=root
-# DB_PASSWORD=
+# 6. Sesuaikan .env untuk lokal:
+#    DB_CONNECTION=mysql
+#    DB_HOST=127.0.0.1
+#    DB_DATABASE=darnus_db
+#    DB_USERNAME=root
+#    DB_PASSWORD=
+#    FILESYSTEM_DISK=public      ← WAJIB, jangan pakai "local"
+#    APP_URL=http://127.0.0.1:8000
 
-# 6. Jalankan migrasi + seeder (membuat tabel & isi data dummy)
+# 7. Buat database kosong di MySQL, kemudian jalankan:
 php artisan migrate:fresh --seed
 
-# 7. Buat symlink storage (agar gambar bisa diakses publik)
+# 8. Buat symlink storage
 php artisan storage:link
 
-# 8. Install & build frontend
-npm install
+# 9. Build CSS & JS
 npm run build
 
-# 9. Jalankan server
+# 10. Jalankan server
 php artisan serve
 ```
 
-Akses di: `http://localhost:8000`
-Admin Panel: `http://localhost:8000/admin`
-- **Email**: `admin@darnusnews.com`
-- **Password**: `admin123`
+**Akses:**
+- Website: `http://127.0.0.1:8000`
+- Admin: `http://127.0.0.1:8000/admin` → `admin@darnusnews.com` / `admin123`
+
+### Development Mode (Hot Reload)
+```bash
+# Terminal 1
+php artisan serve
+
+# Terminal 2 (opsional, untuk hot reload CSS)
+npm run dev
+```
+
+> ⚠️ **Catatan Windows Herd:** Kalau pakai Herd, APP_URL harus `http://127.0.0.1:8000` bukan domain lain, agar asset CSS/JS terbaca dengan benar.
 
 ---
 
-## 🚀 Panduan Deployment ke Shared Hosting (Rumahweb, tanpa SSH)
+## 🚀 Panduan Deployment ke Shared Hosting
 
-### Persiapan di Laptop (Wajib sebelum Upload)
+> Panduan ini untuk shared hosting **TANPA SSH** (seperti Rumahweb paket murah).
 
-**Step 1 — Build frontend (WAJIB)**
+### Persiapan di Laptop (Wajib!)
+
+**Step 1 — Build CSS/JS**
 ```bash
 npm run build
 ```
-Pastikan folder `public/build/` sudah terisi sebelum upload.
+Pastikan folder `public/build/` sudah terisi.
 
-**Step 2 — Sesuaikan file `.env` untuk production**
+**Step 2 — Commit & Push ke GitHub**
+```bash
+git add .
+git commit -m "deskripsi perubahan"
+git push origin main
+```
 
-Buka file `.env` dan ubah nilai-nilai berikut:
+### Upload ke Server
+
+Karena tidak ada SSH/Git di cPanel, update server dilakukan manual via **File Manager cPanel**.
+
+**Cara yang Terbukti Bekerja:**
+
+Ada dua cara:
+
+**Cara A — Edit Langsung (untuk update 1-2 file)**
+1. Buka **File Manager cPanel** → masuk `public_html`
+2. Navigasi ke file yang ingin diubah
+3. Klik file → klik **Edit** di toolbar
+4. Copy-paste isi file terbaru dari laptop
+5. Klik **Save Changes**
+
+**Cara B — Upload ZIP (untuk update banyak file)**
+
+> ⚠️ **PENTING:** Struktur di dalam ZIP harus mengikuti struktur RELATIF terhadap `public_html`. Buat ZIP menggunakan `git archive` di laptop:
+
+```bash
+# Buat ZIP dari file yang berubah (contoh)
+git archive --format=zip -o update.zip HEAD \
+    resources/views/welcome.blade.php \
+    resources/views/news/show.blade.php \
+    routes/web.php \
+    public/build
+```
+
+Kemudian di cPanel:
+1. Masuk ke folder **`public_html`** dulu di File Manager
+2. Upload ZIP ke dalam `public_html/`
+3. Klik kanan ZIP → **Extract**
+4. File akan langsung masuk ke lokasi yang benar
+
+> ⚠️ **Jangan extract di root (`/home/dary8498/`)**! Harus dari dalam `public_html/`.
+
+### Setup Database & Konfigurasi Server Baru
+
+**Step 1 — Buat Database di cPanel**
+1. MySQL Databases → buat database baru
+2. Buat user baru + hubungkan ke database (All Privileges)
+3. Catat: nama DB, username, password
+
+**Step 2 — Buat/Edit file `.env` di server**
+
+Masuk `public_html/` → cari file `.env` → Edit:
 ```env
+APP_NAME="DarnusNews"
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://domainanda.com
+APP_KEY=base64:...         ← generate dengan: php artisan key:generate (lokal)
+APP_URL=https://domainbaru.com
 
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=nama_database_di_cpanel
-DB_USERNAME=username_db_di_cpanel
-DB_PASSWORD=password_db_di_cpanel
+DB_DATABASE=nama_db_baru
+DB_USERNAME=user_db_baru
+DB_PASSWORD=password_db_baru
 
-DEPLOY_TOKEN=GANTI_TOKEN_RAHASIA_ANDA
+FILESYSTEM_DISK=public     ← WAJIB "public", bukan "local"!
+
+DEPLOY_TOKEN=RahasiaAnda2025
 ```
 
-> ⚠️ **Penting!** Ganti `DEPLOY_TOKEN` dengan kata rahasia pilihan Anda sendiri. Token ini digunakan untuk mengamankan URL setup server.
+**Step 3 — Jalankan Setup via Browser**
+
+Akses URL ini sekali:
+```
+https://domainbaru.com/setup-server?token=RahasiaAnda2025
+```
+
+Ini akan otomatis:
+- ✅ Membuat symlink `storage:link`
+- ✅ Menjalankan semua migrasi database
+- ✅ Membersihkan cache
+- ✅ Memindahkan foto dari `private` ke `public`
+- ✅ Download foto dummy & memasangnya ke berita yang belum punya foto
 
 ---
 
-### Upload ke Hosting
+## 🔄 Cara Update Server (Workflow Harian)
 
-**Step 3 — Upload via GitHub (Rekomendasi)**
+Setiap ada perubahan kode di laptop:
 
-1. Buat **Private Repository** di GitHub.
-2. Push seluruh kode project:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial deployment"
-   git remote add origin https://github.com/username/repo.git
-   git push -u origin main
-   ```
-3. Login ke **cPanel Rumahweb**.
-4. Cari menu **"Git Version Control"**.
-5. Klik **"Create"**, masukkan URL repository GitHub Anda.
-6. Pastikan direktori tujuan adalah `/home/namauser/` *(satu level di atas `public_html`)*.
-7. Klik **"Clone"** atau **"Pull"** untuk mengunduh kode ke server.
+```bash
+# 1. (Jika ada perubahan CSS/JS) Rebuild asset
+npm run build
 
-> 📁 Struktur folder di server harus seperti ini:
-> ```
-> /home/namauser/
-> ├── web-berita-darnus-news/   ← folder project laravel
-> │   ├── app/
-> │   ├── public/
-> │   ├── ...
-> └── public_html/              ← domain utama mengarah ke sini
-> ```
+# 2. Commit & push ke GitHub
+git add .
+git commit -m "deskripsi perubahan"
+git push origin main
+```
 
-**Step 4 — Atur Document Root di cPanel**
-
-Agar domain mengarah ke folder `public` Laravel:
-1. Di cPanel, cari **"Domains"** atau **"Addon Domains"**.
-2. Klik **"Manage"** pada domain Anda.
-3. Ubah **Document Root** dari `public_html` menjadi:
-   `public_html/web-berita-darnus-news/public`
-   *(atau sesuai letak folder project Anda)*
-
-**Step 5 — Buat Database di cPanel**
-
-1. Di cPanel, buka **"MySQL Databases"**.
-2. Buat database baru (catat namanya).
-3. Buat user database baru (catat username & password).
-4. Hubungkan user ke database dengan memberikan **All Privileges**.
-5. Sesuaikan `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` di file `.env` dengan data yang baru dibuat ini.
+Kemudian di server:
+- **Hanya ubah blade/PHP**: Edit langsung via File Manager cPanel
+- **Ada perubahan CSS/build**: Upload & extract ZIP berisi `public/build/`
 
 ---
 
-### Setup Server (Tanpa SSH)
+## 🛠️ Deployment Bridge (setup-server)
 
-**Step 6 — Jalankan Setup via Browser**
+File: `routes/web.php`
 
-Setelah upload selesai, buka URL berikut di browser:
-```
-https://domainanda.com/setup-server?token=TOKEN_RAHASIA_ANDA
-```
+Route khusus untuk setup server tanpa SSH. **Jangan hapus route ini** selama masih dibutuhkan untuk maintenance.
 
-URL ini akan otomatis menjalankan:
-- ✅ `storage:link` — Menghubungkan folder storage ke public
-- ✅ `migrate` — Membuat semua tabel di database
-- ✅ `db:seed` — Membuat akun admin
-- ✅ `optimize:clear` — Membersihkan cache
+**URL:** `https://domain.com/setup-server?token=[DEPLOY_TOKEN]`
 
-> ⚠️ **Setelah setup selesai, segera hapus atau komentari route `/setup-server`** di file `routes/web.php` demi keamanan!
+**Yang dilakukan saat diakses:**
+1. `storage:link` — membuat symlink folder storage
+2. `migrate` — jalankan migrasi database yang belum berjalan
+3. `optimize:clear` — bersihkan semua cache Laravel
+4. Pindah foto dari `private/posts` → `public/posts` (fix upload lama)
+5. Download foto dummy dari Unsplash & pasang ke semua berita tanpa foto
 
----
-
-### Akses Website
-
-Setelah semua langkah selesai:
-- **Website Publik**: `https://domainanda.com`
-- **Admin Panel**: `https://domainanda.com/admin`
-  - Email: `admin@darnusnews.com`
-  - Password: `admin123`
-
-> 🔐 Segera ganti password admin setelah login pertama kali!
+**Token:** Diset via variabel `DEPLOY_TOKEN` di `.env`. Default: `DarnusSetup2025`.
 
 ---
 
-## 📁 Arsitektur Folder
+## 📝 Catatan Teknis Penting
 
+### 1. FILESYSTEM_DISK WAJIB = "public"
+Laravel 11+ menggunakan disk `local` secara default yang menyimpan file di `storage/app/private/` (tidak bisa diakses publik). Pastikan **selalu** set `FILESYSTEM_DISK=public` di `.env`, baik lokal maupun server.
+
+### 2. Struktur Hosting Tidak Standar
+File Laravel ada di `public_html/` (bukan di folder tersendiri di luar public_html). Ini berarti:
+- Document root Apache = `public_html/` (bukan `public_html/public/`)
+- Ada 2 file `.htaccess`:
+  - `public_html/.htaccess` → redirect semua request ke `/public` (Laravel public folder)
+  - `public_html/public/.htaccess` → konfigurasi standar Laravel
+
+### 3. FilamentUser Interface
+`User` model wajib implement `FilamentUser` agar bisa akses admin panel di production:
+```php
+class User extends Authenticatable implements \Filament\Models\Contracts\FilamentUser
+{
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return true;
+    }
+}
 ```
-app/
-├── Http/Controllers/
-│   └── HomeController.php     ← Controller halaman publik
-├── Models/
-│   ├── Post.php               ← Model berita
-│   ├── Category.php           ← Model kategori
-│   └── Region.php             ← Model wilayah
-└── Filament/Resources/
-    ├── Posts/
-    │   ├── PostResource.php
-    │   ├── Schemas/PostForm.php    ← Konfigurasi form tambah berita
-    │   └── Tables/PostsTable.php  ← Konfigurasi tabel daftar berita
-    ├── Categories/
-    └── Regions/
 
-resources/views/
-├── welcome.blade.php          ← Halaman depan (Featured, Latest, Trending)
-└── news/
-    ├── show.blade.php         ← Halaman baca artikel
-    └── search.blade.php       ← Halaman hasil pencarian
+### 4. Git di cPanel Tidak Bisa Digunakan
+Karena paket hosting tidak memberikan akses Shell, fitur Git Version Control di cPanel tidak berfungsi. Update server dilakukan manual (lihat bagian Workflow Harian).
 
-database/
-├── migrations/                ← Struktur tabel database
-├── factories/                 ← Generator data dummy
-└── seeders/
-    └── DatabaseSeeder.php     ← Konfigurasi data awal
+### 5. View Count
+View count otomatis bertambah setiap artikel dibuka. Logic ada di `HomeController::show()`:
+```php
+$post->increment('views');
 ```
+
+### 6. Foto Dummy Server
+File foto dummy untuk berita seeder berada di:  
+`storage/app/public/posts/dummy_news.jpg`  
+File ini tidak di-commit ke Git. Deployment Bridge akan mengunduhnya otomatis dari Unsplash saat pertama kali setup server baru.
 
 ---
 
-## 📝 Update Kode (Setelah Sudah Live)
+## 🗺️ Roadmap & Yang Belum Selesai
 
-Setiap ada perubahan kode:
-1. Jalankan `npm run build` di laptop jika ada perubahan tampilan.
-2. Push ke GitHub: `git add . && git commit -m "update" && git push`
-3. Di cPanel → **Git Version Control** → **Pull**
+### Fitur yang Sudah Diusulkan (Belum Diimplementasi)
+- [ ] **Placement/Layout selector di dashboard** — Admin bisa pilih apakah berita tampil sebagai "Featured", "Latest", atau "Standard" (saat ini otomatis berdasarkan waktu terbaru)
+- [ ] **Ganti password admin** — Belum ada UI untuk ganti password (harus via database atau Tinker)
+- [ ] **Kategori bisa diklik** — Nav kategori belum terfilter, masih link `#`
+- [ ] **Halaman profil redaksi/tentang kami** — Belum ada halaman statis
+- [ ] **Iklan banner** — Ada placeholder "Ruang Iklan Tersedia", belum ada sistem manajemen iklan
+
+### Known Issues
+- Foto berita seeder tidak ada di server secara default → perlu run `/setup-server` setiap deploy ke server baru
+- Pagination masih menggunakan style default Laravel (belum disesuaikan dengan tema dark)
 
 ---
 
 ## 📄 Lisensi
-Proyek ini open-source di bawah lisensi MIT.
+Proyek pribadi — DarnusNews © 2026. Hak Cipta Dilindungi.
