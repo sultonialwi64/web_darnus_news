@@ -107,18 +107,19 @@
                             <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-editorial-card to-editorial-dark z-0"></div>
                         @endif
                         
-                        <!-- Majestic Deep Shadow Gradient -->
-                        <div class="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-[#1b2533] via-[#1b2533]/80 to-transparent z-10 transition-opacity duration-500"></div>
+                        <!-- Majestic Center Shadow Layer -->
+                        <div class="absolute inset-0 bg-[#1b2533]/30 z-10 transition-opacity duration-500 group-hover:bg-[#1b2533]/40"></div>
+                        <div class="absolute inset-x-0 bottom-0 top-1/2 bg-gradient-to-t from-[#1b2533] to-transparent z-10"></div>
 
-                        <!-- Title Overhead Content -->
-                        <div class="absolute inset-x-0 bottom-0 z-20 p-6 sm:p-8 lg:px-12 lg:pb-8 flex flex-col justify-end items-center text-center">
+                        <!-- Title Overhead Content (Centered) -->
+                        <div class="absolute inset-0 z-20 p-6 sm:p-8 lg:p-12 flex flex-col justify-center items-center text-center">
                             <!-- Badges -->
-                            <div class="flex flex-wrap items-center justify-center gap-2 mb-3 sm:mb-4 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase">
-                                <span class="text-editorial-dark bg-editorial-accent px-3 py-1.5 rounded-full shadow-md">{{ $featuredPost->category->name }}</span>
+                            <div class="flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-6 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase">
+                                <span class="text-editorial-dark bg-editorial-accent px-4 py-1.5 rounded-full shadow-lg">{{ $featuredPost->category->name }}</span>
                             </div>
 
                             <!-- Tituler Masterpiece -->
-                            <h1 class="max-w-4xl font-sz text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug sm:leading-tight text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+                            <h1 class="w-full max-w-4xl mx-auto font-sz text-3xl sm:text-4xl xl:text-5xl font-bold leading-snug sm:leading-tight text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
                                 {{ $featuredPost->title }}
                             </h1>
                         </div>
