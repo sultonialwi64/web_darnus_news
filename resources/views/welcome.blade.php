@@ -97,35 +97,36 @@
         <div class="mb-16 border-b border-editorial pb-12">
             @if($featuredPost)
             <div class="group block w-full max-w-6xl mx-auto cursor-pointer">
-                <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col lg:flex-row bg-editorial-card rounded-2xl overflow-hidden shadow-lg border border-editorial hover:border-gray-500 transition-colors duration-500 hover:shadow-2xl hover:-translate-y-1">
-                    <!-- Image Area -->
+                <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col bg-editorial-card rounded-2xl overflow-hidden shadow-lg border border-editorial hover:border-gray-500 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                    <!-- Image Area (Full Width Stacked for Landscape) -->
                     @if($featuredPost->image)
-                        <div class="w-full lg:w-3/5 relative bg-editorial-header">
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover min-h-[400px] lg:min-h-[500px] mix-blend-luminosity opacity-90 group-hover:mix-blend-normal group-hover:opacity-100 transition-all duration-700">
+                        <div class="w-full relative bg-editorial-header aspect-[16/9] md:aspect-[2/1] overflow-hidden">
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="w-full h-full object-cover mix-blend-luminosity opacity-90 group-hover:mix-blend-normal group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                         </div>
                     @endif
                     
-                    <!-- Content Area -->
-                    <div class="w-full {{ $featuredPost->image ? 'lg:w-2/5' : '' }} p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-editorial-card to-editorial-dark">
+                    <!-- Content Area (Centered & Wide) -->
+                    <div class="w-full p-8 md:p-12 flex flex-col justify-center items-center text-center bg-gradient-to-b from-editorial-card to-editorial-dark">
                         <!-- Badges -->
-                        <div class="flex items-center space-x-3 mb-6 text-[11px] font-bold tracking-widest uppercase">
-                            <span class="text-editorial-dark bg-editorial-accent px-3 py-1.5 rounded-full">{{ $featuredPost->category->name }}</span>
+                        <div class="flex flex-wrap items-center justify-center gap-3 mb-6 text-[11px] font-bold tracking-widest uppercase">
+                            <span class="text-editorial-dark bg-editorial-accent px-4 py-1.5 rounded-full">{{ $featuredPost->category->name }}</span>
                             <span class="text-gray-500">·</span>
                             <span class="text-gray-400">{{ $featuredPost->region->name }}</span>
+                            <span class="text-gray-500 hidden sm:inline">·</span>
+                            <span class="text-gray-500">{{ $featuredPost->created_at->format('d M Y') }}</span>
                         </div>
 
                         <!-- Title -->
-                        <h1 class="font-sz text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6 group-hover:text-editorial-accent transition-colors">
+                        <h1 class="max-w-4xl font-sz text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white mb-6 group-hover:text-editorial-accent transition-colors">
                             {{ $featuredPost->title }}
                         </h1>
                         
                         <!-- Excerpt & Meta -->
-                        <p class="text-gray-400 text-base leading-relaxed font-sz mb-8 line-clamp-4">
+                        <p class="max-w-3xl text-gray-400 text-lg sm:text-xl leading-relaxed font-sz mb-8 line-clamp-3">
                             {!! strip_tags($featuredPost->content) !!}
                         </p>
                         
-                        <div class="mt-auto text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-between border-t border-editorial pt-6">
-                            <span>{{ $featuredPost->created_at->format('d.m.Y') }}</span>
+                        <div class="w-full max-w-3xl mt-2 text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-center border-t border-editorial pt-6">
                             <span class="flex items-center text-editorial-accent opacity-80">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 {{ number_format($featuredPost->views) }} Views
