@@ -6,7 +6,8 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Actions\EditAction;
+// Filament v5: EditAction ada di Filament\Actions (bukan Filament\Tables\Actions)
+use Filament\Actions\EditAction;
 
 class PostsTable
 {
@@ -23,7 +24,7 @@ class PostsTable
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                // Ini adalah class yang BENAR untuk Action di dalam Tabel (Filament v3)
+                // Filament v5: pakai Filament\Actions\EditAction (unified namespace)
                 EditAction::make(),
             ]);
     }
