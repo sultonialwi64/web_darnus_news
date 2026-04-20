@@ -91,9 +91,9 @@
                 <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col w-full bg-editorial-card overflow-hidden">
                     
                     <!-- Cinematic Title & Image Block -->
-                    <div class="relative w-full overflow-hidden bg-editorial-dark" style="aspect-ratio: 21/9; max-height: 420px; min-height: 300px;">
+                    <div class="relative w-full overflow-hidden bg-editorial-dark" style="aspect-ratio: 16/9; max-height: 520px; min-height: 350px;">
                         @if($featuredPost->image)
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover brightness-[0.8] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover object-top brightness-[0.8] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
                         @else
                             <div class="w-full aspect-video bg-editorial-dark"></div>
                         @endif
