@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile() // Mengaktifkan fitur Ganti Password & Edit Profil
             ->brandName('DarnusNews')
             ->brandLogo(null)
             ->colors([
