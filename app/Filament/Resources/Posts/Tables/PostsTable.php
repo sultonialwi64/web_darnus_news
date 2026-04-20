@@ -25,7 +25,7 @@ class PostsTable
             ])
             ->defaultSort('created_at', 'desc')
             // Filament v5: pakai recordActions (sama seperti RegionsTable yang berfungsi)
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
             ])
             ->toolbarActions([
