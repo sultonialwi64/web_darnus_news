@@ -40,9 +40,13 @@ class PostPolicy
         // 1. Admin bisa edit semua berita
         if ($user->isAdmin()) return true;
 
-        // 2. Pembuat berita bisa edit beritanya sendiri
-        return ($post->author && $post->author->user_id === $user->id) || 
-               ($post->created_by === $user->id);
+        // 2. Jika jurnalis yang login adalah Author berita ini
+        if ($post->author_id && $user->journalist && $post->author_id === $user->journalist->id) {
+            return true;
+        }
+
+        // 3. Jika jurnalis yang login adalah pembuat data beritanya
+        return $post->created_by === $user->id;
     }
 
     /**
@@ -53,9 +57,13 @@ class PostPolicy
         // 1. Admin bisa hapus semua berita
         if ($user->isAdmin()) return true;
 
-        // 2. Pembuat berita bisa hapus beritanya sendiri
-        return ($post->author && $post->author->user_id === $user->id) || 
-               ($post->created_by === $user->id);
+        // 2. Jika jurnalis yang login adalah Author berita ini
+        if ($post->author_id && $user->journalist && $post->author_id === $user->journalist->id) {
+            return true;
+        }
+
+        // 3. Jika jurnalis yang login adalah pembuat data beritanya
+        return $post->created_by === $user->id;
     }
 
     /**
