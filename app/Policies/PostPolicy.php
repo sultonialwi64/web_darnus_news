@@ -13,7 +13,7 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true; // Semua user yang masuk panel bisa lihat daftar berita
+        return true; 
     }
 
     /**
@@ -29,7 +29,8 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return true; // Semua user (Wartawan/Admin) bisa nambah berita
+        // Semua user yang punya role (admin/journalist) bisa buat berita
+        return $user->isAdmin() || $user->role === 'journalist';
     }
 
     /**
@@ -37,16 +38,23 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        // 1. Admin bisa edit semua berita
-        if ($user->isAdmin()) return true;
-
-        // 2. Jika jurnalis yang login adalah Author berita ini
-        if ($post->author_id && $user->journalist && $post->author_id === $user->journalist->id) {
+        // 1. Admin Berkuasa Penuh
+        if ($user->isAdmin()) {
             return true;
         }
 
-        // 3. Jika jurnalis yang login adalah pembuat data beritanya
-        return $post->created_by === $user->id;
+        // 2. Cek apakah user ini adalah Jurnalis yang ditunjuk sebagai Author atau Editor di berita tersebut
+        $journalistId = $user->journalist?->id;
+        if ($journalistId && ($post->author_id === $journalistId || $post->editor_id === $journalistId)) {
+            return true;
+        }
+
+        // 3. Cek apakah user ini adalah yang menginput/memasukkan data beritanya (Created By)
+        if ($post->created_by && $post->created_by === $user->id) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -54,16 +62,8 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        // 1. Admin bisa hapus semua berita
-        if ($user->isAdmin()) return true;
-
-        // 2. Jika jurnalis yang login adalah Author berita ini
-        if ($post->author_id && $user->journalist && $post->author_id === $user->journalist->id) {
-            return true;
-        }
-
-        // 3. Jika jurnalis yang login adalah pembuat data beritanya
-        return $post->created_by === $user->id;
+        // Logika hapus sama dengan update
+        return $this->update($user, $post);
     }
 
     /**
