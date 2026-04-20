@@ -37,7 +37,12 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return true; // Buka sementara untuk ngetes tombol muncul atau tidak
+        // 1. Admin bisa edit semua berita
+        if ($user->isAdmin()) return true;
+
+        // 2. Pembuat berita bisa edit beritanya sendiri
+        return ($post->author && $post->author->user_id === $user->id) || 
+               ($post->created_by === $user->id);
     }
 
     /**
@@ -45,8 +50,11 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->isAdmin() || 
-               ($post->author && $post->author->user_id === $user->id) || 
+        // 1. Admin bisa hapus semua berita
+        if ($user->isAdmin()) return true;
+
+        // 2. Pembuat berita bisa hapus beritanya sendiri
+        return ($post->author && $post->author->user_id === $user->id) || 
                ($post->created_by === $user->id);
     }
 
