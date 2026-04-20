@@ -87,8 +87,7 @@ class PostForm
                                 ->label('Daerah / Region')
                                 ->relationship('region', 'name')
                                 ->searchable()
-                                ->preload()
-                                ->required(),
+                                ->preload(),
                             Select::make('category_id')->relationship('category', 'name')->required(),
                             Select::make('tags')
                                 ->multiple()

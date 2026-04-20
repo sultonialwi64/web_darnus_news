@@ -105,7 +105,7 @@
                 @endif
                 <div class="flex flex-col flex-grow">
                     <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3">
-                        {{ $post->category->name }} · {{ $post->region->name }}
+                        {{ $post->category->name }} @if($post->region) · {{ $post->region->name }} @endif
                     </div>
                     <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-3">
                         {{ $post->title }}

@@ -110,8 +110,10 @@
             <div class="mb-10 text-center">
                 <div class="flex items-center justify-center space-x-3 text-[11px] font-bold tracking-widest uppercase mb-6">
                     <span class="text-editorial-accent bg-amber-900/20 px-2 py-1">{{ $post->category->name }}</span>
-                    <span class="text-gray-500">·</span>
-                    <span class="text-gray-400">{{ $post->region->name }}</span>
+                    @if($post->region)
+                        <span class="text-gray-500">·</span>
+                        <span class="text-gray-400">{{ $post->region->name }}</span>
+                    @endif
                 </div>
 
                 <h1 class="font-sz text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white mb-8">
@@ -133,7 +135,7 @@
             <figure class="mb-12 border border-editorial rounded-2xl overflow-hidden shadow-lg">
                 <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" class="w-full object-cover object-top aspect-[16/9]">
                 <figcaption class="mt-0 text-[11px] text-editorial-muted font-medium px-4 py-2 border-t border-editorial italic">
-                    {{ $post->image_caption ?: 'Foto: DarnusNews / ' . $post->region->name }}
+                    {{ $post->image_caption ?: 'Foto: DarnusNews' . ($post->region ? ' / ' . $post->region->name : '') }}
                 </figcaption>
             </figure>
             @endif
@@ -155,7 +157,9 @@
                     <a href="{{ route('news.show', $related->slug) }}" class="group flex flex-col p-4 bg-editorial-card border border-editorial rounded-xl hover:border-gray-500 hover:shadow-lg transition-all duration-300">
                         <div class="flex items-center text-[10px] font-bold tracking-widest uppercase mb-2">
                             <span class="text-editorial-accent mr-2">{{ $related->category->name }}</span>
+                            @if($related->region)
                             <span class="text-editorial-muted">{{ $related->region->name }}</span>
+                            @endif
                         </div>
                         <h4 class="font-sz text-lg font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors line-clamp-2">
                             {{ $related->title }}

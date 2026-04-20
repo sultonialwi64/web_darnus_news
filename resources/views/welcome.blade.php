@@ -119,8 +119,11 @@
                     <div class="w-full flex-grow flex flex-col p-6 sm:p-8 lg:p-12 items-center text-center pb-8 z-30 relative bg-[#1b2533]">
                         <!-- Meta Date & Region -->
                         <div class="flex items-center justify-center gap-2 mb-5 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-gray-400">
-                            <span>{{ $featuredPost->region->name }}</span>
-                            <span>·</span>                            <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
+                            @if($featuredPost->region)
+                                <span>{{ $featuredPost->region->name }}</span>
+                                <span>·</span>
+                            @endif
+                            <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
                         </div>
  
                         <!-- Excerpt -->
@@ -155,9 +158,13 @@
                         </div>
                     @endif
                     <div class="flex flex-col flex-grow">
+                        @if($post->region)
                         <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3 flex items-center">
                             <span class="w-1.5 h-1.5 rounded-full bg-editorial-accent mr-2"></span> {{ $post->region->name }}
                         </div>
+                        @else
+                        <div class="mb-3"></div>
+                        @endif
                         <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-4 pb-4 border-b border-editorial opacity-90">
                             {{ $post->title }}
                         </h3>
@@ -191,7 +198,9 @@
                             <div class="flex items-center text-[10px] font-bold tracking-widest uppercase mb-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-600 mr-2 opacity-80"></span>
                                 <span class="text-gray-300 mr-2">{{ $post->category->name }}</span>
+                                @if($post->region)
                                 <span class="text-editorial-muted">{{ $post->region->name }}</span>
+                                @endif
                             </div>
                             <h3 class="font-sz text-2xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-2">
                                 {{ $post->title }}
