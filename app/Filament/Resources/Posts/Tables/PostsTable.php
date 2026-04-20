@@ -16,13 +16,12 @@ class PostsTable
                 \Filament\Tables\Columns\ToggleColumn::make('is_published')->label('Published'),
             ])
             ->defaultSort('created_at', 'desc')
-            ->recordActions([
-                // Kita tulis alamat lengkapnya di sini biar PHP gak bingung
-                \Filament\Actions\EditAction::make(),
+            ->actions([
+                \Filament\Tables\Actions\EditAction::make(),
             ])
-            ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+            ->bulkActions([
+                \Filament\Tables\Actions\BulkActionGroup::make([
+                    \Filament\Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
