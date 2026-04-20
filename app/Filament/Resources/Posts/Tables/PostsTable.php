@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources\Posts\Tables;
 
-use Filament\Tables\Table;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-// Filament v5: EditAction ada di Filament\Actions (bukan Filament\Tables\Actions)
-use Filament\Actions\EditAction;
+use Filament\Tables\Table;
 
 class PostsTable
 {
@@ -23,9 +24,14 @@ class PostsTable
                 ToggleColumn::make('is_published')->label('Published'),
             ])
             ->defaultSort('created_at', 'desc')
-            ->actions([
-                // Filament v5: pakai Filament\Actions\EditAction (unified namespace)
+            // Filament v5: pakai recordActions (sama seperti RegionsTable yang berfungsi)
+            ->recordActions([
                 EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }

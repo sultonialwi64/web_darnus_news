@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@darnusnews.com',
             'email_verified_at' => now(),
             'password' => bcrypt(env('DEFAULT_ADMIN_PASSWORD', 'admin123')),
+            'role' => 'admin', // Tambahkan ini
             'remember_token' => Str::random(10),
         ]);
 
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
                 'email' => "{$emailPref}@darnusnews.com",
                 'email_verified_at' => now(),
                 'password' => bcrypt(env('DEFAULT_EDITOR_PASSWORD', 'editor123')),
+                'role' => 'journalist', // Tambahkan ini
                 'remember_token' => Str::random(10),
             ]);
         }
