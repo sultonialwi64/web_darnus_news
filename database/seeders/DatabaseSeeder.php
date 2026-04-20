@@ -21,43 +21,47 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Admin & Editor Users
-        User::create([
-            'name' => 'Admin Darnus',
-            'email' => 'admin@darnusnews.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt(env('DEFAULT_ADMIN_PASSWORD', 'admin123')),
-            'role' => 'admin', // Tambahkan ini
-            'remember_token' => Str::random(10),
-        ]);
+        // 1. Admin & Editor Users (pakai firstOrCreate agar aman di production)
+        User::firstOrCreate(
+            ['email' => 'admin@darnusnews.com'],
+            [
+                'name'              => 'Admin Darnus',
+                'email_verified_at' => now(),
+                'password'          => bcrypt(env('DEFAULT_ADMIN_PASSWORD', 'admin123')),
+                'role'              => 'admin',
+                'remember_token'    => Str::random(10),
+            ]
+        );
 
-        $editors = ['Aris', 'Asri Bening', 'Wawan'];
+        $editors = ['Aris', 'Asri Bening', 'Wawan', 'Andy Gris'];
         foreach ($editors as $editor) {
             $emailPref = strtolower(str_replace(' ', '', $editor));
-            User::create([
-                'name' => $editor,
-                'email' => "{$emailPref}@darnusnews.com",
-                'email_verified_at' => now(),
-                'password' => bcrypt(env('DEFAULT_EDITOR_PASSWORD', 'editor123')),
-                'role' => 'journalist', // Tambahkan ini
-                'remember_token' => Str::random(10),
-            ]);
+            User::firstOrCreate(
+                ['email' => "{$emailPref}@darnusnews.com"],
+                [
+                    'name'              => $editor,
+                    'email_verified_at' => now(),
+                    'password'          => bcrypt(env('DEFAULT_EDITOR_PASSWORD', 'editor123')),
+                    'role'              => 'journalist',
+                    'remember_token'    => Str::random(10),
+                ]
+            );
         }
 
-        // 2. Categories
+        // 2. Categories (pakai firstOrCreate agar aman di production)
         $categories = [
             'Nasional', 'Daerah', 'Ekonomi', 'Opini', 'Humaniora', 
             'Sastra Budaya', 'Politik', 'Olahraga', 'Lifestyle', 
             'Pariwisata dan Kuliner', 'Hukum dan Kriminal'
         ];
         foreach ($categories as $cat) {
-            Category::create([
-                'name' => $cat,
-                'slug' => Str::slug($cat),
-            ]);
+            Category::firstOrCreate(
+                ['slug' => Str::slug($cat)],
+                ['name' => $cat]
+            );
         }
 
-        // 3. Regions (Seluruh 38 Provinsi Indonesia)
+        // 3. Regions — Seluruh 38 Provinsi Indonesia (pakai firstOrCreate agar aman)
         $regions = [
             'Aceh', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Jambi', 'Sumatera Selatan', 'Bengkulu', 'Lampung', 
             'Kepulauan Bangka Belitung', 'Kepulauan Riau', 'DKI Jakarta', 'Jawa Barat', 'Jawa Tengah', 'DI Yogyakarta', 
