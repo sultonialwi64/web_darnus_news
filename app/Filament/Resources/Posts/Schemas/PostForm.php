@@ -83,7 +83,12 @@ class PostForm
                     Section::make('Metadata & Settings')
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('region_id')->relationship('region', 'name')->required(),
+                            Select::make('region_id')
+                                ->label('Daerah / Region')
+                                ->relationship('region', 'name')
+                                ->searchable()
+                                ->preload()
+                                ->required(),
                             Select::make('category_id')->relationship('category', 'name')->required(),
                             Select::make('tags')
                                 ->multiple()
@@ -111,7 +116,10 @@ class PostForm
                                 ->default(fn() => auth()->user()->journalist?->id)
                                 ->searchable()
                                 ->preload(),
-                            Toggle::make('is_published')->default(true),
+                            Toggle::make('is_published')
+                                ->label('Terbit Sekarang')
+                                ->helperText('Matikan untuk menyimpan sebagai Draft.')
+                                ->default(false), // Default: simpan sebagai DRAFT
                             Toggle::make('is_featured')->label('Pin as Headline')->default(false),
                         ]),
                 ])

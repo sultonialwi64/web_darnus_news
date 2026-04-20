@@ -143,6 +143,29 @@
                 {!! $post->content !!}
             </div>
 
+            <!-- Fitur Baca Juga / Related Posts -->
+            @if(isset($relatedPosts) && $relatedPosts->count() > 0)
+            <div class="mt-12 mb-8">
+                <h3 class="font-sz text-2xl font-bold text-white mb-6 flex items-center">
+                    <span class="w-1.5 h-8 bg-editorial-accent mr-3"></span>
+                    Baca Juga
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @foreach($relatedPosts as $related)
+                    <a href="{{ route('news.show', $related->slug) }}" class="group flex flex-col p-4 bg-editorial-card border border-editorial rounded-xl hover:border-gray-500 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center text-[10px] font-bold tracking-widest uppercase mb-2">
+                            <span class="text-editorial-accent mr-2">{{ $related->category->name }}</span>
+                            <span class="text-editorial-muted">{{ $related->region->name }}</span>
+                        </div>
+                        <h4 class="font-sz text-lg font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors line-clamp-2">
+                            {{ $related->title }}
+                        </h4>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <!-- Editorial Credits -->
             <div class="mt-12 p-6 bg-editorial-card rounded-2xl border border-editorial">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

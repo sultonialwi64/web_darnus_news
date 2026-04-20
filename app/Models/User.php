@@ -16,14 +16,23 @@ class User extends Authenticatable implements \Filament\Models\Contracts\Filamen
 {
     protected static function booted()
     {
+        // Otomatis buat profil journalist untuk semua user baru (non-admin)
         static::created(function ($user) {
-            // Otomatis buat profil journalist untuk user baru (kecuali sudah ada)
-            if ($user->role === 'journalist') {
-                \App\Models\Journalist::create([
-                    'user_id' => $user->id,
-                    'name' => $user->name,
-                    'position' => 'Reporter',
-                ]);
+            if ($user->role !== 'admin') {
+                \App\Models\Journalist::firstOrCreate(
+                    ['user_id' => $user->id],
+                    ['name' => $user->name, 'position' => 'Reporter']
+                );
+            }
+        });
+
+        // Jika role diubah ke journalist setelah dibuat, buat juga profilnya
+        static::updated(function ($user) {
+            if ($user->wasChanged('role') && $user->role !== 'admin') {
+                \App\Models\Journalist::firstOrCreate(
+                    ['user_id' => $user->id],
+                    ['name' => $user->name, 'position' => 'Reporter']
+                );
             }
         });
     }

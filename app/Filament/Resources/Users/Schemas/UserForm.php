@@ -26,6 +26,14 @@ class UserForm
                     ->required(fn (string $operation) => $operation === 'create')
                     ->dehydrated(fn ($state) => filled($state))
                     ->helperText('Kosongkan jika tidak ingin mengubah password (saat edit).'),
+                Select::make('role')
+                    ->label('Peran / Role')
+                    ->options([
+                        'admin'      => 'Admin (Akses Penuh)',
+                        'journalist' => 'Jurnalis / Reporter',
+                    ])
+                    ->default('journalist')
+                    ->required(),
             ]);
     }
 }

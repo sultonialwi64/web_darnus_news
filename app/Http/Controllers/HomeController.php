@@ -42,14 +42,23 @@ class HomeController extends Controller
     public function show($slug)
     {
         $categories = \App\Models\Category::all();
-        $post = Post::with(['category', 'region'])
+        $post = Post::with(['category', 'region', 'author', 'editor'])
             ->where('slug', $slug)
             ->where('is_published', true)
             ->firstOrFail();
 
         $post->increment('views');
 
-        return view('news.show', compact('post', 'categories'));
+        // Ambil 4 berita terkait dari kategori yang sama
+        $relatedPosts = Post::with(['category', 'region'])
+            ->where('is_published', true)
+            ->where('category_id', $post->category_id)
+            ->where('id', '!=', $post->id)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('news.show', compact('post', 'categories', 'relatedPosts'));
     }
 
     public function search(\Illuminate\Http\Request $request)

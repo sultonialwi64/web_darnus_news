@@ -18,6 +18,11 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
+    protected static ?string $modelLabel = 'Berita';
+    protected static ?string $pluralModelLabel = 'Daftar Berita';
+    protected static ?string $navigationLabel = 'Manajemen Berita';
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

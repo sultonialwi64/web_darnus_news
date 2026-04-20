@@ -18,6 +18,11 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
+    protected static ?string $modelLabel = 'Kategori';
+    protected static ?string $pluralModelLabel = 'Daftar Kategori';
+    protected static ?string $navigationLabel = 'Manajemen Kategori';
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

@@ -18,6 +18,11 @@ class RegionResource extends Resource
 {
     protected static ?string $model = Region::class;
 
+    protected static ?string $modelLabel = 'Daerah';
+    protected static ?string $pluralModelLabel = 'Daftar Daerah';
+    protected static ?string $navigationLabel = 'Manajemen Daerah';
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

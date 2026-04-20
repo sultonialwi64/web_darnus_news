@@ -20,7 +20,10 @@ class JournalistResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedIdentification;
 
-    protected static ?string $navigationLabel = 'Redaktur';
+    protected static ?string $navigationLabel = 'Redaktur/Jurnalis';
+    protected static ?string $modelLabel = 'Jurnalis';
+    protected static ?string $pluralModelLabel = 'Daftar Jurnalis';
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
 
     protected static ?string $recordTitleAttribute = 'name';
 
