@@ -45,12 +45,12 @@ class PostPolicy
 
         // 2. Cek apakah user ini adalah Jurnalis yang ditunjuk sebagai Author atau Editor di berita tersebut
         $journalistId = $user->journalist?->id;
-        if ($journalistId && ($post->author_id === $journalistId || $post->editor_id === $journalistId)) {
+        if ($journalistId && ($post->author_id == $journalistId || $post->editor_id == $journalistId)) {
             return true;
         }
 
         // 3. Cek apakah user ini adalah yang menginput/memasukkan data beritanya (Created By)
-        if ($post->created_by && $post->created_by === $user->id) {
+        if ($post->created_by && $post->created_by == $user->id) {
             return true;
         }
 
