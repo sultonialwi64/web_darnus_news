@@ -15,6 +15,7 @@ class PostsTable
                 \Filament\Tables\Columns\ToggleColumn::make('is_featured')->label('Headline'),
                 \Filament\Tables\Columns\ToggleColumn::make('is_published')->label('Published'),
             ])
+            ->defaultSort('created_at', 'desc')
             ->recordActions([
                 // Kita tulis alamat lengkapnya di sini biar PHP gak bingung
                 \Filament\Actions\EditAction::make(),

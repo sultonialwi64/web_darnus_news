@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $post->title }} - Darnus</title>
-    <meta name="description" content="{{ Str::limit(strip_tags($post->content), 160) }}">
+    <title>{{ $post->title }} - DarnusNews</title>
+    <meta name="description" content="{{ $post->summary }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,9 +50,11 @@
 <body class="antialiased min-h-screen flex flex-col">
 
     <!-- Modern Digital-Native Header -->
+    <!-- Modern Digital-Native Header -->
     <header class="bg-editorial-header sticky top-0 z-50 border-b border-editorial shadow-sm">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+            <!-- Top Row: Logo & Actions -->
+            <div class="flex justify-between items-center h-16 sm:h-20">
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="font-sz text-3xl md:text-4xl font-bold tracking-tight text-white hover:text-editorial-accent transition-colors whitespace-nowrap">
@@ -60,25 +62,15 @@
                     </a>
                 </div>
                 
-                <!-- Center: Desktop Category Nav -->
-                <nav class="hidden lg:flex flex-1 justify-center px-8 overflow-hidden">
-                    <ul class="flex space-x-6 xl:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400">
-                        <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors {{ !isset($post) ? 'text-white' : '' }}">Beranda</a></li>
-                        @foreach($categories ?? [] as $cat)
-                        <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap {{ isset($post) && $post->category->id === $cat->id ? 'text-editorial-accent' : '' }}">{{ $cat->name }}</a></li>
-                        @endforeach
-                    </ul>
-                </nav>
-
                 <!-- Right: Nav, Search, Login -->
-                <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
+                <div class="flex items-center space-x-2 sm:space-x-4">
                     <!-- Desktop/Mobile Search Toggle -->
-                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer ml-1" aria-label="Buka Pencarian">
+                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer" aria-label="Buka Pencarian">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </button>
 
                     <!-- Login Pill -->
-                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-4 py-2 rounded-full transition-colors">
+                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-5 py-2 rounded-full transition-colors shadow-lg">
                         Login
                     </a>
                     
@@ -88,12 +80,12 @@
                 </div>
             </div>
             
-            <!-- Mobile/Tablet Category Nav (Scrollable) -->
-            <nav class="lg:hidden h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial">
-                <ul class="flex space-x-6 text-[10px] font-bold tracking-widest uppercase text-gray-400 px-2 min-w-max pb-1">
-                    <li><a href="{{ route('home') }}" class="hover:text-white transition-colors {{ !isset($post) ? 'text-white' : '' }}">Beranda</a></li>
+            <!-- Bottom Row: Desktop & Mobile Category Nav (Rubrik) -->
+            <nav class="h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial/50">
+                <ul class="flex space-x-6 sm:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400 min-w-max">
+                    <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-white transition-colors whitespace-nowrap {{ isset($post) && $post->category->id === $cat->id ? 'text-editorial-accent' : '' }}">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap {{ (isset($post) && $post->category_id === $cat->id) ? 'text-editorial-accent border-b-2 border-editorial-accent pb-3 sm:pb-3.5' : '' }}">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>
@@ -112,7 +104,7 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-[860px] mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         <article>
             <!-- Article Header -->
             <div class="mb-10 text-center">
@@ -140,8 +132,8 @@
             @if($post->image)
             <figure class="mb-12 border border-editorial rounded-2xl overflow-hidden shadow-lg">
                 <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" class="w-full object-cover aspect-[21/9]">
-                <figcaption class="mt-0 text-xs text-editorial-muted font-bold uppercase tracking-wider text-right px-4 py-2 border-t border-editorial">
-                    Foto: DarnusNews / {{ $post->region->name }}
+                <figcaption class="mt-0 text-[11px] text-editorial-muted font-medium px-4 py-2 border-t border-editorial italic">
+                    {{ $post->image_caption ?: 'Foto: DarnusNews / ' . $post->region->name }}
                 </figcaption>
             </figure>
             @endif
@@ -149,6 +141,34 @@
             <!-- Article Body -->
             <div class="article-body">
                 {!! $post->content !!}
+            </div>
+
+            <!-- Editorial Credits -->
+            <div class="mt-12 p-6 bg-editorial-card rounded-2xl border border-editorial">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-editorial-accent/20 flex items-center justify-center text-editorial-accent font-bold text-lg">
+                            {{ substr($post->author->name ?? 'D', 0, 1) }}
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold tracking-widest uppercase text-editorial-muted">Penulis</p>
+                            <p class="text-white font-bold">{{ $post->author->name ?? 'Redaksi Darnus' }}</p>
+                        </div>
+                    </div>
+                    @if($post->editor)
+                    <div class="flex items-center space-x-4 border-t sm:border-t-0 sm:border-l border-editorial pt-4 sm:pt-0 sm:pl-8">
+                        <div>
+                            <p class="text-[10px] font-bold tracking-widest uppercase text-editorial-muted">Editor</p>
+                            <p class="text-white font-bold">{{ $post->editor->name }}</p>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                @if($post->source)
+                <div class="mt-6 pt-4 border-t border-editorial text-[11px] text-editorial-muted italic">
+                    Sumber: {{ $post->source }}
+                </div>
+                @endif
             </div>
 
             <!-- Back Link -->

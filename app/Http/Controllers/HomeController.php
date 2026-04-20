@@ -63,7 +63,13 @@ class HomeController extends Controller
                 ->where('is_published', true)
                 ->where(function($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
-                      ->orWhere('content', 'like', "%{$query}%");
+                      ->orWhere('content', 'like', "%{$query}%")
+                      ->orWhereHas('category', function($q) use ($query) {
+                          $q->where('name', 'like', "%{$query}%");
+                      })
+                      ->orWhereHas('region', function($q) use ($query) {
+                          $q->where('name', 'like', "%{$query}%");
+                      });
                 })
                 ->latest()
                 ->paginate(12);

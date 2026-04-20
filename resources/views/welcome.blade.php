@@ -31,7 +31,8 @@
     <!-- Modern Digital-Native Header -->
     <header class="bg-editorial-header sticky top-0 z-50 border-b border-editorial shadow-sm">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+            <!-- Top Row: Logo & Actions -->
+            <div class="flex justify-between items-center h-16 sm:h-20">
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="font-sz text-3xl md:text-4xl font-bold tracking-tight text-white hover:text-editorial-accent transition-colors whitespace-nowrap">
@@ -39,25 +40,15 @@
                     </a>
                 </div>
                 
-                <!-- Center: Desktop Category Nav -->
-                <nav class="hidden lg:flex flex-1 justify-center px-8 overflow-hidden">
-                    <ul class="flex space-x-6 xl:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400">
-                        <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white">Beranda</a></li>
-                        @foreach($categories ?? [] as $cat)
-                        <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
-                        @endforeach
-                    </ul>
-                </nav>
-
                 <!-- Right: Nav, Search, Login -->
-                <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
+                <div class="flex items-center space-x-2 sm:space-x-4">
                     <!-- Desktop/Mobile Search Toggle -->
-                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer ml-1" aria-label="Buka Pencarian">
+                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer" aria-label="Buka Pencarian">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </button>
 
-                    <!-- Login Pill for Desktop, Icon for Mobile -->
-                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-4 py-2 rounded-full transition-colors">
+                    <!-- Login Pill -->
+                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-5 py-2 rounded-full transition-colors shadow-lg">
                         Login
                     </a>
                     
@@ -67,12 +58,12 @@
                 </div>
             </div>
             
-            <!-- Mobile/Tablet Category Nav (Scrollable) -->
-            <nav class="lg:hidden h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial">
-                <ul class="flex space-x-6 text-[10px] font-bold tracking-widest uppercase text-gray-400 px-2 min-w-max pb-1">
-                    <li><a href="{{ route('home') }}" class="hover:text-white transition-colors text-white">Beranda</a></li>
+            <!-- Bottom Row: Desktop & Mobile Category Nav (Rubrik) -->
+            <nav class="h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial/50">
+                <ul class="flex space-x-6 sm:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400 min-w-max">
+                    <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white border-b-2 border-editorial-accent pb-3 sm:pb-3.5">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-white transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>
@@ -96,20 +87,19 @@
         <!-- Hero Section: Featured Headline -->
         <div class="mb-16 border-b border-editorial pb-12">
             @if($featuredPost)
-            <div class="group w-full max-w-6xl mx-auto cursor-pointer block hover:-translate-y-1 transition-transform duration-500 hover:shadow-2xl rounded-2xl overflow-hidden border border-editorial shadow-lg">
+            <div class="group w-full max-w-5xl mx-auto cursor-pointer block hover:-translate-y-1 transition-transform duration-500 hover:shadow-2xl rounded-2xl overflow-hidden border border-editorial shadow-lg">
                 <a href="{{ route('news.show', $featuredPost->slug) }}" class="flex flex-col w-full bg-editorial-card overflow-hidden">
                     
                     <!-- Cinematic Title & Image Block -->
-                    <div class="relative w-full overflow-hidden" style="min-height: 45vh; max-height: 500px;">
+                    <div class="relative w-full overflow-hidden bg-editorial-dark" style="aspect-ratio: 21/9; max-height: 420px; min-height: 300px;">
                         @if($featuredPost->image)
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-80 group-hover:mix-blend-normal group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 z-0">
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover brightness-[0.8] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
                         @else
-                            <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-editorial-card to-editorial-dark z-0"></div>
+                            <div class="w-full aspect-video bg-editorial-dark"></div>
                         @endif
                         
-                        <!-- Majestic Center Shadow Layer -->
-                        <div class="absolute inset-0 bg-[#1b2533]/30 z-10 transition-opacity duration-500 group-hover:bg-[#1b2533]/40"></div>
-                        <div class="absolute inset-x-0 bottom-0 top-1/2 bg-gradient-to-t from-[#1b2533] to-transparent z-10"></div>
+                        <!-- Contrast Layer (Gradient Only) -->
+                        <div class="absolute inset-x-0 bottom-0 top-1/4 bg-gradient-to-t from-black via-black/40 to-transparent z-10 opacity-90"></div>
 
                         <!-- Title Overhead Content (Centered) -->
                         <div class="absolute inset-0 z-20 p-6 sm:p-8 lg:p-12 flex flex-col justify-center items-center text-center">
@@ -119,7 +109,7 @@
                             </div>
 
                             <!-- Tituler Masterpiece -->
-                            <h1 class="w-full max-w-3xl mx-auto font-sz font-bold text-white group-hover:text-editorial-accent transition-colors drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]" style="font-size: clamp(1.75rem, 3vw + 0.5rem, 3.25rem); line-height: 1.25; padding: 0 1rem;">
+                            <h1 class="w-full max-w-3xl mx-auto font-sz font-bold text-white transition-colors drop-shadow-[0_8px_16px_rgba(0,0,0,1)]" style="font-size: clamp(1.75rem, 3vw + 0.5rem, 3.25rem); line-height: 1.25; padding: 0 1rem;">
                                 {{ $featuredPost->title }}
                             </h1>
                         </div>
@@ -130,23 +120,22 @@
                         <!-- Meta Date & Region -->
                         <div class="flex items-center justify-center gap-2 mb-5 text-[10px] sm:text-[11px] font-bold tracking-widest uppercase text-gray-400">
                             <span>{{ $featuredPost->region->name }}</span>
-                            <span>·</span>
-                            <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
+                            <span>·</span>                            <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
                         </div>
-
+ 
                         <!-- Excerpt -->
-                        <p class="max-w-3xl text-gray-300 text-base sm:text-lg leading-relaxed font-sz mb-8 line-clamp-3 md:line-clamp-4">
-                            {!! strip_tags($featuredPost->content) !!}
+                        <p class="w-full text-gray-300 text-base sm:text-lg leading-relaxed font-sz mb-8 line-clamp-3 md:line-clamp-4">
+                            {{ htmlspecialchars_decode($featuredPost->excerpt ?: Str::limit(strip_tags($featuredPost->content), 200)) }}
                         </p>
                         
                         <!-- Footer Edge Info -->
-                        <div class="w-full max-w-3xl mt-auto text-[10px] sm:text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-between pt-6 border-t border-gray-600/50">
+                        <div class="w-full mt-auto text-[10px] sm:text-xs text-editorial-muted font-bold uppercase tracking-wider flex items-center justify-between pt-6 border-t border-gray-600/50">
                             <span class="group-hover:text-editorial-accent transition-colors">Baca Selengkapnya &rarr;</span>
                             <span class="flex items-center group-hover:text-white transition-colors">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 {{ number_format($featuredPost->views) }} Views
                             </span>
-                        </div>
+                        </div>>
                     </div>
                 </a>
             </div>
@@ -161,8 +150,8 @@
                 @foreach($latestPosts->take(4) as $post)
                 <a href="{{ route('news.show', $post->slug) }}" class="group block h-full flex flex-col bg-editorial-card rounded-2xl border border-editorial p-5 hover:border-gray-500 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
                     @if($post->image)
-                        <div class="w-full aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-500">
-                            <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
+                        <div class="w-full aspect-[4/3] mb-5 overflow-hidden rounded-xl bg-editorial-dark">
+                            <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover brightness-[0.8] group-hover:brightness-100 transition-all duration-500">
                         </div>
                     @endif
                     <div class="flex flex-col flex-grow">
@@ -194,8 +183,8 @@
                     @foreach($otherPosts as $post)
                     <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col sm:flex-row items-center py-6 mb-4 bg-editorial-card rounded-2xl border border-editorial hover:border-gray-500 hover:shadow-lg transition-all p-5">
                         @if($post->image)
-                            <div class="w-full sm:w-1/3 aspect-[4/3] rounded-xl overflow-hidden border border-editorial flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-editorial-dark filter grayscale group-hover:grayscale-0 transition-all duration-300">
-                                <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover">
+                            <div class="w-full sm:w-1/3 aspect-[4/3] rounded-xl overflow-hidden border border-editorial flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-editorial-dark">
+                                <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover brightness-[0.8] group-hover:brightness-100 transition-all duration-500">
                             </div>
                         @endif
                         <div class="flex-grow flex flex-col justify-center">
@@ -208,7 +197,7 @@
                                 {{ $post->title }}
                             </h3>
                             <p class="text-gray-400 font-sz text-base leading-relaxed line-clamp-2 mb-4">
-                                {!! strip_tags($post->content) !!}
+                                {{ $post->excerpt ?: Str::limit(strip_tags($post->content), 150) }}
                             </p>
                             <time class="text-[10px] text-editorial-muted font-bold uppercase tracking-wider">
                                 {{ $post->created_at->format('d.m.Y - H:i') }}
@@ -228,13 +217,13 @@
             <!-- Right Sidebar: Trending Now (30%) -->
             @if($popularPosts && count($popularPosts) > 0)
             <div class="lg:col-span-4">
-                <h2 class="font-sz text-xl font-bold text-gray-300 mb-8 pb-4 border-b border-editorial tracking-wide uppercase">
+                <h2 class="font-sz text-xl font-bold text-slate-500 mb-8 pb-4 border-b border-slate-200 tracking-wide uppercase">
                     Paling Banyak Dibaca
                 </h2>
                 <div class="flex flex-col">
                     @foreach($popularPosts->take(6) as $index => $post)
-                    <a href="{{ route('news.show', $post->slug) }}" class="group flex items-start py-5 border-b border-editorial last:border-0 relative">
-                        <span class="font-sz text-4xl italic font-bold text-gray-600 mr-4 flex-shrink-0 group-hover:text-editorial-accent transition-colors">{{ $index + 1 }}</span>
+                    <a href="{{ route('news.show', $post->slug) }}" class="group flex items-start py-5 border-b border-slate-200 last:border-0 relative">
+                        <span class="font-sz text-4xl italic font-bold text-slate-200 mr-4 flex-shrink-0 group-hover:text-editorial-accent transition-colors">{{ $index + 1 }}</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] uppercase tracking-widest font-bold text-editorial-accent mb-1">{{ $post->category->name }}</span>
                             <h3 class="font-sz text-base font-bold text-gray-200 leading-snug group-hover:text-white transition-colors line-clamp-3 mb-2">

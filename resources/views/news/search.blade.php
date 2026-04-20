@@ -29,7 +29,8 @@
     <!-- Modern Digital-Native Header -->
     <header class="bg-editorial-header sticky top-0 z-50 border-b border-editorial shadow-sm">
         <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+            <!-- Top Row: Logo & Actions -->
+            <div class="flex justify-between items-center h-16 sm:h-20">
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="font-sz text-3xl md:text-4xl font-bold tracking-tight text-white hover:text-editorial-accent transition-colors whitespace-nowrap">
@@ -37,28 +38,15 @@
                     </a>
                 </div>
                 
-                <!-- Center: Desktop Category Nav -->
-                <nav class="hidden lg:flex flex-1 justify-center px-8 overflow-hidden">
-                    <ul class="flex space-x-6 xl:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400">
-                        <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white">Beranda</a></li>
-                        @foreach($categories ?? [] as $cat)
-                        <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
-                        @endforeach
-                    </ul>
-                </nav>
-
                 <!-- Right: Nav, Search, Login -->
-                <div class="flex items-center space-x-2 sm:space-x-4 justify-end">
-                    <!-- Search Form (Visible) -->
-                    <form action="{{ route('search') }}" method="GET" class="flex items-center">
-                        <input type="text" name="q" placeholder="Cari..." value="{{ request('q') }}" class="w-32 sm:w-48 bg-editorial-card border border-gray-500 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-white transition-all text-white mr-1 placeholder-gray-500">
-                        <button type="submit" class="text-gray-300 hover:text-editorial-accent transition-colors p-2" aria-label="Search">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </button>
-                    </form>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <!-- Desktop/Mobile Search Toggle -->
+                    <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.remove('hidden'); document.getElementById('mobileSearchInput').focus();" class="text-gray-300 hover:text-editorial-accent transition-colors p-2 cursor-pointer" aria-label="Buka Pencarian">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
 
-                    <!-- Login Pill & Mobile Login Icon -->
-                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-4 py-2 rounded-full transition-colors">
+                    <!-- Login Pill -->
+                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase text-editorial-dark bg-editorial-accent hover:bg-white px-5 py-2 rounded-full transition-colors shadow-lg">
                         Login
                     </a>
                     
@@ -68,15 +56,27 @@
                 </div>
             </div>
             
-            <!-- Mobile/Tablet Category Nav (Scrollable) -->
-            <nav class="lg:hidden h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial">
-                <ul class="flex space-x-6 text-[10px] font-bold tracking-widest uppercase text-gray-400 px-2 min-w-max pb-1">
-                    <li><a href="{{ route('home') }}" class="hover:text-white transition-colors text-white">Beranda</a></li>
+            <!-- Bottom Row: Desktop & Mobile Category Nav (Rubrik) -->
+            <nav class="h-12 flex items-center overflow-x-auto hide-scroll-bar border-t border-editorial/50">
+                <ul class="flex space-x-6 sm:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400 min-w-max">
+                    <li><a href="{{ route('home') }}" class="hover:text-editorial-accent transition-colors text-white">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-white transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-editorial-accent transition-colors whitespace-nowrap {{ (isset($query) && $query == $cat->name) ? 'text-editorial-accent border-b-2 border-editorial-accent pb-3 sm:pb-3.5' : '' }}">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>
+        </div>
+
+        <!-- Full-Width Search Overlay -->
+        <div id="mobileSearchOverlay" class="hidden absolute inset-0 bg-editorial-header z-[60] flex items-center px-4 sm:px-6 lg:px-8 border-b border-editorial shadow-2xl">
+            <form action="{{ route('search') }}" method="GET" class="flex-1 flex items-center max-w-[1280px] mx-auto h-full w-full">
+                <svg class="w-6 h-6 text-gray-400 mr-3 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="mobileSearchInput" name="q" placeholder="Cari berita terkini..." value="{{ $query ?? '' }}" class="w-full h-full bg-transparent text-white sm:text-auto focus:outline-none placeholder-gray-500 border-none outline-none ring-0">
+                <button type="submit" class="text-white hover:text-editorial-accent font-bold tracking-widest uppercase text-sm ml-2 px-2 transition-colors">Cari</button>
+                <button type="button" onclick="document.getElementById('mobileSearchOverlay').classList.add('hidden');" class="ml-2 sm:ml-4 text-gray-400 hover:text-white p-2 transition-colors" aria-label="Tutup">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </form>
         </div>
     </header>
 
@@ -107,9 +107,12 @@
                     <div class="text-[10px] font-bold tracking-widest uppercase text-editorial-accent mb-3">
                         {{ $post->category->name }} · {{ $post->region->name }}
                     </div>
-                    <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-4 pb-4 border-b border-editorial">
+                    <h3 class="font-sz text-xl font-bold text-gray-100 leading-snug group-hover:text-editorial-accent transition-colors mb-3">
                         {{ $post->title }}
                     </h3>
+                    <p class="text-gray-400 text-xs line-clamp-2 mb-4">
+                        {{ $post->summary }}
+                    </p>
                     <time class="mt-auto text-[10px] text-editorial-muted font-bold uppercase tracking-wider">
                         {{ $post->created_at->diffForHumans() }}
                     </time>
