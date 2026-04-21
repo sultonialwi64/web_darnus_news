@@ -9,6 +9,9 @@ class Post extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'related_posts' => 'array',
+    ];
 
     protected static function booted()
     {
@@ -29,5 +32,18 @@ public function category() { return $this->belongsTo(Category::class); }
     public function getSummaryAttribute()
     {
         return $this->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($this->content), 160);
+    }
+
+    public function getRenderedContentAttribute()
+    {
+        if (class_exists(\Filament\Forms\Components\RichEditor\RichContentRenderer::class)) {
+            return \Filament\Forms\Components\RichEditor\RichContentRenderer::make($this->content)
+                ->customBlocks([
+                    \App\Filament\RichEditorBlocks\BacaJugaBlock::class
+                ])
+                ->toHtml();
+        }
+        
+        return $this->content;
     }
 }

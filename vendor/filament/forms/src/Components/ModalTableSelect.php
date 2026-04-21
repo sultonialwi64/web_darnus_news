@@ -41,11 +41,11 @@ class ModalTableSelect extends Field
 
     protected bool | Closure $isMultiple = false;
 
-    protected ?Closure $getOptionLabelUsing;
+    protected ?Closure $getOptionLabelUsing = null;
 
     protected ?Closure $getSelectedRecordUsing = null;
 
-    protected ?Closure $getOptionLabelsUsing;
+    protected ?Closure $getOptionLabelsUsing = null;
 
     protected string | Closure | null $relationshipTitleAttribute = null;
 

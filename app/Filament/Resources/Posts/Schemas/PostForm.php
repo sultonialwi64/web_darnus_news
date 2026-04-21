@@ -60,6 +60,9 @@ class PostForm
                                 ->columnSpanFull(),
                             RichEditor::make('content')
                                 ->required()
+                                ->customBlocks([
+                                    \App\Filament\RichEditorBlocks\BacaJugaBlock::class
+                                ])
                                 ->toolbarButtons([
                                     'blockquote',
                                     'bold',
@@ -75,6 +78,7 @@ class PostForm
                                     'table',
                                     'underline',
                                     'undo',
+                                    'customBlocks',
                                 ])
                                 ->columnSpanFull(),
                         ]),
@@ -89,6 +93,14 @@ class PostForm
                                 ->searchable()
                                 ->preload(),
                             Select::make('category_id')->relationship('category', 'name')->required(),
+                            \Filament\Forms\Components\ModalTableSelect::make('related_posts')
+                                ->label('Berita Terkait (Manual)')
+                                ->multiple()
+                                ->tableConfiguration(\App\Filament\Resources\Posts\Tables\PostsTable::class)
+                                ->getOptionLabelUsing(fn ($value) => \App\Models\Post::find($value)?->title)
+                                ->getOptionLabelsUsing(fn ($values) => \App\Models\Post::whereIn('id', (array) $values)->pluck('title', 'id')->all())
+                                ->selectAction(fn (\Filament\Actions\Action $action) => $action->modalWidth('4xl'))
+                                ->helperText('Kosongkan untuk otomatis mengambil berita satu kategori.'),
                             Select::make('tags')
                                 ->multiple()
                                 ->relationship('tags', 'name')

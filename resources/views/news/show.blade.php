@@ -142,7 +142,7 @@
 
             <!-- Article Body -->
             <div class="article-body">
-                {!! $post->content !!}
+                {!! $post->rendered_content !!}
             </div>
 
             <!-- Fitur Baca Juga / Related Posts -->

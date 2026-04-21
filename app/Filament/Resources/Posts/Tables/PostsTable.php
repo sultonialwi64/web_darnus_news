@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Tables;
 
+use App\Models\Post;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -17,6 +18,7 @@ class PostsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(Post::query())
             ->columns([
                 ImageColumn::make('image'),
                 TextColumn::make('title')
@@ -24,6 +26,7 @@ class PostsTable
                     ->description(fn($record) => $record->is_published ? null : '📝 DRAFT')
                     ->color(fn($record) => $record->is_published ? null : 'warning'),
                 TextColumn::make('category.name')->label('Kategori'),
+                TextColumn::make('author.name')->label('Penulis'),
                 TextColumn::make('region.name')->label('Daerah'),
                 ToggleColumn::make('is_featured')->label('Headline'),
                 ToggleColumn::make('is_published')->label('Published'),

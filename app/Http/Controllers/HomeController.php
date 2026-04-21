@@ -49,14 +49,30 @@ class HomeController extends Controller
 
         $post->increment('views');
 
-        // Ambil 4 berita terkait dari kategori yang sama
-        $relatedPosts = Post::with(['category', 'region'])
-            ->where('is_published', true)
-            ->where('category_id', $post->category_id)
-            ->where('id', '!=', $post->id)
-            ->latest()
-            ->take(4)
-            ->get();
+        // Ambil berita terkait (Prioritas Manual -> Fallback Kategori)
+        $manualRelatedIds = $post->related_posts ?? [];
+        $relatedPosts = collect();
+        
+        if (!empty($manualRelatedIds)) {
+            $relatedPosts = Post::with(['category', 'region'])
+                ->whereIn('id', $manualRelatedIds)
+                ->where('is_published', true)
+                ->get()
+                ->sortBy(fn($item) => array_search($item->id, $manualRelatedIds));
+        }
+        
+        if ($relatedPosts->count() < 4) {
+            $extraRelated = Post::with(['category', 'region'])
+                ->where('is_published', true)
+                ->where('category_id', $post->category_id)
+                ->where('id', '!=', $post->id)
+                ->whereNotIn('id', $relatedPosts->pluck('id'))
+                ->latest()
+                ->take(4 - $relatedPosts->count())
+                ->get();
+                
+            $relatedPosts = $relatedPosts->concat($extraRelated);
+        }
 
         return view('news.show', compact('post', 'categories', 'relatedPosts'));
     }
