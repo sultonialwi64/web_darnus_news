@@ -137,13 +137,23 @@
                     {{ $post->title }}
                 </h1>
 
-                <div class="flex items-center justify-center space-x-6 text-xs text-muted font-bold uppercase tracking-wider border-t border-b border-light py-4">
-                    <span>{{ $post->created_at->format('d F Y') }}</span>
-                    <span class="text-gray-300">·</span>
-                    <span class="flex items-center">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        {{ number_format($post->views) }} pembaca
-                    </span>
+                <div class="flex flex-col items-center justify-center space-y-4 border-t border-b border-gray-100 py-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-bold tracking-tight">
+                                <span class="text-amber-600">{{ $post->author->name ?? 'Redaksi' }}</span>, 
+                                <span class="text-gray-900">dmnnews.com</span>
+                            </p>
+                            <p class="text-[11px] text-gray-400 font-medium mt-0.5">
+                                {{ $post->created_at->translatedFormat('l, d F Y | H:i') }} WIB
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
