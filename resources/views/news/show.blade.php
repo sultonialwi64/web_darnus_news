@@ -76,8 +76,8 @@
             <div class="flex justify-between items-center h-16 sm:h-20">
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
-                    <a href="{{ route('home') }}" class="flex items-center">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="DarnusNews Logo" class="h-10 md:h-12 w-auto">
+                    <a href="{{ route('home') }}" class="flex items-center py-1">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="DarnusNews Logo" class="h-12 md:h-16 w-auto">
                     </a>
                 </div>
 
