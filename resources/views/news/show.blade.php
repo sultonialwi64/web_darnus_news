@@ -150,7 +150,7 @@
             <div class="mt-12 mb-8">
                 <h3 class="font-sz text-2xl font-bold text-white mb-6 flex items-center">
                     <span class="w-1.5 h-8 bg-editorial-accent mr-3"></span>
-                    Baca Juga
+                    Berita Terkait
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @foreach($relatedPosts as $related)
