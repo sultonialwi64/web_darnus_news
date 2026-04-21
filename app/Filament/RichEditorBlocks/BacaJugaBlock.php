@@ -18,7 +18,7 @@ class BacaJugaBlock extends RichContentCustomBlock
 
     public static function getLabel(): string
     {
-        return 'Berita Terkait';
+        return 'Baca Juga';
     }
 
     public static function configureEditorAction(Action $action): Action
@@ -33,7 +33,7 @@ class BacaJugaBlock extends RichContentCustomBlock
                     ->required(),
             ])
             ->modalWidth('4xl')
-            ->modalHeading('Sisipkan "Berita Terkait"')
+            ->modalHeading('Sisipkan "Baca Juga"')
             ->modalSubmitActionLabel('Sisipkan');
     }
 
@@ -42,10 +42,10 @@ class BacaJugaBlock extends RichContentCustomBlock
         if (isset($config['post_id'])) {
             $post = Post::find($config['post_id']);
             if ($post) {
-                return 'Berita Terkait: ' . $post->title;
+                return 'Baca Juga: ' . $post->title;
             }
         }
-        return 'Berita Terkait (Tidak Ada Berita Dipilih)';
+        return 'Baca Juga (Tidak Ada Berita Dipilih)';
     }
 
     public static function toHtml(array $config, array $data): ?string
@@ -56,7 +56,7 @@ class BacaJugaBlock extends RichContentCustomBlock
         if (!$post) return null;
 
         // Front-end HTML
-        return "<p><strong>Berita Terkait: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p>";
+        return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p>";
     }
 
     public static function toPreviewHtml(array $config): ?string
@@ -68,7 +68,7 @@ class BacaJugaBlock extends RichContentCustomBlock
 
         // Editor preview HTML
         return "<div style=\"padding: 10px; border-left: 3px solid #3b82f6; background-color: #eff6ff;\">
-            <strong>Berita Terkait: </strong><a href=\"#\" style=\"color: #2563eb; text-decoration: underline;\">{$post->title}</a>
+            <strong>Baca Juga: </strong><a href=\"#\" style=\"color: #2563eb; text-decoration: underline;\">{$post->title}</a>
         </div>";
     }
 }
