@@ -81,25 +81,27 @@ class HomeController extends Controller
     {
         $categories = \App\Models\Category::all();
         $query = $request->input('q');
+        $categorySlug = $request->input('category');
+        $currentCategory = null;
 
-        $posts = collect();
-        if ($query) {
-            $posts = Post::with(['category', 'region'])
-                ->where('is_published', true)
-                ->where(function($q) use ($query) {
-                    $q->where('title', 'like', "%{$query}%")
-                      ->orWhere('content', 'like', "%{$query}%")
-                      ->orWhereHas('category', function($q) use ($query) {
-                          $q->where('name', 'like', "%{$query}%");
-                      })
-                      ->orWhereHas('region', function($q) use ($query) {
-                          $q->where('name', 'like', "%{$query}%");
-                      });
-                })
-                ->latest()
-                ->paginate(12);
+        $postsQuery = Post::with(['category', 'region'])->where('is_published', true);
+
+        if ($categorySlug) {
+            $currentCategory = \App\Models\Category::where('slug', $categorySlug)->first();
+            if ($currentCategory) {
+                $postsQuery->where('category_id', $currentCategory->id);
+            }
         }
 
-        return view('news.search', compact('posts', 'categories', 'query'));
+        if ($query) {
+            $postsQuery->where(function($q) use ($query) {
+                $q->where('title', 'like', "%{$query}%")
+                  ->orWhere('content', 'like', "%{$query}%");
+            });
+        }
+
+        $posts = $postsQuery->latest()->paginate(12);
+
+        return view('news.search', compact('posts', 'categories', 'query', 'currentCategory'));
     }
 }

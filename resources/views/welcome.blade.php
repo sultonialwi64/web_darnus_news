@@ -75,7 +75,7 @@
                 <ul class="flex space-x-6 sm:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400 min-w-max">
                     <li><a href="{{ route('home') }}" class="hover:text-accent transition-colors text-white border-b-2 border-amber-400 pb-3 sm:pb-3">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['category' => $cat->slug]) }}" class="hover:text-accent transition-colors whitespace-nowrap">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>

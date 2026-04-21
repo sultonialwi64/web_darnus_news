@@ -74,7 +74,7 @@
                 <ul class="flex space-x-6 sm:space-x-8 text-[10px] font-bold tracking-widest uppercase text-gray-400 min-w-max">
                     <li><a href="{{ route('home') }}" class="hover:text-accent transition-colors text-white">Beranda</a></li>
                     @foreach($categories ?? [] as $cat)
-                    <li><a href="{{ route('search', ['q' => $cat->name]) }}" class="hover:text-accent transition-colors whitespace-nowrap {{ (isset($query) && $query == $cat->name) ? 'text-accent border-b-2 border-amber-400 pb-3 sm:pb-3' : '' }}">{{ $cat->name }}</a></li>
+                    <li><a href="{{ route('search', ['category' => $cat->slug]) }}" class="hover:text-accent transition-colors whitespace-nowrap {{ (isset($currentCategory) && $currentCategory->id === $cat->id) ? 'text-accent border-b-2 border-amber-400 pb-3 sm:pb-3' : '' }}">{{ $cat->name }}</a></li>
                     @endforeach
                 </ul>
             </nav>
@@ -96,10 +96,16 @@
     <main class="flex-grow max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
 
         <!-- Search Header -->
-        <div class="mb-12 border-b border-light pb-8">
-            <p class="text-[11px] font-bold tracking-widest uppercase text-muted mb-2">Hasil Pencarian</p>
+        <div class="mb-12 border-b border-gray-200 pb-8">
+            <p class="text-[11px] font-bold tracking-widest uppercase text-muted mb-2">
+                @if(isset($currentCategory)) Rubrik @else Hasil Pencarian @endif
+            </p>
             <h1 class="font-sz text-4xl md:text-5xl font-bold text-heading">
-                "{{ $query }}"
+                @if(isset($currentCategory)) 
+                    {{ $currentCategory->name }}
+                @else
+                    "{{ $query }}"
+                @endif
             </h1>
             @if($posts instanceof \Illuminate\Pagination\LengthAwarePaginator && $posts->total() > 0)
             <p class="text-muted text-sm mt-3">Ditemukan <span class="text-heading font-bold">{{ $posts->total() }}</span> artikel</p>
