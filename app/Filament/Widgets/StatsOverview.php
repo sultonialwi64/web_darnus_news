@@ -24,15 +24,15 @@ class StatsOverview extends BaseWidget
             Stat::make($isJournalist ? 'Berita Saya' : 'Total Berita', $postsQuery->count())
                 ->description($isJournalist ? 'Jumlah artikel yang Anda tulis' : 'Jumlah seluruh artikel berita')
                 ->descriptionIcon('heroicon-m-document-text')
-                ->color('primary'),
+                ->color('primary'), // Amber
             Stat::make('Berita Headline', (clone $postsQuery)->where('is_featured', true)->count())
                 ->description($isJournalist ? 'Berita Anda yang jadi Headline' : 'Berita utama di halaman depan')
                 ->descriptionIcon('heroicon-m-star')
-                ->color('warning'),
+                ->color('warning'), 
             Stat::make('Total Rubrik', Category::count())
                 ->description('Kategori berita aktif')
                 ->descriptionIcon('heroicon-m-tag')
-                ->color('success'),
+                ->color('info'), 
         ];
     }
 }
