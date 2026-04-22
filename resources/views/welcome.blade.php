@@ -3,7 +3,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DarnusNews - Berita Terpercaya</title>
+    <title>DarnusNews - Portal Berita Terpercaya</title>
+    <meta name="description" content="DarnusNews - Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="DarnusNews - Berita Terpercaya">
+    <meta property="og:description" content="Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
+    <meta property="og:image" content="{{ asset('images/logo.jpg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="DarnusNews - Berita Terpercaya">
+    <meta property="twitter:description" content="Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
+    <meta property="twitter:image" content="{{ asset('images/logo.jpg') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

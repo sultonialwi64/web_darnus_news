@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $post->title }} - DarnusNews</title>
     <meta name="description" content="{{ $post->summary }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="{{ $post->title }}">
+    <meta property="og:description" content="{{ $post->summary }}">
+    <meta property="og:image" content="{{ $post->image ? url(Storage::url($post->image)) : asset('images/logo.jpg') }}">
+    <meta property="article:published_time" content="{{ $post->created_at->toIso8601String() }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request()->url() }}">
+    <meta property="twitter:title" content="{{ $post->title }}">
+    <meta property="twitter:description" content="{{ $post->summary }}">
+    <meta property="twitter:image" content="{{ $post->image ? url(Storage::url($post->image)) : asset('images/logo.jpg') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

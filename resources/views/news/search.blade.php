@@ -3,7 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hasil Pencarian: {{ $query }} - DarnusNews</title>
+    @php
+        $title = isset($currentCategory) ? "Rubrik: " . $currentCategory->name : (isset($query) && $query ? "Hasil Pencarian: " . $query : "Pencarian Berita");
+    @endphp
+    <title>{{ $title }} - DarnusNews</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request()->fullUrl() }}">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:description" content="Temukan berita terbaru dan terpercaya di DarnusNews.">
+    <meta property="og:image" content="{{ asset('images/logo.jpg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request()->fullUrl() }}">
+    <meta property="twitter:title" content="{{ $title }}">
+    <meta property="twitter:description" content="Temukan berita terbaru dan terpercaya di DarnusNews.">
+    <meta property="twitter:image" content="{{ asset('images/logo.jpg') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
