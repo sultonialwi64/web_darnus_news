@@ -175,7 +175,8 @@
             <!-- Featured Image -->
             @if($post->image)
             <figure class="mb-12 border border-light rounded-2xl overflow-hidden shadow-sm">
-                <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" class="w-full object-cover object-top aspect-[16/9]">
+                <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" 
+                     class="w-full object-cover aspect-[16/9]">
                 <figcaption class="mt-0 text-[11px] text-muted font-medium px-4 py-2 border-t border-light italic bg-section">
                     {{ $post->image_caption ?: 'Foto: DarnusNews' . ($post->region ? ' / ' . $post->region->name : '') }}
                 </figcaption>

@@ -136,7 +136,8 @@
             <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                 @if($post->image)
                     <div class="w-full aspect-[4/3] overflow-hidden bg-gray-100 flex-shrink-0">
-                        <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                        <img src="{{ Storage::url($post->image) }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
                     </div>
                 @endif
                 <div class="flex flex-col flex-grow p-5">

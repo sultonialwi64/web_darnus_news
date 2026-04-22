@@ -120,7 +120,8 @@
                     <!-- Cinematic Title & Image Block -->
                     <div class="relative w-full overflow-hidden bg-gray-100" style="aspect-ratio: 16/9; max-height: 520px; min-height: 350px;">
                         @if($featuredPost->image)
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" class="absolute inset-0 w-full h-full object-cover object-top brightness-[0.85] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" 
+                                 class="absolute inset-0 w-full h-full object-cover brightness-[0.85] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
                         @else
                             <div class="w-full aspect-video bg-gray-100"></div>
                         @endif
@@ -179,7 +180,8 @@
                     @if($post->image)
                         {{-- Card dengan gambar: image di atas, konten di bawah --}}
                         <div class="w-full aspect-[4/3] overflow-hidden bg-gray-100 flex-shrink-0">
-                            <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                            <img src="{{ Storage::url($post->image) }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col flex-grow p-5">
                             <div class="text-[10px] font-bold tracking-widest uppercase mb-2 flex items-center">
@@ -225,7 +227,9 @@
                     <a href="{{ route('news.show', $post->slug) }}" class="group flex flex-col sm:flex-row items-center mb-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-5 overflow-hidden">
                         @if($post->image)
                             <div class="w-full sm:w-1/3 aspect-[4/3] rounded-xl overflow-hidden border border-light flex-shrink-0 sm:mr-6 mb-4 sm:mb-0 bg-gray-100">
-                                <img src="{{ Storage::url($post->image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                                <img src="{{ Storage::url($post->image) }}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                                     style="object-position: {{ $post->image_focal_point ? str_replace(',', '% ', $post->image_focal_point) . '%' : 'center' }}">
                             </div>
                         @endif
                         <div class="flex-grow flex flex-col justify-center">

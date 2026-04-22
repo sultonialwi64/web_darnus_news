@@ -51,7 +51,14 @@ class PostForm
                                 ->image()
                                 ->directory('posts')
                                 ->label('Headline Image (Gambar Utama)')
-                                ->helperText('Wajib Landscape (mendatar). Disarankan ukuran minimal 1280 × 720 px (16:9) agar kepala tidak terpotong.')
+                                ->helperText('Wajib Landscape (mendatar). Sistem akan otomatis mengunci kotak di rasio 16:9.')
+                                ->imageEditor()
+                                ->imageEditorMode(1)
+                                ->imageAspectRatio('16:9')
+                                ->imageEditorAspectRatios([
+                                    '16:9',
+                                ])
+                                ->automaticallyOpenImageEditorForAspectRatio()
                                 ->columnSpanFull(),
                             TextInput::make('image_caption')
                                 ->label('Keterangan Foto (Caption)')
