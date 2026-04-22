@@ -58,6 +58,8 @@ class PostForm
                                 ->imageEditorAspectRatios([
                                     '16:9',
                                 ])
+                                ->imageResizeTargetWidth('1280')
+                                ->imageResizeTargetHeight('720')
                                 ->automaticallyOpenImageEditorForAspectRatio()
                                 ->columnSpanFull(),
                             TextInput::make('image_caption')
