@@ -20,6 +20,9 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\HtmlString;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -36,6 +39,19 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('14rem')
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth(Width::Full)
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): HtmlString => new HtmlString('
+                    <style>
+                        .fi-sidebar-item-label {
+                            white-space: normal !important;
+                            line-height: 1.25 !important;
+                            padding-top: 0.25rem !important;
+                            padding-bottom: 0.25rem !important;
+                        }
+                    </style>
+                '),
+            )
             ->colors([
                 'primary' => Color::Amber,
                 'gray' => Color::Slate,
