@@ -152,20 +152,20 @@
                     {{ $post->title }}
                 </h1>
 
-                <div class="flex flex-col items-center text-center border-t border-b border-gray-100 py-6 mb-8 mt-2">
+                <div class="flex flex-col items-center border-t border-b border-gray-100 py-6 mb-8 mt-2">
                     <!-- Author & Date Section -->
-                    <div class="flex flex-col items-center mb-6">
-                        <div class="w-10 h-14 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 mb-3">
-                            <svg class="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center space-x-3 mb-5">
+                        <div class="flex-shrink-0 w-9 h-12 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
-                        <div class="flex flex-col items-center">
+                        <div class="flex flex-col text-left">
                             <p class="text-sm font-bold leading-tight">
                                 <span class="text-amber-600">{{ $post->author->name ?? 'Redaksi' }}</span>, 
                                 <span class="text-gray-900">dmnnews.com</span>
                             </p>
-                            <p class="text-[11px] text-gray-400 font-medium mt-1">
+                            <p class="text-[11px] text-gray-400 font-medium mt-0.5">
                                 {{ $post->created_at->translatedFormat('l, d F Y | H:i') }} WIB
                             </p>
                         </div>
@@ -174,7 +174,7 @@
                     <!-- Share Buttons -->
                     <div class="flex flex-col items-center">
                         <div class="flex items-center">
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mr-3">Bagikan Berita:</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mr-3">Bagikan:</span>
                             <div class="flex items-center space-x-2">
                                 <!-- WhatsApp -->
                                 <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . "\n\n" . request()->url()) }}" target="_blank" class="w-8 h-8 rounded-full flex items-center justify-center text-white transition hover:opacity-80 shadow-sm" style="background-color: #25D366;">
