@@ -23,7 +23,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -33,8 +33,8 @@
          * Card: #F8F9FA | Heading: #111827 | Body: #374151
          * Accent: #F59E0B (Amber)
          * ================================================ */
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FFFFFF; color: #374151; }
-        .font-sz { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #FFFFFF; color: #374151; }
+        .font-sz { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
         .hide-scroll-bar::-webkit-scrollbar { display: none; }
         .hide-scroll-bar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -65,10 +65,10 @@
             font-size: 1.125rem;
             line-height: 1.9;
             color: #374151;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Roboto', sans-serif;
         }
         .article-body h2 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
             font-size: 1.75rem;
             margin-top: 2.5rem;
