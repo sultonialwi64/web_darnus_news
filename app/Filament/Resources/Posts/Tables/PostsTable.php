@@ -18,7 +18,6 @@ class PostsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->query(Post::query())
             ->columns([
                 ImageColumn::make('image'),
                 TextColumn::make('title')

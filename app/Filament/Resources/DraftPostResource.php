@@ -11,9 +11,9 @@ class DraftPostResource extends PostResource
 {
     protected static ?string $slug = 'draft-posts';
     
-    public static function getNavigationIcon(): string|\Illuminate\Contracts\View\View|\Illuminate\Support\HtmlString|null
+    public static function getNavigationIcon(): \BackedEnum|\Illuminate\Contracts\Support\Htmlable|string|null
     {
-        return 'heroicon-o-document';
+        return 'heroicon-o-document-text';
     }
     
     public static function getNavigationLabel(): string

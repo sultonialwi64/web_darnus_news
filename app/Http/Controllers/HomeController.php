@@ -104,4 +104,16 @@ class HomeController extends Controller
 
         return view('news.search', compact('posts', 'categories', 'query', 'currentCategory'));
     }
+
+    public function about()
+    {
+        $categories = \App\Models\Category::all();
+        return view('pages.about', compact('categories'));
+    }
+
+    public function editorial()
+    {
+        $categories = \App\Models\Category::all();
+        return view('pages.editorial', compact('categories'));
+    }
 }

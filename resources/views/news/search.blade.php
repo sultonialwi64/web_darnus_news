@@ -6,7 +6,7 @@
     @php
         $title = isset($currentCategory) ? "Rubrik: " . $currentCategory->name : (isset($query) && $query ? "Hasil Pencarian: " . $query : "Pencarian Berita");
     @endphp
-    <title>{{ $title }} - DarnusNews</title>
+    <title>{{ $title }} - DMN NEWS</title>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -66,7 +66,7 @@
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="flex items-center py-1">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="DarnusNews Logo" class="h-12 md:h-16 w-auto">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="DMN NEWS Logo" class="h-12 md:h-16 w-auto">
                     </a>
                 </div>
 
@@ -182,7 +182,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
                 <!-- Brand & About -->
                 <div class="md:col-span-2">
-                    <h2 class="font-sz text-3xl font-bold mb-4 text-white hover:text-accent transition-colors">DarnusNews</h2>
+                    <h2 class="font-sz text-3xl font-bold mb-4 text-white hover:text-accent transition-colors">DMN NEWS</h2>
                     <p class="text-gray-400 text-sm max-w-sm mb-6 leading-relaxed">Portal berita terpercaya untuk liputan tajam, akurat, dan independen di seluruh nusantara. Kami menjunjung tinggi integritas jurnalistik.</p>
                     <div class="flex space-x-3">
                         <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-accent transition-colors cursor-pointer text-xs font-bold text-gray-300">X</div>
@@ -195,8 +195,8 @@
                 <div>
                     <h3 class="text-white font-bold text-xs tracking-widest uppercase mb-5">Perusahaan</h3>
                     <ul class="space-y-3 text-sm text-gray-400 font-medium">
-                        <li><a href="#" class="hover:text-accent transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Susunan Redaksi</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-accent transition-colors">Tentang Kami</a></li>
+                        <li><a href="{{ route('editorial') }}" class="hover:text-accent transition-colors">Susunan Redaksi</a></li>
                         <li><a href="#" class="hover:text-accent transition-colors">Info Karir</a></li>
                     </ul>
                 </div>
@@ -207,13 +207,13 @@
                     <ul class="space-y-3 text-sm text-gray-400 font-medium">
                         <li><a href="#" class="hover:text-accent transition-colors">Pedoman Siber</a></li>
                         <li><a href="#" class="hover:text-accent transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Hubungi Kami</a></li>
+                        <li><a href="https://wa.me/62877566655758" target="_blank" class="hover:text-accent transition-colors">WA Redaksi: 0877-5666-55758</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold tracking-widest uppercase text-gray-500">
-                <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} Darnus Media. All rights reserved.</p>
+                <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} DMN Media. All rights reserved.</p>
                 <div class="flex flex-wrap space-x-6 justify-center">
                     <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
                     <a href="#" class="hover:text-white transition-colors">Kode Etik</a>

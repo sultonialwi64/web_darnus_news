@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/news/{slug}', [HomeController::class, 'show'])->name('news.show');
+Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
+Route::get('/susunan-redaksi', [HomeController::class, 'editorial'])->name('editorial');
 
 // ============================================================
 // DEPLOYMENT BRIDGE - Khusus Setup Shared Hosting (Tanpa SSH)

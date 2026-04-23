@@ -1,22 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DarnusNews - Portal Berita Terpercaya</title>
-    <meta name="description" content="DarnusNews - Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
+    <title>DMN NEWS - Portal Berita Terpercaya</title>
+    <meta name="description" content="DMN NEWS - Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="DarnusNews - Berita Terpercaya">
+    <meta property="og:title" content="DMN NEWS - Berita Terpercaya">
     <meta property="og:description" content="Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
     <meta property="og:image" content="{{ asset('images/logo.jpg') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url('/') }}">
-    <meta property="twitter:title" content="DarnusNews - Berita Terpercaya">
+    <meta property="twitter:title" content="DMN NEWS - Berita Terpercaya">
     <meta property="twitter:description" content="Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
     <meta property="twitter:image" content="{{ asset('images/logo.jpg') }}">
     <!-- Fonts -->
@@ -65,7 +65,7 @@
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="flex items-center py-1">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="DarnusNews Logo" class="h-12 md:h-16 w-auto">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="DMN NEWS Logo" class="h-12 md:h-16 w-auto">
                     </a>
                 </div>
 
@@ -158,11 +158,7 @@
 
                         <!-- Footer Info -->
                         <div class="w-full mt-auto text-[10px] sm:text-xs text-muted font-bold uppercase tracking-wider flex items-center justify-between pt-6 border-t border-light">
-                            <span class="group-hover:text-amber-700 transition-colors">Baca Selengkapnya &rarr;</span>
-                            <span class="flex items-center group-hover:text-heading transition-colors">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                {{ number_format($featuredPost->views) }} Views
-                            </span>
+                             <span class="group-hover:text-amber-700 transition-colors">Baca Selengkapnya &rarr;</span>
                         </div>
                     </div>
                 </a>
@@ -283,10 +279,6 @@
                                 <h3 class="font-sz text-base font-bold text-heading leading-snug group-hover:text-amber-700 transition-colors line-clamp-3 mb-2">
                                     {{ $post->title }}
                                 </h3>
-                                <div class="flex items-center text-[10px] text-muted font-bold uppercase tracking-wider">
-                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    {{ number_format($post->views) }} dilihat
-                                </div>
                             </div>
                         </a>
                         @endforeach
@@ -310,7 +302,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
                 <!-- Brand & About -->
                 <div class="md:col-span-2">
-                    <h2 class="font-sz text-3xl font-bold mb-4 text-white hover:text-accent transition-colors">DarnusNews</h2>
+                    <h2 class="font-sz text-3xl font-bold mb-4 text-white hover:text-accent transition-colors">DMN NEWS</h2>
                     <p class="text-gray-400 text-sm max-w-sm mb-6 leading-relaxed">Portal berita terpercaya untuk liputan tajam, akurat, dan independen di seluruh nusantara. Kami menjunjung tinggi integritas jurnalistik.</p>
                     <div class="flex space-x-3">
                         <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-accent hover:text-navy transition-colors cursor-pointer text-xs font-bold text-gray-300" style="--tw-text-navy: #0A192F;">X</div>
@@ -323,8 +315,8 @@
                 <div>
                     <h3 class="text-white font-bold text-xs tracking-widest uppercase mb-5">Perusahaan</h3>
                     <ul class="space-y-3 text-sm text-gray-400 font-medium">
-                        <li><a href="#" class="hover:text-accent transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Susunan Redaksi</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-accent transition-colors">Tentang Kami</a></li>
+                        <li><a href="{{ route('editorial') }}" class="hover:text-accent transition-colors">Susunan Redaksi</a></li>
                         <li><a href="#" class="hover:text-accent transition-colors">Info Karir</a></li>
                     </ul>
                 </div>
@@ -335,13 +327,13 @@
                     <ul class="space-y-3 text-sm text-gray-400 font-medium">
                         <li><a href="#" class="hover:text-accent transition-colors">Pedoman Siber</a></li>
                         <li><a href="#" class="hover:text-accent transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Hubungi Kami</a></li>
+                        <li><a href="https://wa.me/62877566655758" target="_blank" class="hover:text-accent transition-colors">Kontak Redaksi : 0877-5666-55758</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold tracking-widest uppercase text-gray-500">
-                <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} Darnus Media. All rights reserved.</p>
+                <p class="mb-4 md:mb-0">&copy; {{ date('Y') }} DMN Media. All rights reserved.</p>
                 <div class="flex flex-wrap space-x-6 justify-center">
                     <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
                     <a href="#" class="hover:text-white transition-colors">Kode Etik</a>
