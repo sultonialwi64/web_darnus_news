@@ -216,7 +216,7 @@
             <!-- Left Column: More Articles (70%) -->
             @if($otherPosts && count($otherPosts) > 0)
             <div class="lg:col-span-8 lg:border-r lg:border-light lg:pr-12">
-                <h2 class="font-sz text-3xl font-bold flex items-center text-heading mb-8">Berita Terpenting</h2>
+                <h2 class="font-sz text-3xl font-bold flex items-center text-heading mb-8">Berita Terkini</h2>
 
                 <div class="flex flex-col">
                     @foreach($otherPosts as $post)
@@ -257,14 +257,14 @@
             </div>
             @endif
 
-            <!-- Right Sidebar: Paling Banyak Dibaca (30%) -->
+            <!-- Right Sidebar: TerPopuler (30%) -->
             @if($popularPosts && count($popularPosts) > 0)
             <div class="lg:col-span-4">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="p-6 pb-4 border-b border-gray-100">
                         <h2 class="font-sz text-lg font-bold text-heading tracking-wide uppercase flex items-center gap-2">
                             <span class="inline-block w-2 h-5 bg-amber-400 rounded-sm"></span>
-                            Paling Banyak Dibaca
+                            TerPopuler
                         </h2>
                     </div>
                     <div class="flex flex-col divide-y divide-gray-100">
@@ -285,10 +285,23 @@
                     </div>
                 </div>
 
-                <!-- Ad Placeholder -->
-                <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center flex flex-col items-center justify-center h-52">
-                    <span class="text-[10px] text-muted uppercase tracking-widest mb-2">ADVERTISEMENT / Iklan</span>
-                    <span class="text-gray-300 font-bold tracking-widest text-sm">Ruang Iklan Tersedia</span>
+                <!-- Tag Terpopuler -->
+                <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-6 pb-4 border-b border-gray-100">
+                        <h2 class="font-sz text-lg font-bold text-heading tracking-wide uppercase flex items-center gap-2">
+                            <span class="inline-block w-2 h-5 bg-gray-800 rounded-sm"></span>
+                            Tag Terpopuler
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($categories ?? [] as $tag)
+                                <a href="{{ route('search', ['category' => $tag->slug]) }}" class="inline-flex items-center px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:bg-amber-400 hover:text-white hover:border-amber-400 transition-all shadow-sm">
+                                    #{{ str_replace(' ', '', $tag->name) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
             @endif
