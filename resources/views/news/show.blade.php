@@ -148,7 +148,7 @@
                     @endif
                 </div>
 
-                <h1 class="font-sz text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-heading mb-8">
+                <h1 class="font-sz text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-heading mb-6">
                     {{ $post->title }}
                 </h1>
 
