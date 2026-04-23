@@ -17,6 +17,12 @@ class PostsTable
 {
     public static function configure(Table $table): Table
     {
+        // Cegah crash di form modal (yang butuh base query) 
+        // tanpa merusak fitur tab "Draft" di daftar tabel utama.
+        if ($table->getLivewire() && !($table->getLivewire() instanceof \Filament\Resources\Pages\ListRecords)) {
+            $table->query(Post::query());
+        }
+
         return $table
             ->columns([
                 ImageColumn::make('image'),
@@ -39,6 +45,16 @@ class PostsTable
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                \Filament\Tables\Filters\SelectFilter::make('category_id')
+                    ->label('Kategori')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
+                \Filament\Tables\Filters\SelectFilter::make('region_id')
+                    ->label('Daerah')
+                    ->relationship('region', 'name')
+                    ->searchable()
+                    ->preload(),
                 Filter::make('drafts')
                     ->label('Hanya Draft')
                     ->query(fn (Builder $query) => $query->where('is_published', false)),
