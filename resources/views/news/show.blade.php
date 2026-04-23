@@ -151,8 +151,9 @@
                 <h1 class="font-sz text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-heading mb-6">
                     {{ $post->title }}
                 </h1>
+            </div>
 
-                <div class="flex flex-col md:flex-row md:items-center justify-between border-t border-b border-gray-100 py-4 mb-8 mt-2 gap-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-t border-b border-gray-100 py-4 mb-8 mt-2 gap-4">
                     <!-- Left Side: Author Info -->
                     <div class="flex items-center space-x-3">
                         <div class="flex-shrink-0 w-8 h-11 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
@@ -210,7 +211,7 @@
             @endif
 
             <!-- Article Body -->
-            <div class="article-body text-left">
+            <div class="article-body">
                 {!! $post->rendered_content !!}
             </div>
 
