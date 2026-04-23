@@ -210,7 +210,7 @@
             @endif
 
             <!-- Article Body -->
-            <div class="article-body">
+            <div class="article-body text-left">
                 {!! $post->rendered_content !!}
             </div>
 
