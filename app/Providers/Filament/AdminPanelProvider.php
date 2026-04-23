@@ -58,6 +58,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('Plus Jakarta Sans')
             ->defaultThemeMode(ThemeMode::Light)
+            ->navigationItems([
+                \Filament\Navigation\NavigationItem::make('Draft Berita')
+                    ->url(fn (): string => \App\Filament\Resources\Posts\PostResource::getUrl('index', ['activeTab' => 'draft']))
+                    ->icon('heroicon-o-document-text')
+                    ->group('Konten')
+                    ->sort(3),
+            ])
             ->darkMode(true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
