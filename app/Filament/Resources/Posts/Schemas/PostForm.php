@@ -51,15 +51,15 @@ class PostForm
                                 ->image()
                                 ->directory('posts')
                                 ->label('Headline Image (Gambar Utama)')
-                                ->helperText('Wajib Landscape (mendatar). Sistem akan otomatis mengunci kotak di rasio 16:9.')
+                                ->helperText('Standar Google News (3:2). Rasio akan otomatis terkunci di 1200x800.')
                                 ->imageEditor()
                                 ->imageEditorMode(1)
-                                ->imageAspectRatio('16:9')
+                                ->imageAspectRatio('3:2')
                                 ->imageEditorAspectRatios([
-                                    '16:9',
+                                    '3:2',
                                 ])
-                                ->imageResizeTargetWidth('1280')
-                                ->imageResizeTargetHeight('720')
+                                ->imageResizeTargetWidth('1200')
+                                ->imageResizeTargetHeight('800')
                                 ->automaticallyOpenImageEditorForAspectRatio()
                                 ->columnSpanFull(),
                             TextInput::make('image_caption')
