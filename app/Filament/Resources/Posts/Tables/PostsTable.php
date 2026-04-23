@@ -23,11 +23,18 @@ class PostsTable
                 ImageColumn::make('image'),
                 TextColumn::make('title')
                     ->searchable()
+                    ->wrap()
                     ->description(fn($record) => $record->is_published ? null : '📝 DRAFT')
                     ->color(fn($record) => $record->is_published ? null : 'warning'),
-                TextColumn::make('category.name')->label('Kategori'),
-                TextColumn::make('author.name')->label('Penulis'),
-                TextColumn::make('region.name')->label('Daerah'),
+                TextColumn::make('category.name')
+                    ->label('Kategori')
+                    ->toggleable(),
+                TextColumn::make('author.name')
+                    ->label('Penulis')
+                    ->toggleable(),
+                TextColumn::make('region.name')
+                    ->label('Daerah')
+                    ->toggleable(),
                 ToggleColumn::make('is_featured')->label('Headline'),
                 ToggleColumn::make('is_published')->label('Published'),
             ])
