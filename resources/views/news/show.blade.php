@@ -152,16 +152,23 @@
                     {{ $post->title }}
                 </h1>
 
-                <div class="flex flex-col border-t border-b border-gray-100 py-4 mb-6 mt-2">
-                    <!-- Author & Date -->
-                    <div class="mb-4">
-                        <p class="text-sm font-bold tracking-tight mb-0.5">
-                            <span class="text-[#c00]">{{ $post->author->name ?? 'Redaksi' }}</span>, 
-                            <span class="text-gray-900">dmnnews.com</span>
-                        </p>
-                        <p class="text-[11px] text-gray-400 font-medium">
-                            {{ $post->created_at->translatedFormat('l, d F Y | H:i') }} WIB
-                        </p>
+                <div class="flex flex-col border-t border-b border-gray-100 py-6 mb-8 mt-2">
+                    <!-- Author & Date Section -->
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="flex-shrink-0 w-12 h-16 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                            <svg class="w-7 h-7 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <p class="text-lg font-bold leading-tight">
+                                <span class="text-amber-600">{{ $post->author->name ?? 'Redaksi' }}</span>, 
+                                <span class="text-gray-900">dmnnews.com</span>
+                            </p>
+                            <p class="text-[13px] text-gray-400 font-medium mt-1">
+                                {{ $post->created_at->translatedFormat('l, d F Y | H:i') }} WIB
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Share Buttons -->
