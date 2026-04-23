@@ -51,16 +51,11 @@ class PostForm
                                 ->image()
                                 ->directory('posts')
                                 ->label('Headline Image (Gambar Utama)')
-                                ->helperText('Standar Google News (3:2). Rasio akan otomatis terkunci di 1200x800.')
-                                ->imageEditor()
-                                ->imageEditorMode(1)
+                                ->helperText('Standard Google News (1200x800). Foto akan otomatis dipotong tengah agar pas dan rapi.')
                                 ->imageAspectRatio('3:2')
-                                ->imageEditorAspectRatios([
-                                    '3:2',
-                                ])
+                                ->automaticallyCropImagesToAspectRatio()
                                 ->imageResizeTargetWidth('1200')
                                 ->imageResizeTargetHeight('800')
-                                ->automaticallyOpenImageEditorForAspectRatio()
                                 ->columnSpanFull(),
                             TextInput::make('image_caption')
                                 ->label('Keterangan Foto (Caption)')
