@@ -11,7 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Enums\ThemeMode;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(null)
             ->sidebarWidth('14rem')
             ->sidebarCollapsibleOnDesktop()
-            ->maxContentWidth(MaxWidth::Full)
+            ->maxContentWidth(Width::Full)
             ->colors([
                 'primary' => Color::Amber,
                 'gray' => Color::Slate,
