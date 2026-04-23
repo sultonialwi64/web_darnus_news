@@ -349,7 +349,7 @@
                     <ul class="space-y-3 text-sm text-gray-400 font-medium">
                         <li><a href="#" class="hover:text-accent transition-colors">Pedoman Siber</a></li>
                         <li><a href="#" class="hover:text-accent transition-colors">Kebijakan Privasi</a></li>
-                        <li><a href="https://wa.me/62877566655758" target="_blank" class="hover:text-accent transition-colors">Kontak Redaksi : 0877-5666-55758</a></li>
+                        <li><a href="https://wa.me/6287756655758" target="_blank" class="hover:text-accent transition-colors">Kontak Redaksi : 0877-5665-5758</a></li>
                     </ul>
                 </div>
             </div>
