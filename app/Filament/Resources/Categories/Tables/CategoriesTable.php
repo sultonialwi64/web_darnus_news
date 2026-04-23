@@ -23,7 +23,7 @@ class CategoriesTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                //
             ]);
     }
 }

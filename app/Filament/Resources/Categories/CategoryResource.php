@@ -20,10 +20,10 @@ class CategoryResource extends Resource
 
     protected static ?string $modelLabel = 'Kategori';
     protected static ?string $pluralModelLabel = 'Daftar Kategori';
-    protected static ?string $navigationLabel = 'Manajemen Kategori';
+    protected static ?string $navigationLabel = 'Manajemen Kategori (Locked)';
     protected static string|\UnitEnum|null $navigationGroup = 'Konten';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLockClosed;
 
     public static function form(Schema $schema): Schema
     {
@@ -47,6 +47,11 @@ class CategoryResource extends Resource
         return false;
     }
 
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
+
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return false;
@@ -56,7 +61,6 @@ class CategoryResource extends Resource
     {
         return [
             'index' => ListCategories::route('/'),
-            'edit' => EditCategory::route('/{record}/edit'),
         ];
     }
 }
