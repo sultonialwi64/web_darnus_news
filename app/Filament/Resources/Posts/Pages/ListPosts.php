@@ -18,17 +18,4 @@ class ListPosts extends ListRecords
             CreateAction::make(),
         ];
     }
-
-    public function getTabs(): array
-    {
-        return [
-            'semua' => Tab::make('Semua'),
-            'draft' => Tab::make('Draft')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_published', false))
-                ->icon('heroicon-m-document-text'),
-            'terbit' => Tab::make('Terbit')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_published', true))
-                ->icon('heroicon-m-check-circle'),
-        ];
-    }
 }
