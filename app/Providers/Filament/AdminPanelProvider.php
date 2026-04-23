@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Enums\ThemeMode;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -32,6 +33,9 @@ class AdminPanelProvider extends PanelProvider
             ->profile() // Mengaktifkan fitur Ganti Password & Edit Profil
             ->brandName('DarnusNews')
             ->brandLogo(null)
+            ->sidebarWidth('14rem')
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth(MaxWidth::Full)
             ->colors([
                 'primary' => Color::Amber,
                 'gray' => Color::Slate,
