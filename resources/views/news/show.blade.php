@@ -160,7 +160,7 @@
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col items-start text-left">
                             <p class="text-[13px] font-bold leading-tight">
                                 <span class="text-amber-600">{{ $post->author->name ?? 'Redaksi' }}</span>, 
                                 <span class="text-gray-900">dmnnews.com</span>
@@ -173,7 +173,7 @@
 
                     <!-- Right Side: Share Buttons -->
                     <div class="flex items-center space-x-2">
-                        <span class="hidden sm:inline text-[10px] font-bold uppercase tracking-widest text-gray-400 mr-1">Bagikan:</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mr-1">Bagikan:</span>
                         <div class="flex items-center space-x-1.5">
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . "\n\n" . request()->url()) }}" target="_blank" class="w-8 h-8 rounded-full flex items-center justify-center text-white transition hover:opacity-80 shadow-sm" style="background-color: #25D366;">
