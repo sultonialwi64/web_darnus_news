@@ -33,15 +33,22 @@ class PostsTable
                     ->color(fn($record) => $record->is_published ? null : 'warning'),
                 TextColumn::make('category.name')
                     ->label('Kategori')
+                    ->visibleFrom('sm')
                     ->toggleable(),
                 TextColumn::make('author.name')
                     ->label('Penulis')
+                    ->visibleFrom('md')
                     ->toggleable(),
                 TextColumn::make('region.name')
                     ->label('Daerah')
+                    ->visibleFrom('md')
                     ->toggleable(),
-                ToggleColumn::make('is_featured')->label('Headline'),
-                ToggleColumn::make('is_published')->label('Published'),
+                ToggleColumn::make('is_featured')
+                    ->label('Headline')
+                    ->visibleFrom('md'),
+                ToggleColumn::make('is_published')
+                    ->label('Published')
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
