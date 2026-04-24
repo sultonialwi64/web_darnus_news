@@ -49,14 +49,6 @@ class AdminPanelProvider extends PanelProvider
                             padding-top: 0.25rem !important;
                             padding-bottom: 0.25rem !important;
                         }
-                        
-                        /* Fix RichEditor Toolbar Overflow Mobile */
-                        .fi-fo-rich-editor-toolbar,
-                        .fi-fo-rich-editor-toolbar > div,
-                        .fi-fo-rich-editor-toolbar ul {
-                            flex-wrap: wrap !important;
-                            overflow-x: visible !important;
-                        }
                     </style>
                 '),
             )

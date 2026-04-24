@@ -30,6 +30,7 @@ class BacaJugaBlock extends RichContentCustomBlock
                     ->tableConfiguration(PostsTable::class)
                     ->getOptionLabelUsing(fn ($value) => Post::find($value)?->title)
                     ->getOptionLabelsUsing(fn ($values) => Post::whereIn('id', (array) $values)->pluck('title', 'id')->all())
+                    ->helperText('💡 TIPS: Pastikan Anda memberikan 1 atau 2 baris kosong (Enter) di editor utama SEBELUM menyisipkan Baca Juga agar teks selanjutnya tidak nyangkut.')
                     ->required(),
             ])
             ->modalWidth('4xl')
@@ -56,7 +57,7 @@ class BacaJugaBlock extends RichContentCustomBlock
         if (!$post) return null;
 
         // Front-end HTML
-        return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p>";
+        return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p><p><br></p>";
     }
 
     public static function toPreviewHtml(array $config): ?string
@@ -67,7 +68,7 @@ class BacaJugaBlock extends RichContentCustomBlock
         if (!$post) return null;
 
         // Editor preview HTML
-        return "<div style=\"padding: 10px; border-left: 3px solid #3b82f6; background-color: #eff6ff;\">
+        return "<div style=\"padding: 10px; border-left: 3px solid #3b82f6; background-color: #eff6ff; margin-bottom: 20px;\">
             <strong>Baca Juga: </strong><a href=\"#\" style=\"color: #2563eb; text-decoration: underline;\">{$post->title}</a>
         </div>";
     }
