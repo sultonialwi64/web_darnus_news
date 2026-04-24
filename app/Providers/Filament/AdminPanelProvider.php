@@ -49,6 +49,15 @@ class AdminPanelProvider extends PanelProvider
                             padding-top: 0.25rem !important;
                             padding-bottom: 0.25rem !important;
                         }
+                        
+                        /* Mobile-only safe wrap for RichEditor Toolbar */
+                        @media (max-width: 768px) {
+                            .fi-fo-rich-editor-toolbar,
+                            .fi-fo-rich-editor-toolbar > div,
+                            .fi-fo-rich-editor-toolbar ul {
+                                flex-wrap: wrap !important;
+                            }
+                        }
                     </style>
                 '),
             )
