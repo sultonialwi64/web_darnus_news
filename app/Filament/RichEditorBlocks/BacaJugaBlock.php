@@ -57,7 +57,7 @@ class BacaJugaBlock extends RichContentCustomBlock
         if (!$post) return null;
 
         // Front-end HTML
-        return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p><p><br></p>";
+        return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p>";
     }
 
     public static function toPreviewHtml(array $config): ?string
