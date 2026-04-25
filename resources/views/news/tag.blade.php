@@ -69,48 +69,47 @@
 
     <!-- Tag Hero -->
     <section class="tag-header">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-4">
+        <div class="max-w-[1280px] mx-auto px-4">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-2">
                 <span class="text-accent">#</span>{{ $tag->name }}
             </h1>
-            <p class="text-gray-400 text-sm md:text-base font-medium tracking-wide border-t border-white/10 pt-4 inline-block">
-                Kumpulan berita terbaru seputar {{ $tag->name }}
+            <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest border-t border-white/10 pt-3 inline-block">
+                Indeks Berita Terkini
             </p>
         </div>
     </section>
 
     <!-- News List -->
-    <main class="flex-grow max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    <main class="flex-grow max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         @if($posts->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
             @foreach($posts as $p)
-            <article class="flex flex-col group bg-white border border-light rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                <a href="{{ route('news.show', $p->slug) }}" class="relative overflow-hidden aspect-[16/10]">
+            <article class="flex flex-col group transition-all duration-300">
+                <a href="{{ route('news.show', $p->slug) }}" class="relative overflow-hidden rounded-xl aspect-video mb-4 border border-gray-100 shadow-sm">
                     <img src="{{ $p->image ? Storage::url($p->image) : asset('images/logo.jpg') }}" 
                          alt="{{ $p->title }}" 
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-accent text-navy text-[9px] font-extrabold px-2 py-1 rounded-sm uppercase tracking-widest shadow-sm">
-                            {{ $p->category->name }}
-                        </span>
-                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </a>
-                <div class="p-6 flex flex-col flex-1">
-                    <div class="flex items-center text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-                        <span class="text-amber-600">{{ $p->region->name ?? 'Nasional' }}</span>
-                        <span class="mx-2">·</span>
-                        <span>{{ $p->created_at->translatedFormat('d M Y') }}</span>
+                
+                <div class="flex flex-col flex-1">
+                    <div class="flex items-center text-[9px] font-bold tracking-widest uppercase mb-2">
+                        <span class="text-accent">{{ $p->category->name }}</span>
+                        <span class="mx-2 text-gray-300">|</span>
+                        <span class="text-gray-400">{{ $p->created_at->translatedFormat('d M Y') }}</span>
                     </div>
-                    <h2 class="text-xl font-bold text-heading leading-tight mb-4 group-hover:text-amber-700 transition-colors">
+                    
+                    <h2 class="text-lg font-bold text-heading leading-snug group-hover:text-amber-700 transition-colors mb-2 line-clamp-2">
                         <a href="{{ route('news.show', $p->slug) }}">{{ $p->title }}</a>
                     </h2>
-                    <p class="text-gray-500 text-sm line-clamp-3 mb-6 flex-1">
+                    
+                    <p class="text-gray-500 text-xs line-clamp-2 mb-4 leading-relaxed">
                         {{ $p->summary }}
                     </p>
-                    <a href="{{ route('news.show', $p->slug) }}" class="inline-flex items-center text-[10px] font-extrabold uppercase tracking-widest text-navy bg-gray-50 group-hover:bg-accent group-hover:text-navy px-4 py-2 rounded transition-all w-fit">
-                        Baca Selengkapnya
-                        <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    
+                    <a href="{{ route('news.show', $p->slug) }}" class="text-[10px] font-bold uppercase tracking-widest text-[#0A192F] group-hover:translate-x-1 transition-transform flex items-center">
+                        Selengkapnya 
+                        <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
                     </a>
                 </div>
             </article>
