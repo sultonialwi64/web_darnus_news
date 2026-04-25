@@ -116,4 +116,17 @@ class HomeController extends Controller
         $categories = \App\Models\Category::all();
         return view('pages.editorial', compact('categories'));
     }
+
+    public function tag($slug)
+    {
+        $categories = \App\Models\Category::all();
+        $tag = \App\Models\Tag::where('slug', $slug)->firstOrFail();
+        $posts = $tag->posts()
+            ->with(['category', 'region'])
+            ->where('is_published', true)
+            ->latest()
+            ->paginate(12);
+        
+        return view('news.tag', compact('tag', 'posts', 'categories'));
+    }
 }

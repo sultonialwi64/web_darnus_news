@@ -36,14 +36,30 @@ public function category() { return $this->belongsTo(Category::class); }
 
     public function getRenderedContentAttribute()
     {
+        $html = $this->content;
+
         if (class_exists(\Filament\Forms\Components\RichEditor\RichContentRenderer::class)) {
-            return \Filament\Forms\Components\RichEditor\RichContentRenderer::make($this->content)
+            $html = \Filament\Forms\Components\RichEditor\RichContentRenderer::make($this->content)
                 ->customBlocks([
                     \App\Filament\RichEditorBlocks\BacaJugaBlock::class
                 ])
                 ->toHtml();
         }
+
+        // --- AUTO-TAG HIGHLIGHTING ---
+        // Mencari kata yang cocok dengan tag dan memberikan link otomatis
+        $tags = $this->tags;
+        foreach ($tags as $tag) {
+            $pattern = '/\b(' . preg_quote($tag->name, '/') . ')\b(?![^<]*>|[^<>]*<\/a>)/i';
+            $url = route('tag.show', $tag->slug);
+            
+            $html = preg_replace(
+                $pattern, 
+                '<a href="' . $url . '" class="font-bold text-[#f97316] hover:text-[#ea580c] transition-colors">$1</a>', 
+                $html
+            );
+        }
         
-        return $this->content;
+        return $html;
     }
 }

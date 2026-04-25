@@ -10,6 +10,7 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/news/{slug}', [HomeController::class, 'show'])->name('news.show');
 Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 Route::get('/susunan-redaksi', [HomeController::class, 'editorial'])->name('editorial');
+Route::get('/tag/{slug}', [HomeController::class, 'tag'])->name('tag.show');
 
 // ============================================================
 // DEPLOYMENT BRIDGE - Khusus Setup Shared Hosting (Tanpa SSH)
