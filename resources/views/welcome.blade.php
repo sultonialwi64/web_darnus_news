@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DMN NEWS - Portal Berita Terpercaya</title>
     <meta name="description" content="DMN NEWS - Portal berita terkini, terpercaya, dan mendalam. Menyajikan informasi nasional, daerah, ekonomi, dan gaya hidup.">
-    
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">

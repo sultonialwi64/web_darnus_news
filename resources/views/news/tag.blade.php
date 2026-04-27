@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>#{{ $tag->name }} - DMN NEWS</title>
     <meta name="description" content="Kumpulan berita terbaru mengenai #{{ $tag->name }} di DMN NEWS.">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -7,6 +7,7 @@
         $title = isset($currentCategory) ? "Rubrik: " . $currentCategory->name : (isset($query) && $query ? "Hasil Pencarian: " . $query : "Pencarian Berita");
     @endphp
     <title>{{ $title }} - DMN NEWS</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
