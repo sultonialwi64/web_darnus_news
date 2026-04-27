@@ -39,6 +39,10 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('14rem')
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth(Width::Full)
+            ->navigationGroups([
+                'Konten Berita',
+                'Sistem',
+            ])
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
                 fn (): HtmlString => new HtmlString('

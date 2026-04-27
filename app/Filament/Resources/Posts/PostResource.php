@@ -20,10 +20,21 @@ class PostResource extends Resource
 
     protected static ?string $modelLabel = 'Berita';
     protected static ?string $pluralModelLabel = 'Daftar Berita';
-    protected static ?string $navigationLabel = 'Manajemen Berita';
-    protected static string|\UnitEnum|null $navigationGroup = 'Konten';
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten Berita';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        
+        // Hanya filter 'live' jika diakses dari resource utama (Daftar Berita)
+        if (static::class === self::class) {
+            $query->live();
+        }
+        
+        return $query;
+    }
 
     public static function form(Schema $schema): Schema
     {

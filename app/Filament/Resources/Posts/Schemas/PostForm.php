@@ -171,7 +171,7 @@ class PostForm
                                         $set('published_at', null);
                                     } elseif ($state === 'publish') {
                                         $set('is_published', true);
-                                        $set('published_at', null);
+                                        $set('published_at', now()->format('Y-m-d H:i:s'));
                                     } elseif ($state === 'schedule') {
                                         $set('is_published', true);
                                     }

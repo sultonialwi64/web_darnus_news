@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class DraftPostResource extends PostResource
 {
     protected static ?string $slug = 'draft-posts';
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten Berita';
     
     public static function getNavigationIcon(): \BackedEnum|\Illuminate\Contracts\Support\Htmlable|string|null
     {

@@ -13,7 +13,8 @@ class HomeController extends Controller
         
         $allPosts = Post::with(['category', 'region'])
             ->live()
-            ->orderByDesc('id')  // berita paling baru duluan
+            ->latest('published_at')
+            ->orderByDesc('id')
             ->get();
             
         $featuredPost = $allPosts->where('is_featured', true)->first() ?? $allPosts->first();
@@ -32,7 +33,8 @@ class HomeController extends Controller
             ->when($latestPosts->count() > 0, function($q) use ($latestPosts) {
                 return $q->whereNotIn('id', $latestPosts->pluck('id'));
             })
-            ->orderByDesc('id')  // berita paling baru duluan
+            ->latest('published_at')
+            ->orderByDesc('id')
             ->paginate(12);
 
         return view('welcome', compact('categories', 'featuredPost', 'latestPosts', 'popularPosts', 'otherPosts'));
@@ -65,7 +67,7 @@ class HomeController extends Controller
                 ->where('category_id', $post->category_id)
                 ->where('id', '!=', $post->id)
                 ->whereNotIn('id', $relatedPosts->pluck('id'))
-                ->orderByDesc('id')
+                ->latest('published_at')
                 ->take(4 - $relatedPosts->count())
                 ->get();
                 
@@ -98,7 +100,7 @@ class HomeController extends Controller
             });
         }
 
-        $posts = $postsQuery->orderByDesc('id')->paginate(12);
+        $posts = $postsQuery->latest('published_at')->paginate(12);
 
         return view('news.search', compact('posts', 'categories', 'query', 'currentCategory'));
     }
@@ -122,6 +124,7 @@ class HomeController extends Controller
         $posts = $tag->posts()
             ->with(['category', 'region'])
             ->live()
+            ->latest('published_at')
             ->orderByDesc('id')
             ->paginate(12);
         
