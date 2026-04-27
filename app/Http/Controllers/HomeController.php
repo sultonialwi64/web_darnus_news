@@ -12,8 +12,8 @@ class HomeController extends Controller
         $categories = \App\Models\Category::all();
         
         $allPosts = Post::with(['category', 'region'])
-            ->where('is_published', true)
-            ->latest()
+            ->live()
+            ->orderByDesc('id')  // berita paling baru duluan
             ->get();
             
         $featuredPost = $allPosts->where('is_featured', true)->first() ?? $allPosts->first();
@@ -24,16 +24,15 @@ class HomeController extends Controller
         $popularPosts = clone $allPosts;
         $popularPosts = $popularPosts->sortByDesc('views')->take(5);
 
-        // Use pagination for the rest
         $otherPosts = Post::with(['category', 'region'])
-            ->where('is_published', true)
+            ->live()
             ->when($featuredPost, function($q) use ($featuredPost) {
                 return $q->where('id', '!=', $featuredPost->id);
             })
             ->when($latestPosts->count() > 0, function($q) use ($latestPosts) {
                 return $q->whereNotIn('id', $latestPosts->pluck('id'));
             })
-            ->latest()
+            ->orderByDesc('id')  // berita paling baru duluan
             ->paginate(12);
 
         return view('welcome', compact('categories', 'featuredPost', 'latestPosts', 'popularPosts', 'otherPosts'));
@@ -44,30 +43,29 @@ class HomeController extends Controller
         $categories = \App\Models\Category::all();
         $post = Post::with(['category', 'region', 'author', 'editor'])
             ->where('slug', $slug)
-            ->where('is_published', true)
+            ->live()
             ->firstOrFail();
 
         $post->increment('views');
 
-        // Ambil berita terkait (Prioritas Manual -> Fallback Kategori)
         $manualRelatedIds = $post->related_posts ?? [];
         $relatedPosts = collect();
         
         if (!empty($manualRelatedIds)) {
             $relatedPosts = Post::with(['category', 'region'])
                 ->whereIn('id', $manualRelatedIds)
-                ->where('is_published', true)
+                ->live()
                 ->get()
                 ->sortBy(fn($item) => array_search($item->id, $manualRelatedIds));
         }
         
         if ($relatedPosts->count() < 4) {
             $extraRelated = Post::with(['category', 'region'])
-                ->where('is_published', true)
+                ->live()
                 ->where('category_id', $post->category_id)
                 ->where('id', '!=', $post->id)
                 ->whereNotIn('id', $relatedPosts->pluck('id'))
-                ->latest()
+                ->orderByDesc('id')
                 ->take(4 - $relatedPosts->count())
                 ->get();
                 
@@ -77,14 +75,14 @@ class HomeController extends Controller
         return view('news.show', compact('post', 'categories', 'relatedPosts'));
     }
 
-    public function search(\Illuminate\Http\Request $request)
+    public function search(Request $request)
     {
         $categories = \App\Models\Category::all();
         $query = $request->input('q');
         $categorySlug = $request->input('category');
         $currentCategory = null;
 
-        $postsQuery = Post::with(['category', 'region'])->where('is_published', true);
+        $postsQuery = Post::with(['category', 'region'])->live();
 
         if ($categorySlug) {
             $currentCategory = \App\Models\Category::where('slug', $categorySlug)->first();
@@ -100,7 +98,7 @@ class HomeController extends Controller
             });
         }
 
-        $posts = $postsQuery->latest()->paginate(12);
+        $posts = $postsQuery->orderByDesc('id')->paginate(12);
 
         return view('news.search', compact('posts', 'categories', 'query', 'currentCategory'));
     }
@@ -123,8 +121,8 @@ class HomeController extends Controller
         $tag = \App\Models\Tag::where('slug', $slug)->firstOrFail();
         $posts = $tag->posts()
             ->with(['category', 'region'])
-            ->where('is_published', true)
-            ->latest()
+            ->live()
+            ->orderByDesc('id')
             ->paginate(12);
         
         return view('news.tag', compact('tag', 'posts', 'categories'));

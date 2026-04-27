@@ -77,12 +77,7 @@
                     </button>
 
                     <!-- Login Pill -->
-                    <a href="{{ url('/admin') }}" class="hidden sm:block text-[10px] font-bold tracking-widest uppercase bg-accent hover:bg-white px-5 py-2 rounded-full transition-colors shadow-lg" style="color: #0A192F;">
-                        Login
-                    </a>
-                    <a href="{{ url('/admin') }}" class="sm:hidden text-gray-300 hover:text-accent transition-colors p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </a>
+
                 </div>
             </div>
 

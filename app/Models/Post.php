@@ -11,7 +11,20 @@ class Post extends Model
     protected $guarded = [];
     protected $casts = [
         'related_posts' => 'array',
+        'published_at'  => 'datetime',
     ];
+
+    /**
+     * Scope: berita sudah live (is_published=true DAN published_at sudah lewat atau null)
+     */
+    public function scopeLive($query)
+    {
+        return $query->where('is_published', true)
+            ->where(function ($q) {
+                $q->whereNull('published_at')
+                  ->orWhere('published_at', '<=', now());
+            });
+    }
 
     protected static function booted()
     {

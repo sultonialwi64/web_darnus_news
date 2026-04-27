@@ -9,6 +9,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Hidden;
 use Illuminate\Support\Str;
@@ -131,10 +133,102 @@ class PostForm
                                 ->default(fn() => auth()->user()->journalist?->id)
                                 ->searchable()
                                 ->preload(),
-                            Toggle::make('is_published')
-                                ->label('Terbit Sekarang')
-                                ->helperText('Matikan untuk menyimpan sebagai Draft.')
-                                ->default(false), // Default: simpan sebagai DRAFT
+                            // --- Status Terbit (Premium Toggle Buttons) ---
+                            ToggleButtons::make('publish_status')
+                                ->label('Status Terbit')
+                                ->options([
+                                    'draft'    => 'Draft',
+                                    'publish'  => 'Terbit Sekarang',
+                                    'schedule' => 'Jadwalkan',
+                                ])
+                                ->icons([
+                                    'draft'    => 'heroicon-m-pencil-square',
+                                    'publish'  => 'heroicon-m-check-badge',
+                                    'schedule' => 'heroicon-m-clock',
+                                ])
+                                ->colors([
+                                    'draft'    => 'gray',
+                                    'publish'  => 'success',
+                                    'schedule' => 'info',
+                                ])
+                                ->default('draft')
+                                ->inline()
+                                ->live()
+                                ->dehydrated(false)
+                                ->afterStateHydrated(function ($component, $record) {
+                                    if (!$record) { $component->state('draft'); return; }
+                                    if (!$record->is_published) {
+                                        $component->state('draft');
+                                    } elseif ($record->published_at && $record->published_at->isFuture()) {
+                                        $component->state('schedule');
+                                    } else {
+                                        $component->state('publish');
+                                    }
+                                })
+                                ->afterStateUpdated(function ($state, $set) {
+                                    if ($state === 'draft') {
+                                        $set('is_published', false);
+                                        $set('published_at', null);
+                                    } elseif ($state === 'publish') {
+                                        $set('is_published', true);
+                                        $set('published_at', null);
+                                    } elseif ($state === 'schedule') {
+                                        $set('is_published', true);
+                                    }
+                                }),
+                            // Hidden field: is_published dikontrol oleh Radio
+                            Hidden::make('is_published')
+                                ->default(false)
+                                ->dehydrated(true),
+                            // Hidden field: published_at dikombinasi dari date+time di bawah
+                            Hidden::make('published_at')
+                                ->dehydrated(true),
+                            // --- PILIH TANGGAL (hanya kalender, klik saja) ---
+                            DatePicker::make('schedule_date')
+                                ->label('Tanggal Terbit')
+                                ->visible(fn ($get) => $get('publish_status') === 'schedule')
+                                ->required(fn ($get) => $get('publish_status') === 'schedule')
+                                ->native(false)
+                                ->minDate(today())
+                                ->displayFormat('d F Y')
+                                ->placeholder('Pilih tanggal...')
+                                ->dehydrated(false)
+                                ->live()
+                                ->afterStateHydrated(function ($component, $record) {
+                                    if ($record?->published_at?->isFuture()) {
+                                        $component->state($record->published_at->format('Y-m-d'));
+                                    }
+                                })
+                                ->afterStateUpdated(function ($state, $get, $set) {
+                                    $time = $get('schedule_time') ?? '08:00';
+                                    if ($state) {
+                                        $set('published_at', $state . ' ' . $time . ':00');
+                                    }
+                                }),
+                            // --- PILIH JAM (dropdown preset, tidak perlu ketik) ---
+                            TextInput::make('schedule_time')
+                                ->label('Jam Terbit')
+                                ->placeholder('2300 → 23:00')
+                                ->helperText('Ketik 4 angka, titik dua otomatis. Contoh: 0800, 1430, 2100')
+                                ->extraInputAttributes(['x-mask' => '99:99'])
+                                ->visible(fn ($get) => $get('publish_status') === 'schedule')
+                                ->required(fn ($get) => $get('publish_status') === 'schedule')
+                                ->default('08:00')
+                                ->regex('/^([01]\d|2[0-3]):([0-5]\d)$/')
+                                ->validationMessages(['regex' => 'Format jam harus HH:MM, contoh: 08:00 atau 21:30'])
+                                ->dehydrated(false)
+                                ->live(onBlur: true)
+                                ->afterStateHydrated(function ($component, $record) {
+                                    if ($record?->published_at?->isFuture()) {
+                                        $component->state($record->published_at->format('H:i'));
+                                    }
+                                })
+                                ->afterStateUpdated(function ($state, $get, $set) {
+                                    $date = $get('schedule_date');
+                                    if ($date && $state && preg_match('/^([01]\d|2[0-3]):([0-5]\d)$/', $state)) {
+                                        $set('published_at', $date . ' ' . $state . ':00');
+                                    }
+                                }),
                             Toggle::make('is_featured')->label('Pin as Headline')->default(false),
                         ]),
                 ])
