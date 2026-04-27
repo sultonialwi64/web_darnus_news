@@ -210,7 +210,7 @@
             <!-- Left Column: More Articles (70%) -->
             @if($otherPosts && count($otherPosts) > 0)
             <div class="lg:col-span-8 lg:border-r lg:border-light lg:pr-12">
-                <h2 class="font-sz text-3xl font-bold flex items-center text-heading mb-8">Berita Terkini</h2>
+                <h2 class="font-sz text-3xl font-bold flex items-center text-heading mb-8">Berita Lainnya</h2>
 
                 <div class="flex flex-col">
                     @foreach($otherPosts as $post)
