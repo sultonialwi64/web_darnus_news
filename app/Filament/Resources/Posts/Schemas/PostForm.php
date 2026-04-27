@@ -113,7 +113,7 @@ class PostForm
                                     TextInput::make('name')
                                         ->required()
                                         ->live(onBlur: true)
-                                        ->afterStateUpdated(fn ($state, $set) => $set('slug', Str::slug($state))),
+                                        ->afterStateUpdated(fn ($state, $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
                                     Hidden::make('slug')->required()->dehydrated(),
                                 ]),
                             TextInput::make('source')

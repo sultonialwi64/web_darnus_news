@@ -5,9 +5,9 @@ namespace App\Filament\RichEditorBlocks;
 use App\Filament\Resources\Posts\Tables\PostsTable;
 use App\Models\Post;
 use Filament\Actions\Action;
-use Filament\Forms\Components\ModalTableSelect;
 use Filament\Forms\Components\RichEditor\RichContentCustomBlock;
-use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\TableSelect;
+
 
 class BacaJugaBlock extends RichContentCustomBlock
 {
@@ -25,16 +25,13 @@ class BacaJugaBlock extends RichContentCustomBlock
     {
         return $action
             ->form([
-                ModalTableSelect::make('post_id')
+                TableSelect::make('post_id')
                     ->label('Pilih Berita')
                     ->tableConfiguration(PostsTable::class)
-                    ->getOptionLabelUsing(fn ($value) => Post::find($value)?->title)
-                    ->getOptionLabelsUsing(fn ($values) => Post::whereIn('id', (array) $values)->pluck('title', 'id')->all())
-                    ->helperText('💡 TIPS: Pastikan Anda memberikan 1 atau 2 baris kosong (Enter) di editor utama SEBELUM menyisipkan Baca Juga agar teks selanjutnya tidak nyangkut.')
-                    ->required(),
+                    ->required()
             ])
             ->modalWidth('4xl')
-            ->modalHeading('Sisipkan "Baca Juga"')
+            ->modalHeading('Baca Juga')
             ->modalSubmitActionLabel('Sisipkan');
     }
 
@@ -52,24 +49,18 @@ class BacaJugaBlock extends RichContentCustomBlock
     public static function toHtml(array $config, array $data): ?string
     {
         if (!isset($config['post_id'])) return null;
-
         $post = Post::find($config['post_id']);
         if (!$post) return null;
-
-        // Front-end HTML
         return "<p><strong>Baca Juga: </strong><a href=\"/news/{$post->slug}\">{$post->title}</a></p>";
     }
 
     public static function toPreviewHtml(array $config): ?string
     {
         if (!isset($config['post_id'])) return null;
-
         $post = Post::find($config['post_id']);
         if (!$post) return null;
-
-        // Editor preview HTML
-        return "<div style=\"padding: 10px; border-left: 3px solid #3b82f6; background-color: #eff6ff; margin-bottom: 20px;\">
-            <strong>Baca Juga: </strong><a href=\"#\" style=\"color: #2563eb; text-decoration: underline;\">{$post->title}</a>
+        return "<div style=\"padding:10px;border-left:3px solid #3b82f6;background:#eff6ff;margin-bottom:20px\">
+            <strong>Baca Juga: </strong><a href=\"#\" style=\"color:#2563eb;text-decoration:underline\">{$post->title}</a>
         </div>";
     }
 }
