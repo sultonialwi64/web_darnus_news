@@ -110,11 +110,12 @@ class PostForm
                             Select::make('tags')
                                 ->multiple()
                                 ->relationship('tags', 'name')
+                                ->searchable()
                                 ->preload()
+                                ->optionsLimit(50)
                                 ->createOptionForm([
                                     TextInput::make('name')
                                         ->required()
-                                        ->live(onBlur: true)
                                         ->afterStateUpdated(fn ($state, $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
                                     Hidden::make('slug')->required()->dehydrated(),
                                 ]),
