@@ -100,13 +100,14 @@ class AdminPanelProvider extends PanelProvider
 
                     <script>
                     (function () {
-                        // Hanya aktif di halaman edit/create berita
+                        // Hanya aktif di halaman edit/create berita (Post & DraftPost)
                         const path = window.location.pathname;
-                        const isPostPage = path.includes(\'/posts/create\') || /\/posts\/\d+\/edit/.test(path);
+                        const isPostPage = path.includes(\'/posts/create\') || path.includes(\'/draft-posts/create\') || 
+                                         /\/posts\/\d+\/edit/.test(path) || /\/draft-posts\/\d+\/edit/.test(path);
                         if (!isPostPage) return;
 
-                        // Ambil ID berita dari URL (null jika ini halaman Create)
-                        const matchId = path.match(/\/posts\/(\d+)\/edit/);
+                        // Ambil ID berita dari URL (mendukung path /posts/ atau /draft-posts/)
+                        const matchId = path.match(/\/(?:posts|draft-posts)\/(\d+)\/edit/);
                         let postId = matchId ? matchId[1] : null;
 
                         const indicator = document.getElementById(\'autosave-indicator\');
