@@ -1,9 +1,17 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AutoSaveController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+
+// Auto-Save Route (hanya bisa diakses user yang sudah login)
+Route::middleware(['web', 'auth'])->prefix('admin-api')->group(function () {
+    Route::post('/auto-save', [AutoSaveController::class, 'save']);
+    Route::post('/auto-save/{id}', [AutoSaveController::class, 'save']);
+});
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');

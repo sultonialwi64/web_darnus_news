@@ -62,7 +62,159 @@ class AdminPanelProvider extends PanelProvider
                                 flex-wrap: wrap !important;
                             }
                         }
+
+                        /* Auto-save Indicator */
+                        #autosave-indicator {
+                            position: fixed;
+                            bottom: 1.25rem;
+                            right: 1.25rem;
+                            z-index: 9999;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.4rem;
+                            padding: 0.4rem 0.85rem;
+                            border-radius: 999px;
+                            font-size: 0.72rem;
+                            font-weight: 600;
+                            letter-spacing: 0.02em;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+                            opacity: 0;
+                            transition: opacity 0.4s ease;
+                            pointer-events: none;
+                        }
+                        #autosave-indicator.show { opacity: 1; }
+                        #autosave-indicator.saving { background: #1e293b; color: #94a3b8; }
+                        #autosave-indicator.saved  { background: #14532d; color: #86efac; }
+                        #autosave-indicator.error  { background: #7f1d1d; color: #fca5a5; }
                     </style>
+                '),
+            )
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn (): HtmlString => new HtmlString('
+                    <!-- Auto-Save Indicator Badge -->
+                    <div id="autosave-indicator" class="saving">
+                        <span id="autosave-icon">⏳</span>
+                        <span id="autosave-text">Menyimpan draft...</span>
+                    </div>
+
+                    <script>
+                    (function () {
+                        // Hanya aktif di halaman edit/create berita
+                        const path = window.location.pathname;
+                        const isPostPage = path.includes(\'/posts/create\') || /\/posts\/\d+\/edit/.test(path);
+                        if (!isPostPage) return;
+
+                        // Ambil ID berita dari URL (null jika ini halaman Create)
+                        const matchId = path.match(/\/posts\/(\d+)\/edit/);
+                        let postId = matchId ? matchId[1] : null;
+
+                        const indicator = document.getElementById(\'autosave-indicator\');
+                        const iconEl    = document.getElementById(\'autosave-icon\');
+                        const textEl    = document.getElementById(\'autosave-text\');
+                        let saveTimer   = null;
+                        let isSaving    = false;
+                        let hideTimer   = null;
+
+                        function showIndicator(status, message) {
+                            indicator.className = \'show \' + status;
+                            iconEl.textContent  = status === \'saving\' ? \'⏳\' : (status === \'saved\' ? \'✅\' : \'❌\');
+                            textEl.textContent  = message;
+                            clearTimeout(hideTimer);
+                            if (status !== \'saving\') {
+                                hideTimer = setTimeout(() => indicator.classList.remove(\'show\'), 4000);
+                            }
+                        }
+
+                        function getCsrfToken() {
+                            return document.querySelector(\'meta[name="csrf-token"]\')?.content || \'\';
+                        }
+
+                        function collectFormData() {
+                            const data = {};
+
+                            // Filament merender input dengan id mengikuti pola: "data.title", "data.content", dll
+                            // Kita cari semua input/textarea yang ada di form
+                            const allInputs = document.querySelectorAll(\'input[id], textarea[id]\');
+                            allInputs.forEach(function(el) {
+                                const id = el.id || \'\';
+                                if (id.includes(\'title\') && !id.includes(\'og_\') && !id.includes(\'meta_\')) {
+                                    data.title = el.value;
+                                }
+                                if (id.includes(\'excerpt\')) {
+                                    data.excerpt = el.value;
+                                }
+                            });
+
+                            // Ambil konten dari TipTap RichEditor (Filament v3)
+                            const proseMirror = document.querySelector(\'.tiptap.ProseMirror, [contenteditable="true"].ProseMirror\');
+                            if (proseMirror) {
+                                data.content = proseMirror.innerHTML;
+                            }
+
+                            return data;
+                        }
+
+                        async function doAutoSave() {
+                            if (isSaving) return;
+                            const formData = collectFormData();
+                            if (!formData.title && !formData.content) return; // Skip jika kosong
+
+                            isSaving = true;
+                            showIndicator(\'saving\', \'Menyimpan draft...\');
+
+                            const url = postId
+                                ? \'/admin-api/auto-save/\' + postId
+                                : \'/admin-api/auto-save\';
+
+                            try {
+                                const res = await fetch(url, {
+                                    method: \'POST\',
+                                    headers: {
+                                        \'Content-Type\': \'application/json\',
+                                        \'X-CSRF-TOKEN\': getCsrfToken(),
+                                        \'Accept\': \'application/json\',
+                                    },
+                                    body: JSON.stringify(formData),
+                                    keepalive: true, // Penting! Memastikan request selesai meski tab ditutup
+                                });
+
+                                const result = await res.json();
+                                if (result.status === \'skipped\') {
+                                    // Data kosong, tidak perlu simpan, sembunyikan indicator
+                                    indicator.classList.remove(\'show\');
+                                } else {
+                                    if (result.id && !postId) {
+                                        // Kalau ini halaman Create dan baru dapat ID, simpan untuk auto-save berikutnya
+                                        postId = result.id;
+                                    }
+                                    showIndicator(\'saved\', \'Draft tersimpan · \' + (result.savedAt || \'\'));
+                                }
+                            } catch (e) {
+                                showIndicator(\'error\', \'Gagal menyimpan draft\');
+                            } finally {
+                                isSaving = false;
+                            }
+                        }
+
+                        // === TRIGGER 1: Auto-save setiap 30 detik ===
+                        setInterval(doAutoSave, 30000);
+
+                        // === TRIGGER 2: Saat tab/browser ditutup (jaring pengaman) ===
+                        window.addEventListener(\'beforeunload\', function () {
+                            const formData = collectFormData();
+                            if (!formData.title && !formData.content) return;
+
+                            const url = postId
+                                ? \'/admin-api/auto-save/\' + postId
+                                : \'/admin-api/auto-save\';
+
+                            // Gunakan sendBeacon untuk request yang lebih andal saat tab ditutup
+                            const blob = new Blob([JSON.stringify(formData)], { type: \'application/json\' });
+                            navigator.sendBeacon(url + \'?_token=\' + encodeURIComponent(getCsrfToken()), blob);
+                        });
+                    })();
+                    </script>
                 '),
             )
             ->colors([
