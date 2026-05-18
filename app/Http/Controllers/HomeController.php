@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index()
     {
         // Cache categories agar tidak nge-query DB terus tiap kali ada yang buka beranda
-        $categories = \Illuminate\Support\Facades\Cache::remember('categories_all', 3600, function() {
+        $categories = \Illuminate\Support\Facades\Cache::remember('categories_v2', 3600, function() {
             return \App\Models\Category::all();
         });
         
@@ -43,7 +43,7 @@ class HomeController extends Controller
         }
 
         // Ambil 5 berita terpopuler langsung dari database, cache selama 1 jam
-        $popularPosts = \Illuminate\Support\Facades\Cache::remember('popular_posts', 3600, function() {
+        $popularPosts = \Illuminate\Support\Facades\Cache::remember('popular_posts_v2', 3600, function() {
             return Post::live()
                 ->orderByDesc('views')
                 ->take(5)
