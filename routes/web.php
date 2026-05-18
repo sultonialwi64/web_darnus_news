@@ -12,6 +12,17 @@ Route::middleware(['web', 'auth'])->prefix('admin-api')->group(function () {
     Route::post('/auto-save/{id}', [AutoSaveController::class, 'save']);
 });
 
+// TEMPORARY: Route darurat untuk clear cache di server tanpa SSH
+// Panggil: https://dmnnews.com/clear-cache-now?token=DarnusClear2025
+// HAPUS route ini setelah berhasil!
+Route::get('/clear-cache-now', function () {
+    if (request('token') !== 'DarnusClear2025') abort(403);
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    return '<pre style="font-size:20px">✅ Cache berhasil dibersihkan! Silakan hapus route ini.</pre>';
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
