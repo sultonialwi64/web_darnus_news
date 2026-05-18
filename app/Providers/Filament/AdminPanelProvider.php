@@ -102,7 +102,7 @@ class AdminPanelProvider extends PanelProvider
                     (function () {
                         // Hanya aktif di halaman edit/create berita (Post & DraftPost)
                         const path = window.location.pathname;
-                        const isPostPage = path.includes('/posts/create') || path.includes('/draft-posts/create') || 
+                        const isPostPage = path.includes(\'/posts/create\') || path.includes(\'/draft-posts/create\') || 
                                          /\/posts\/\d+\/edit/.test(path) || /\/draft-posts\/\d+\/edit/.test(path);
                         if (!isPostPage) return;
 
