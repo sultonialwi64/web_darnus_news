@@ -131,6 +131,24 @@ class AdminPanelProvider extends PanelProvider
                             return document.querySelector(\'meta[name="csrf-token"]\')?.content || \'\';
                         }
 
+                        // Refresh CSRF token setiap 5 menit agar sesi tidak expired
+                        // (mencegah error 419 saat upload foto besar di form edit/create berita)
+                        async function refreshCsrfToken() {
+                            try {
+                                await fetch(\'/sanctum/csrf-cookie\', { method: \'GET\', credentials: \'same-origin\' });
+                                // Update meta tag csrf-token dari cookie terbaru
+                                const newToken = document.cookie.split(\';\')
+                                    .find(c => c.trim().startsWith(\'XSRF-TOKEN=\'));
+                                if (newToken) {
+                                    const tokenVal = decodeURIComponent(newToken.split(\'=\')[1]);
+                                    const meta = document.querySelector(\'meta[name="csrf-token"]\');
+                                    if (meta) meta.setAttribute(\'content\', tokenVal);
+                                }
+                            } catch (e) { /* silent fail */ }
+                        }
+                        // Refresh setiap 5 menit
+                        setInterval(refreshCsrfToken, 300000);
+
                         function collectFormData() {
                             const data = {};
 
