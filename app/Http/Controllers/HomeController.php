@@ -9,11 +9,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Cache categories agar tidak nge-query DB terus tiap kali ada yang buka beranda
-        $categories = \Illuminate\Support\Facades\Cache::remember('categories_v2', 3600, function() {
-            return \App\Models\Category::all();
-        });
-        
+        $categories = \App\Models\Category::all();
+
         $featuredPost = Post::with(['category', 'region'])
             ->live()
             ->where('is_featured', true)
@@ -21,7 +18,6 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->first();
 
-        // Jika tidak ada featured post khusus, ambil berita terbaru
         if (!$featuredPost) {
             $featuredPost = Post::with(['category', 'region'])
                 ->live()
@@ -30,7 +26,6 @@ class HomeController extends Controller
                 ->first();
         }
 
-        // Ambil 4 berita terbaru untuk grid
         $latestPosts = collect();
         if ($featuredPost) {
             $latestPosts = Post::with(['category', 'region'])
@@ -42,17 +37,13 @@ class HomeController extends Controller
                 ->get();
         }
 
-        // Ambil 5 berita terpopuler langsung dari database, cache selama 1 jam
-        $popularPosts = \Illuminate\Support\Facades\Cache::remember('popular_posts_v2', 3600, function() {
-            return Post::live()
-                ->orderByDesc('views')
-                ->take(5)
-                ->get();
-        });
+        $popularPosts = Post::live()
+            ->orderByDesc('views')
+            ->take(5)
+            ->get();
 
-        // Ambil sisa berita untuk bagian bawah
         $excludeIds = collect([$featuredPost?->id])->merge($latestPosts->pluck('id'))->filter();
-        
+
         $otherPosts = Post::with(['category', 'region'])
             ->live()
             ->whereNotIn('id', $excludeIds)
