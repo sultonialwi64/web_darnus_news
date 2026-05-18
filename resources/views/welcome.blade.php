@@ -22,7 +22,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"></noscript>
 
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -65,7 +66,7 @@
                 <!-- Left: Logo -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="{{ route('home') }}" class="flex items-center py-1">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="DMN NEWS Logo" class="h-12 md:h-16 w-auto">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="DMN NEWS Logo" class="h-12 md:h-16 w-auto" width="139" height="60">
                     </a>
                 </div>
 
@@ -114,7 +115,7 @@
                     <!-- Cinematic Title & Image Block -->
                     <div class="relative w-full overflow-hidden bg-gray-100" style="aspect-ratio: 3/2; max-height: 520px; min-height: 350px;">
                         @if($featuredPost->image)
-                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" 
+                            <img src="{{ Storage::url($featuredPost->image) }}" alt="{{ $featuredPost->title }}" fetchpriority="high" width="864" height="576" 
                                  class="absolute inset-0 w-full h-full object-cover brightness-[0.85] group-hover:brightness-100 transition-all duration-700 ease-in-out z-0">
                         @else
                             <div class="w-full aspect-video bg-gray-100"></div>
