@@ -58,7 +58,6 @@ class PostForm
                                 ->automaticallyCropImagesToAspectRatio()
                                 ->imageResizeTargetWidth('1200')
                                 ->imageResizeTargetHeight('800')
-                                ->optimize('webp')
                                 ->columnSpanFull(),
                             TextInput::make('image_caption')
                                 ->label('Keterangan Foto (Caption)')
